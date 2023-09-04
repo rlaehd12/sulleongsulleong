@@ -1,0 +1,41 @@
+@import './figmaVariables.css';
+
+.TaskAltcontainer {
+	text-align: center;
+	display: block;
+	margin-top: 17%;
+}
+
+.TaskAltIcon {
+	font-size: 22rem !important;
+	color: #022f8eff;
+}
+
+.likeSentence {
+	text-align: center;
+	font-size: 25px;
+	margin-top: 14%;
+}
+
+.mainPage {
+	display: flex;
+	flex-direction: column;
+	/* align-items: center; */
+	/* justify-content: center; */
+	height: 100vh;
+}
+
+.buttonArea {
+	margin-top: 15%;
+	padding: 15px;
+	text-align: center;
+	height: object-fit;
+
+	height: 50%;
+}
+
+.button {
+	margin-top: 15%;
+	font-size: 18px;
+	width: 300px;
+}

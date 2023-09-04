@@ -1,0 +1,29 @@
+@import '../App.css';
+
+.recommendPage {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 100vh;
+}
+
+.textField {
+	width: 100%;
+}
+
+.input {
+	height: 50px;
+	font-size: 20px;
+	text-align: center;
+	padding: 0 14px;
+}
+
+.cardContainer {
+	display: flex;
+	flex-direction: column;
+	overflow-y: auto;
+	width: 100% !important;
+	gap: 1rem;
+	/* padding: 1rem 0; */
+	/* margin-top: 10px; */
+}

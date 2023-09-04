@@ -1,0 +1,44 @@
+@import './figmaVariables.css';
+
+.description {
+	background-color: var(--smalt-50);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+
+.icon {
+	transform: rotate(180deg);
+	color: var(--smalt-800);
+}
+
+.beerList {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+	margin-top: 1rem;
+}
+
+.beerItem {
+	width: 140px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 1rem;
+}
+
+.beerImage {
+	width: 120px;
+	height: 120px;
+	border-radius: 50%;
+	object-fit: contain;
+	border: 2px solid var(--smalt-800);
+}
+
+.beerName {
+	margin-top: 0.5rem;
+	text-align: center;
+	white-space: break-spaces;
+}
