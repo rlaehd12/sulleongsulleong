@@ -1,32 +1,45 @@
 @import '../App.css';
 
 .cardWrap {
-    display: flex !important;
-    justify-content: space-between !important;
-    margin-left: 1em;
-    margin-right: 1em;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-    height: 140px;
+	display: flex;
+}
+
+.cardActionArea {
+	display: flex !important;
+	justify-content: space-between !important;
+	margin-left: 1em;
+	margin-right: 1em;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+	height: 150px;
 }
 
 .cardMedia {
-    width: 30%;
-    height: 100%;
+	width: 20%;
+	height: 100%;
 }
 
 .cardMedia img {
-    object-fit: contain;
-    width: 100%;
-    height: 100%;
+	object-fit: contain;
+	width: 100%;
+	height: 100%;
 }
 
 .cardContent {
-    width: 60%;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 70%;
+	height: 100%;
+	padding-top: 8px !important;
+	padding-bottom: 8px !important;
 }
 
-.cardContent 
+cardFavorite {
+	height: 100%;
+}
 
-.cardFavorite {
-    height: 100%;
+.favorite {
+	cursor: pointer;
 }

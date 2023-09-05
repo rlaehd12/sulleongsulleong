@@ -23,11 +23,12 @@ import java.util.UUID;
 public class LoginController {
 
     private final MemberService memberService;
+    private final AnonymousService anonymousService;
 
     @Operation(summary = "구글 로그인", description = "로그인 생성시 세션 값을 헤더로 전송")
     @GetMapping("/google")
     public ResponseEntity<Void> google(@AuthenticationPrincipal OAuth2User principal, HttpSession session) {
-        Member member = memberService.OauthSaveOrUpdate(principal);
+        Member member = memberService.loginTimeUpdate(principal);
         SessionMember sessionMember = new SessionMember(member);
         String uuid = UUID.randomUUID().toString();
         session.setAttribute(uuid, sessionMember);
@@ -41,7 +42,7 @@ public class LoginController {
     @GetMapping("/anonymous")
     public ResponseEntity<Void> anonymous(HttpSession session) {
         String uuid = UUID.randomUUID().toString();
-        Member member = memberService.anonymousSave(uuid);
+        Member member = anonymousService.saveOrUpdateAnonymous(uuid);
         SessionMember sessionMember = new SessionMember(member);
         session.setAttribute(uuid, sessionMember);
 

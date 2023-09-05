@@ -22,7 +22,7 @@ spring:
       client:
         registration:
           google:
-            clientId: 681159939854-hkhh6n5lmoagrjk474dv07javl8tv8gd.apps.googleusercontent.com
+            clientId: 681159939854-mbkio13ft80rtf962te4vj5ni8mhgh1c.apps.googleusercontent.com
             clientSecret: ${CLIENT_SECRET}
             scope:
               - email

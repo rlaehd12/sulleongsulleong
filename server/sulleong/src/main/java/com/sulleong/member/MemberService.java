@@ -26,19 +26,19 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    @Transactional
-    public Member anonymousSave(String uuid) {
-        Member member = Member.builder()
-                .name(uuid)
-                .email("anonymous@email.com")
-                .role(Role.ANONYMOUS)
-                .build();
-        return memberRepository.save(member);
-    }
-
     public Member getMemberOrElseThrow(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException("존재하지 않은 회원 ID: " + memberId));
+    }
+
+    @Transactional
+    public Member loginTimeUpdate(OAuth2User oAuth2User) {
+        Map<String, Object> attributes = oAuth2User.getAttributes();
+        String email = (String) attributes.get("email");
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new MemberNotFoundException("존재하지 않는 이메일: " + email));
+        member.setUpdatedAt();
+        return memberRepository.save(member);
     }
 
 }
