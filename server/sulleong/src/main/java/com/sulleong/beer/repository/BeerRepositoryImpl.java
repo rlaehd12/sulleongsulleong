@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor
 public class BeerRepositoryImpl implements BeerRepositoryCustom {
@@ -28,5 +30,13 @@ public class BeerRepositoryImpl implements BeerRepositoryCustom {
                 .limit(pageable.getPageSize())
                 .fetchResults();
         return new PageImpl<>(queryResults.getResults(), pageable, queryResults.getTotal());
+    }
+
+    @Override
+    public List<Beer> findAllByBeerIds(List<Long> beerIds) {
+        return queryFactory
+                .selectFrom(beer)
+                .where(beer.id.in(beerIds))
+                .fetch();
     }
 }

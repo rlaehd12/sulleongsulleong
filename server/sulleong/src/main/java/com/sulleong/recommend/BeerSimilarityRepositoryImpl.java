@@ -16,12 +16,12 @@ public class BeerSimilarityRepositoryImpl implements BeerSimilarityRepositoryCus
     @Override
     public List<Long> recommendBeersByFavoriteBeers(List<Long> beerIds) {
         return queryFactory
-                .selectDistinct(qBeerSimilarity.beer2)
+                .select(qBeerSimilarity.beer2)
                 .from(qBeerSimilarity)
-                .where(qBeerSimilarity.distance.ne(0.0))
                 .where(qBeerSimilarity.beer1.in(beerIds))
-                .orderBy(qBeerSimilarity.distance.desc())
-                .limit(8)
+                .where(qBeerSimilarity.beer2.notIn(beerIds))
+                .orderBy(qBeerSimilarity.distance.asc())
+                .limit(4)
                 .fetch();
     }
 }
