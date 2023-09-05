@@ -100,6 +100,15 @@ public class BeerService {
     }
 
     /**
+     * 맥주 식별자들로 맥주 정보들을 가져옵니다.
+     * @param beerIds 맥주 식별자 리스트입니다.
+     * @return 맥주 정보 리스트를 반환합니다.
+     */
+    public List<Beer> getBeersByBeerIds(List<Long> beerIds) throws Exception {
+        return beerRepository.findAllByBeerIds(beerIds);
+    }
+
+    /**
      * 맥주 정보를 가져옵니다.
      * @param beerId 맥주 식별자입니다.
      * @return 맥주 정보 입니다.
