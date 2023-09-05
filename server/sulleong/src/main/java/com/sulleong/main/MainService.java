@@ -24,23 +24,26 @@ public class MainService {
     private final BeerSimilarityRepository beerSimilarityRepository;
 
     /**
-     * 유저에게 알맞는 맥주를 추천합니다.
+     * 사용자에게 알맞는 맥주를 추천합니다.
      * @param memberId 사용자 아이디
-     * @return
-     * @throws Exception
+     * @return 사용자가 좋아요 누른 맥주들과 가장 유사한 맥주 4개를 반환합니다.
      */
     public MainResponse getTodayBeers(Long memberId) throws Exception {
+        // 사용자가 좋아요를 누른 맥주들의 식별자를 가져옵니다.
         Member member = memberService.getMemberOrElseThrow(memberId);
         List<Beer> myBeers = preferenceService.getPreferBeers(memberId).getBeers();
-        List<Long> myBeerIds =  myBeers.stream().map(Beer::getId).collect(Collectors.toList());
-        List<TodayBeer> todayBears = beerSimilarityRepository.recommendBeersByFavoriteBeers(myBeerIds).stream().map(beerId -> {
-            Beer beer = beerService.getBeerOrElseThrow(beerId);
-            return TodayBeer.builder()
-                    .id(beerId)
-                    .image(beerService.getBeerImage(beer.getNameKor()))
-                    .name(beer.getName())
-                    .build();
-        }).collect(Collectors.toList());
+        List<Long> myBeerIds = myBeers.stream().map(Beer::getId).collect(Collectors.toList());
+
+        // 좋아요를 누른 맥주들과 가장 유사도가 높은 맥주들을 가져옵니다.
+        List<Long> similarBeerIds = beerSimilarityRepository.recommendBeersByFavoriteBeers(myBeerIds);
+        List<Beer> similarBeers = beerService.getBeersByBeerIds(similarBeerIds);
+        List<TodayBeer> todayBears = similarBeers.stream().map(beer ->
+                TodayBeer.builder()
+                        .id(beer.getId())
+                        .image(beerService.getBeerImage(beer.getNameKor()))
+                        .name(beer.getName())
+                        .build()
+        ).collect(Collectors.toList());
         return MainResponse.builder()
                 .memberName(member.getName())
                 .todayBeers(todayBears)
