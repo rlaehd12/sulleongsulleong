@@ -4,18 +4,24 @@ import './App.css';
 import LoginPage from './pages/loginPage';
 import MainPage from './pages/mainPage';
 import RecommendListPage from './pages/recommendListPage';
-import ServeyCompPage from './pages/serveyCompletePage';
+import SurveyPage from './pages/surveyPage';
+import SurveyCompPage from './pages/surveyCompletePage';
+import SearchResultPage from './pages/searchResultPage';
 
 function App() {
 	return (
 		<Router>
 			<Routes>
 				<Route path="/login" element={<LoginPage />} />
-				<Route path="/" element={<MainPage />} />
 				<Route path="/recommendList" element={<RecommendListPage />} />
-				<Route path="/serveyComp" element={<ServeyCompPage />} />
+				<Route path="/survey" element={<SurveyPage />} />
+				<Route path="/surveyComp" element={<SurveyCompPage />} />
+				<Route path="/searchresult" element={<SearchResultPage />} />
+				<Route path="/" element={<MainPage />} />
 			</Routes>
 		</Router>
+
+
 	);
 }
 

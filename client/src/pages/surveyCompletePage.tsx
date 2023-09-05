@@ -4,7 +4,7 @@ import { Button, Container, Divider } from '@mui/material';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 
 import Navbar from '../components/navbar';
-import style from '../styles/serveyComplete.module.css';
+import style from '../styles/surveyComplete.module.css';
 
 function ServeyCompPage() {
 	return (

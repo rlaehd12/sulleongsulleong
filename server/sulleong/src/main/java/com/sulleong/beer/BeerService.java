@@ -30,7 +30,6 @@ public class BeerService {
 
     /**
      * 맥주 선호도 조사를 위해 설문을 합니다.
-     *
      * @return 일정 비율의 에일, 라거, 기타 맥주들을 랜덤으로 선택하여 반환합니다.
      */
     @Transactional(readOnly = true)
@@ -51,7 +50,7 @@ public class BeerService {
             entries.addAll(beerList.subList(1, counts[i] + 1).stream().map(beer ->
                     FavoriteResponseEntry.builder()
                             .id(beer.getId())
-                            .image(imageUrl + "/" + beer.getNameKor().replace(" ", "") + ".png")
+                            .image(getBeerImage(beer.getNameKor()))
                             .name(beer.getName())
                             .largeCategory(beer.getLargeCategory())
                             .build()
@@ -65,7 +64,6 @@ public class BeerService {
 
     /**
      * 맥주를 검색합니다.
-     *
      * @param searchParam 검색을 위한 키워드, 페이지 정보입니다.
      * @return 맥주 검색 결과를 반환합니다.
      */
@@ -77,7 +75,7 @@ public class BeerService {
         Page<SearchResponseEntry> entryPage = beerPage.map(beer ->
                 SearchResponseEntry.builder()
                         .id(beer.getId())
-                        .image(imageUrl + "/" + beer.getNameKor().replace(" ", "") + ".png")
+                        .image(getBeerImage(beer.getNameKor()))
                         .name(beer.getName())
                         .nameKor(beer.getNameKor())
                         .abv(beer.getAbv())
@@ -101,9 +99,23 @@ public class BeerService {
         return searchResponse;
     }
 
+    /**
+     * 맥주 정보를 가져옵니다.
+     * @param beerId 맥주 식별자입니다.
+     * @return 맥주 정보 입니다.
+     */
     public Beer getBeerOrElseThrow(Long beerId) {
         return beerRepository.findById(beerId)
                 .orElseThrow(() -> new BeerNotFoundException("존재하지 않은 술 ID: " + beerId));
+    }
+
+    /**
+     * 맥주 이미지 URL을 가져옵니다.
+     * @param nameKor 한국어로 된 맥주 이름입니다.
+     * @return 맥주 이미지 URL 입니다.
+     */
+    public String getBeerImage(String nameKor) {
+        return imageUrl + "/" + nameKor.replace(" ", "") + ".png";
     }
 
 }

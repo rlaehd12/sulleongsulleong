@@ -28,7 +28,7 @@ function RecommendListPage() {
 		<>
 			<Navbar />
 			<div className={style.recommendPage}>
-				<Container sx={{ marginBottom: '50px' }}>
+				<Container sx={{ marginBottom: '30px' }}>
 					<TextField
 						className={style.textField}
 						id="standard-read-only-input"

@@ -27,6 +27,11 @@
 	flex-direction: column;
 	align-items: center;
 	margin: 1rem;
+	position: relative;
+}
+
+.imgContainer {
+	position: relative;
 }
 
 .beerImage {
@@ -41,4 +46,31 @@
 	margin-top: 0.5rem;
 	text-align: center;
 	white-space: break-spaces;
+}
+
+.imageOverlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: var(--white);
+	opacity: 0;
+	transition: opacity 0.2s;
+}
+
+.impageOverlay.visible {
+	opacity: 1;
+}
+
+.checkIcon {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: var(--white);
+	font-size: 3rem;
 }
