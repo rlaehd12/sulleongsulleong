@@ -21,22 +21,20 @@ import event2 from '../images/event2.jpg';
 import event3 from '../images/event3.jpg';
 
 interface Beer {
-	image_url: string;
 	id: number;
 	name: string;
+	image: string;
 }
 
 function MainPage() {
-	const PER_PAGE = 10;
-
 	const [beerList, setBeerList] = useState<Beer[]>([]);
 
-	const url = `https://api.punkapi.com/v2/beers?page=1&per_page=${PER_PAGE}`;
+	const url = `http://localhost:8080/api/main`;
 	useEffect(() => {
 		axios.get(url).then((res) => {
 			setBeerList(res.data);
 		});
-	});
+	}, []);
 	return (
 		<>
 			<Navbar />
@@ -72,7 +70,7 @@ function MainPage() {
 								<CardMedia
 									className={style.cardImg}
 									component="img"
-									image={beer.image_url}
+									image={beer.image}
 									alt={beer.name}
 								/>
 								<CardContent className={style.cardContent}>
