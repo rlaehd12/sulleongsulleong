@@ -38,6 +38,7 @@ function SurveyPage() {
 			setBeerList(res.data.entries);
 			console.log(res);
 		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const [gender, setGender] = useState('');
@@ -60,6 +61,12 @@ function SurveyPage() {
 		setAge(event.target.value as string);
 	};
 
+	const postSurvey = () => {
+		axiosInstance.post(
+			`api/beers/survey?age=${age}&gender=${gender}?beers=${selectedBeers}`,
+		);
+	};
+
 	return (
 		<>
 			<Navbar />
@@ -80,8 +87,8 @@ function SurveyPage() {
 						onChange={handleGenderChange}
 						label="성별"
 					>
-						<MenuItem value="m">남성</MenuItem>
-						<MenuItem value="w">여성</MenuItem>
+						<MenuItem value="M">남성</MenuItem>
+						<MenuItem value="F">여성</MenuItem>
 					</Select>
 				</FormControl>
 				<FormControl variant="standard" sx={{ m: 2, minWidth: 240 }}>
@@ -147,6 +154,7 @@ function SurveyPage() {
 					variant="contained"
 					color="primary"
 					sx={{ width: '330px' }}
+					onClick={postSurvey}
 				>
 					선택 완료
 				</Button>
