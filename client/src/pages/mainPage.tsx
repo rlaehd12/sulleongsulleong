@@ -34,7 +34,7 @@ function MainPage() {
 		axios.get(url).then((res) => {
 			setBeerList(res.data);
 		});
-	});
+	}, []);
 	return (
 		<>
 			<Navbar />
