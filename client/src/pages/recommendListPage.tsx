@@ -7,9 +7,15 @@ import BeerCard from '../components/beerCard';
 import style from '../styles/recommendListPage.module.css';
 
 interface Beer {
-	image_url: string;
 	id: number;
+	image: string;
 	name: string;
+	nameKor: string;
+	abv: number;
+	largeCategory: string;
+	subCategory: string;
+	country: string;
+	score: number;
 }
 
 function RecommendListPage() {
@@ -22,7 +28,7 @@ function RecommendListPage() {
 		axios.get(url).then((res) => {
 			setBeerList(res.data);
 		});
-	});
+	}, []);
 
 	return (
 		<>

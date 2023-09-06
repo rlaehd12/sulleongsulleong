@@ -11,10 +11,15 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import style from './beerCard.module.css';
 
 interface Beer {
-	image_url: string;
 	id: number;
+	image: string;
 	name: string;
-	// 필요한 경우 다른 필드들을 추가할 수 있습니다.
+	nameKor: string;
+	abv: number;
+	largeCategory: string;
+	subCategory: string;
+	country: string;
+	score: number;
 }
 
 interface BeerCardProps {
@@ -40,11 +45,7 @@ function BeerCard({ beer }: BeerCardProps) {
 					<CardActionArea component={Link} to="/">
 						<div className={style.cardActionArea}>
 							<div className={style.cardMedia}>
-								<CardMedia
-									component="img"
-									image={beer.image_url}
-									alt={beer.name}
-								/>
+								<CardMedia component="img" image={beer.image} alt={beer.name} />
 							</div>
 							<CardContent className={style.cardContent}>
 								<div>
@@ -57,7 +58,10 @@ function BeerCard({ beer }: BeerCardProps) {
 										{beer.name}
 									</Typography>
 									<Typography variant="body2" color="text.secondary">
-										{beer.id}
+										{beer.largeCategory} &gt; {beer.subCategory}
+									</Typography>
+									<Typography variant="body2" color="text.secondary">
+										도수 : {beer.abv}%
 									</Typography>
 								</div>
 								<Rating
