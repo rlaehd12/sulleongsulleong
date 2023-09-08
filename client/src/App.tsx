@@ -20,8 +20,6 @@ function App() {
 				<Route path="/" element={<MainPage />} />
 			</Routes>
 		</Router>
-
-
 	);
 }
 
