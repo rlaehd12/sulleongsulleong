@@ -13,6 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("*") // 모든 출처 허용
                 .allowedMethods("GET", "POST", "PUT", "DELETE") // 모든 HTTP 메소드 허용
                 .allowedHeaders("*") // 모든 헤더 허용
+                .exposedHeaders("authorization")
                 .maxAge(3600); // 캐시 유지 시간 설정
     }
 }

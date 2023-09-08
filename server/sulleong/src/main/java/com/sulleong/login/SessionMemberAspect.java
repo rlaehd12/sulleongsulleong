@@ -26,7 +26,7 @@ public class SessionMemberAspect {
         HttpServletRequest request = sra.getRequest();
 
         HttpSession session = request.getSession();
-        String sessionId = request.getHeader("Authorization");
+        String sessionId = request.getHeader("authorization");
         SessionMember sessionMember = (SessionMember) session.getAttribute(sessionId);
         request.setAttribute("sessionMember", sessionMember);
     }
