@@ -1,7 +1,7 @@
 @import './figmaVariables.css';
 
 .description {
-	background-color: var(--smalt-50);
+	background-color: var(--pastel-green-50);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -11,7 +11,7 @@
 
 .icon {
 	transform: rotate(180deg);
-	color: var(--smalt-800);
+	color: var(--pastel-green-300);
 }
 
 .beerList {
@@ -41,7 +41,7 @@
 	height: 100%;
 	object-fit: contain;
 	border-radius: 50%;
-	border: 2px solid var(--smalt-800);
+	border: 3px solid var(--pastel-green-500);
 }
 
 .beerName {
