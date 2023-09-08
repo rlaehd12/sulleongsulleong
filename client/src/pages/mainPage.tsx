@@ -6,12 +6,9 @@ import {
 	Card,
 	Container,
 	Divider,
-	TextField,
-	InputAdornment,
 	CardMedia,
 	CardContent,
 } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
 import Carousel from 'react-material-ui-carousel';
 
 import Navbar from '../components/navbar';
@@ -20,6 +17,7 @@ import style from '../styles/mainpage.module.css';
 import event1 from '../images/event1.jpg';
 import event2 from '../images/event2.jpg';
 import event3 from '../images/event3.jpg';
+import BeerSearch from '../components/beerSearch';
 
 interface Beer {
 	id: number;
@@ -45,39 +43,12 @@ function MainPage() {
 	// 	});
 	// }, []);
 
-	const changeQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setQuery(event.target.value);
-	};
-
-	const querySubmit = (event: React.FormEvent) => {
-		console.log(event);
-		event.preventDefault(); // form 기본 제출 행동을 방지합니다.
-		if (query !== '') navigate(`/searchresult?q=${query}`); // /searchresult 경로로 이동합니다.
-	};
-
 	return (
 		<>
 			<Navbar />
 			<div className={style.mainPage}>
 				<Container>
-					<form onSubmit={querySubmit}>
-						<TextField
-							className={style.searchBar}
-							id="standard-search"
-							label="어떤 술을 찾으시나요?"
-							type="search"
-							variant="standard"
-							onChange={changeQuery}
-							value={query}
-							InputProps={{
-								endAdornment: (
-									<InputAdornment position="end">
-										<SearchIcon />
-									</InputAdornment>
-								),
-							}}
-						/>
-					</form>
+					<BeerSearch />
 					<Carousel className={style.carousel}>
 						<img className={style.carouselImg} src={event1} alt="event1" />
 						<img className={style.carouselImg} src={event2} alt="event2" />
