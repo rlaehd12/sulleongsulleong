@@ -12,31 +12,31 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
-public class AnonymousService {
+public class GuestService {
 
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Member saveOrUpdateAnonymous(String uuid) {
-        Optional<Member> optionalPreference = findAnonymous(uuid);
-        return optionalPreference.map(member -> anonymousUpdate(member))
-                .orElseGet(() -> anonymousSave(uuid));
+    public Member saveOrUpdateGuest(String uuid) {
+        Optional<Member> optionalPreference = findGuest(uuid);
+        return optionalPreference.map(member -> guestUpdate(member))
+                .orElseGet(() -> guestSave(uuid));
     }
 
-    private Optional<Member> findAnonymous(String uuid) {
+    private Optional<Member> findGuest(String uuid) {
         return memberRepository.findByName(uuid);
     }
 
-    private Member anonymousUpdate(Member member) {
+    private Member guestUpdate(Member member) {
         member.setUpdatedAt();
         return memberRepository.save(member);
     }
 
-    private Member anonymousSave(String uuid) {
+    private Member guestSave(String uuid) {
         Member member = Member.builder()
                 .name(uuid)
-                .email("anonymous@email.com")
-                .role(Role.ANONYMOUS)
+                .email("guest@email.com")
+                .role(Role.GUEST)
                 .build();
         return memberRepository.save(member);
     }
