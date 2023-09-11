@@ -30,9 +30,11 @@ function SearchResultPage() {
 	const [beerList, setBeerList] = useState<Beer[]>([]);
 	// input tag 상태관리, url 상태 관리
 	const [query, setQuery] = useState<string>('');
-	const [searchQuery, setSearchQuery] = useSearchParams('');
+	const [searchQuery, setSearchQuery] = useSearchParams({ q: '' });
 
-	const url = `http://sulleong.site/api/beers/search?keyword=${searchQuery}&page=1&size=${PER_PAGE}`;
+	const url = `http://sulleong.site/api/beers/search?keyword=${searchQuery.get(
+		'q',
+	)}&page=1&size=${PER_PAGE}`;
 	useEffect(() => {
 		axios
 			.get(url)
