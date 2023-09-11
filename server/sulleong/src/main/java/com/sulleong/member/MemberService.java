@@ -1,7 +1,6 @@
 package com.sulleong.member;
 
 import com.sulleong.exception.MemberNotFoundException;
-import com.sulleong.login.dto.CredentialRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,12 +15,11 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Member OauthSaveOrUpdate(CredentialRequest credentialRequest) {
-        String userEmail = credentialRequest.getEmail();
-        Optional<Member> optionalMember = memberRepository.findByEmail(userEmail);
+    public Member OauthSaveOrUpdate(String name, String email) {
+        Optional<Member> optionalMember = memberRepository.findByEmail(email);
 
         if (optionalMember.isEmpty()) {
-            return memberRepository.save(credentialRequest.dtoToEntity());
+            return memberRepository.save(new Member(name, email, Role.USER));
         }
 
         Member existingMember = optionalMember.get();

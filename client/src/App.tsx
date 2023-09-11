@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import LoginPage from './pages/loginPage';
+import GoogleRedirectHandler from './pages/GoogleRedirectHandler';
 import MainPage from './pages/mainPage';
 import RecommendListPage from './pages/recommendListPage';
 import SurveyPage from './pages/surveyPage';
@@ -13,6 +14,7 @@ function App() {
 		<Router>
 			<Routes>
 				<Route path="/login" element={<LoginPage />} />
+				<Route path="/login/google" element={<GoogleRedirectHandler />} />
 				<Route path="/recommendList" element={<RecommendListPage />} />
 				<Route path="/survey" element={<SurveyPage />} />
 				<Route path="/surveyComp" element={<SurveyCompPage />} />
