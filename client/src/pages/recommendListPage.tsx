@@ -19,7 +19,7 @@ interface Beer {
 }
 
 function RecommendListPage() {
-	const PER_PAGE = 10;
+	const PER_PAGE = 50;
 
 	const [beerList, setBeerList] = useState<Beer[]>([]);
 
