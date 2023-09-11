@@ -153,7 +153,11 @@ function SurveyPage() {
 					className={style.submitBtn}
 					variant="contained"
 					color="primary"
-					sx={{ width: '330px' }}
+					sx={{
+						width: '330px',
+						margin: '0 auto', // 가운데 정렬 스타일
+						display: 'block', // 가운데 정렬을 위해 블록 레벨 요소로 설정
+					}}
 					// onClick={postSurvey}
 				>
 					선택 완료
