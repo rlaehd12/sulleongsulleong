@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import {
 	Button,
 	Card,
@@ -78,7 +77,9 @@ function MainPage() {
 				<Container className={style.surveyArea}>
 					<span>술을 잘 모르시나요?</span>
 					<h3>나에게 맞는 술 찾으러 가기</h3>
-					<Button variant="contained">GO</Button>
+					<Link to="/survey">
+						<Button variant="contained">GO</Button>
+					</Link>
 				</Container>
 			</div>
 		</>
