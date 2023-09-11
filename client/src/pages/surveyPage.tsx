@@ -61,11 +61,11 @@ function SurveyPage() {
 		setAge(event.target.value as string);
 	};
 
-	const postSurvey = () => {
-		axiosInstance.post(
-			`api/beers/survey?age=${age}&gender=${gender}?beers=${selectedBeers}`,
-		);
-	};
+	// const postSurvey = () => {
+	// 	axiosInstance.post(
+	// 		`api/beers/survey?age=${age}&gender=${gender}?beers=${selectedBeers}`,
+	// 	);
+	// };
 
 	return (
 		<>
@@ -154,7 +154,7 @@ function SurveyPage() {
 					variant="contained"
 					color="primary"
 					sx={{ width: '330px' }}
-					onClick={postSurvey}
+					// onClick={postSurvey}
 				>
 					선택 완료
 				</Button>
