@@ -28,12 +28,15 @@ DEBUG = True
 # 나중에 수정할것
 ALLOWED_HOSTS = ['*']
 
+# 장고 auth 비활성화(라는데 안되는거 가틈;)
+AUTHENTICATION_BACKENDS = []
+
 
 # Application definition
 
 INSTALLED_APPS = [
     # myapp
-    
+    'myrecommend',
     # default
     'django.contrib.admin',
     'django.contrib.auth',
@@ -86,6 +89,8 @@ DATABASES = {
         "NAME": "sulleong",
         "USER": "sulleong",
         "PASSWORD": "1234",
+        # "HOST": "localhost",
+        # "PORT": "5432",
         "HOST": "13.209.50.16",
         "PORT": "5433",
     }
@@ -114,9 +119,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -132,3 +137,13 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+REST_FRAMEWORK = {
+    # other settings...
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': [],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+}
