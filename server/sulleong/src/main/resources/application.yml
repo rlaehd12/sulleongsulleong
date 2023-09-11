@@ -25,5 +25,8 @@ spring:
       charset: UTF-8
       enabled: true
       force: true
+  redis:
+    host: localhost
+    port: 6379
 
 image-base-url: http://localhost:8080/image/beer
