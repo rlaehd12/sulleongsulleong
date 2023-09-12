@@ -1,6 +1,7 @@
 package com.sulleong.login;
 
-import com.sulleong.login.dto.SessionMember;
+import com.sulleong.exception.AccessTokenExpiredException;
+import com.sulleong.login.dto.AuthMember;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -13,22 +14,21 @@ import javax.servlet.http.HttpServletRequest;
 
 @Aspect
 @Component
-public class SessionMemberAspect {
+public class AuthAspect {
 
     @Autowired
     private RedisService redisService;
 
-
-    @Before("@annotation(RequireSessionMember)")
-    public void handleSessionMember(JoinPoint joinPoint) throws Throwable {
+    @Before("@annotation(RequireAuth)")
+    public void handleAuth(JoinPoint joinPoint) throws Throwable {
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpServletRequest request = sra.getRequest();
 
-        String sessionId = request.getHeader("Authorization");
-        SessionMember sessionMember = redisService.getSessionMember(sessionId);
-        if (sessionMember == null) {
-            throw new IllegalArgumentException("SessionMember is not found");
+        String token = request.getHeader("Authorization");
+        AuthMember authMember = redisService.getAuthMember(token);
+        if (authMember == null) {
+            throw new AccessTokenExpiredException();
         }
-        request.setAttribute("sessionMember", sessionMember);
+        request.setAttribute("authMember", authMember);
     }
 }

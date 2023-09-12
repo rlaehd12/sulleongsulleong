@@ -1,8 +1,5 @@
 server:
   port: 8080
-  servlet:
-    session:
-      timeout: 6h
 
 spring:
   # Database

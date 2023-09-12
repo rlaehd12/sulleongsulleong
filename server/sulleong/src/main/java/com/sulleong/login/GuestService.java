@@ -17,10 +17,10 @@ public class GuestService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Member saveOrUpdateGuest(String sessionId) {
-        Optional<Member> optionalPreference = findGuest(sessionId);
+    public Member saveOrUpdateGuest(String token) {
+        Optional<Member> optionalPreference = findGuest(token);
         return optionalPreference.map(member -> guestUpdate(member))
-                .orElseGet(() -> guestSave(sessionId));
+                .orElseGet(() -> guestSave(token));
     }
 
     private Optional<Member> findGuest(String uuid) {
