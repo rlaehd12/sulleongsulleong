@@ -1,5 +1,6 @@
 package com.sulleong.common;
 
+import com.sulleong.exception.AgeRangeException;
 import com.sulleong.exception.NotLoginException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,14 @@ public class GlobalExceptionHandler {
                 .detail(exception.getMessage())
                 .instance(request.getRequestURI())
                 .build();
+    }
+
+    @ExceptionHandler({
+            AgeRangeException.class
+    })
+    public ResponseEntity<ErrorMessage> handleBadRequest(Exception e, HttpServletRequest request) {
+        return new ResponseEntity<>(buildErrorMessage(e, request),
+                HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({

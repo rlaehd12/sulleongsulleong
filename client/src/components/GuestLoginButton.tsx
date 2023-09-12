@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '@mui/material';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import customAxios from '../customAxios';
 import style from '../styles/login.module.css';
 
 function GuestLoginButton() {
@@ -9,7 +9,7 @@ function GuestLoginButton() {
 
 	const handleGuestLogin = async () => {
 		try {
-			const response = await axios.get('http://localhost:8080/api/login/guest');
+			const response = await customAxios().get('/login/guest');
 
 			const authHeaderValue = response.headers.authorization;
 			if (authHeaderValue) {

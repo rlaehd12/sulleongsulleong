@@ -1,5 +1,4 @@
 import React, { FormEvent, useCallback, useEffect, useState } from 'react';
-import axios from 'axios';
 import {
 	InputAdornment,
 	TextField,
@@ -8,6 +7,7 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useSearchParams } from 'react-router-dom';
+import customAxios from '../customAxios';
 
 import BeerCard from '../components/beerCard';
 import Navbar from '../components/navbar';
@@ -32,11 +32,11 @@ function SearchResultPage() {
 	const [query, setQuery] = useState<string>('');
 	const [searchQuery, setSearchQuery] = useSearchParams({ q: '' });
 
-	const url = `http://sulleong.site/api/beers/search?keyword=${searchQuery.get(
+	const url = `/beers/search?keyword=${searchQuery.get(
 		'q',
 	)}&page=1&size=${PER_PAGE}`;
 	useEffect(() => {
-		axios
+		customAxios()
 			.get(url)
 			.then((res) => {
 				setBeerList(res.data.entries);

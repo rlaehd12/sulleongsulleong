@@ -1,6 +1,6 @@
 package com.sulleong.beer;
 
-import com.sulleong.beer.dto.FavoriteResponse;
+import com.sulleong.beer.dto.SurveyResponse;
 import com.sulleong.beer.dto.SearchParam;
 import com.sulleong.beer.dto.SearchResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,7 +17,7 @@ public class BeerController {
 
     @Operation(summary = "맥주 선호도 조사", description = "선택한 맥주에 좋아요 추가 및 추천")
     @GetMapping("/survey")
-    public ResponseEntity<FavoriteResponse> getSurveyBeers() throws Exception {
+    public ResponseEntity<SurveyResponse> getSurveyBeers() throws Exception {
         return ResponseEntity.ok(beerService.getSurveyBeers());
     }
 
