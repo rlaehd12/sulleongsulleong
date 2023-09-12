@@ -9,14 +9,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FavoriteResponseEntry {
+public class SurveyResponseEntry {
 
     private Long id;
 
     private String image;
 
     private String name;
-
-    private String largeCategory;
 
 }

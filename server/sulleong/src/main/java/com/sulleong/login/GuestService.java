@@ -17,10 +17,10 @@ public class GuestService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Member saveOrUpdateGuest(String uuid) {
-        Optional<Member> optionalPreference = findGuest(uuid);
+    public Member saveOrUpdateGuest(String token) {
+        Optional<Member> optionalPreference = findGuest(token);
         return optionalPreference.map(member -> guestUpdate(member))
-                .orElseGet(() -> guestSave(uuid));
+                .orElseGet(() -> guestSave(token));
     }
 
     private Optional<Member> findGuest(String uuid) {
@@ -35,7 +35,7 @@ public class GuestService {
     private Member guestSave(String uuid) {
         Member member = Member.builder()
                 .name(uuid)
-                .email("guest@email.com")
+                .email(uuid + "@guest.com")
                 .role(Role.GUEST)
                 .build();
         return memberRepository.save(member);

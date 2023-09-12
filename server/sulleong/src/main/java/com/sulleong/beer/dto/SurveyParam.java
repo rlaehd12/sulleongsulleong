@@ -11,8 +11,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FavoriteResponse {
+public class SurveyParam {
 
-    private List<FavoriteResponseEntry> entries;
-
+    private List<Long> beers;
 }

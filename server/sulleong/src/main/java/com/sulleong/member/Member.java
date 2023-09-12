@@ -4,11 +4,13 @@ import com.sulleong.common.BaseTimeEntity;
 import com.sulleong.preference.Preference;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Getter
+@Setter
 @Entity
 public class Member extends BaseTimeEntity {
 
@@ -28,6 +30,11 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    private Integer age;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @Builder
     public Member(String name, String email, Role role) {

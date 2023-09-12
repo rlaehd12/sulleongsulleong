@@ -1,7 +1,7 @@
 package com.sulleong.login;
 
-import com.sulleong.login.dto.SessionMember;
-import com.sulleong.member.MemberService;
+import com.sulleong.exception.AccessTokenExpiredException;
+import com.sulleong.login.dto.AuthMember;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -11,24 +11,24 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @Aspect
 @Component
-public class SessionMemberAspect {
+public class AuthAspect {
 
     @Autowired
-    private MemberService memberService;
+    private RedisService redisService;
 
-    @Before("@annotation(RequireSessionMember)")
-    public void handleSessionMember(JoinPoint joinPoint) throws Throwable {
+    @Before("@annotation(RequireAuth)")
+    public void handleAuth(JoinPoint joinPoint) throws Throwable {
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpServletRequest request = sra.getRequest();
 
-        HttpSession session = request.getSession();
-        String sessionId = request.getHeader("authorization");
-        SessionMember sessionMember = (SessionMember) session.getAttribute(sessionId);
-        request.setAttribute("sessionMember", sessionMember);
+        String token = request.getHeader("Authorization");
+        AuthMember authMember = redisService.getAuthMember(token);
+        if (authMember == null) {
+            throw new AccessTokenExpiredException();
+        }
+        request.setAttribute("authMember", authMember);
     }
-
 }

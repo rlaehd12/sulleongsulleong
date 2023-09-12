@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class BeerService {
 
@@ -29,13 +29,12 @@ public class BeerService {
     private String imageUrl;
 
     /**
-     * 맥주 선호도 조사를 위해 설문을 합니다.
+     * 맥주 선호도 조사를 위해 설문용 맥주들을 제시합니다.
      * @return 일정 비율의 에일, 라거, 기타 맥주들을 랜덤으로 선택하여 반환합니다.
      */
-    @Transactional(readOnly = true)
-    public FavoriteResponse getSurveyBeers() throws Exception {
+    public SurveyResponse getSurveyBeers() throws Exception {
         // 설문을 위한 맥주 정보 리스트
-        List<FavoriteResponseEntry> entries = new ArrayList<>();
+        List<SurveyResponseEntry> entries = new ArrayList<>();
 
         // 맥주 카테고리 및 추출할 맥주 수
         String[] categories = {"ALE", "LAGER", "ETC"};
@@ -48,18 +47,17 @@ public class BeerService {
 
             // 각 카테고리별로 추출 후 타입 변환
             entries.addAll(beerList.subList(1, counts[i] + 1).stream().map(beer ->
-                    FavoriteResponseEntry.builder()
+                    SurveyResponseEntry.builder()
                             .id(beer.getId())
                             .image(getBeerImage(beer.getNameKor()))
-                            .name(beer.getName())
-                            .largeCategory(beer.getLargeCategory())
+                            .name(beer.getNameKor())
                             .build()
             ).collect(Collectors.toList()));
         }
 
         // 전체 순서 변경 후 반환
         Collections.shuffle(entries);
-        return new FavoriteResponse(entries);
+        return new SurveyResponse(entries);
     }
 
     /**

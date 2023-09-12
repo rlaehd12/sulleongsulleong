@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class SessionMember {
+public class AuthMember {
 
     private Long id;
 
@@ -17,7 +17,7 @@ public class SessionMember {
 
     private Role role;
 
-    public SessionMember(Member member) {
+    public AuthMember(Member member) {
         this.id = member.getId();
         this.name = member.getName();
         this.email = member.getEmail();

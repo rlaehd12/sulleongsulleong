@@ -1,16 +1,15 @@
 package com.sulleong.preference;
 
-import com.sulleong.login.RequireSessionMember;
-import com.sulleong.login.dto.SessionMember;
+import com.sulleong.beer.dto.SurveyParam;
+import com.sulleong.login.RequireAuth;
+import com.sulleong.login.dto.AuthMember;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/beers/preference")
@@ -19,12 +18,27 @@ public class PreferenceController {
 
     private final PreferenceService preferenceService;
 
-    @Operation(summary = "좋아요 클릭", description = "좋아요/취소에 대한 작업")
-    @RequireSessionMember
+    @RequireAuth
     @PostMapping("/{beerId}")
+    @Operation(summary = "맥주 좋아요 클릭", description = "좋아요/취소에 대한 작업")
     public ResponseEntity<Void> clickPrefer(HttpServletRequest request, @PathVariable("beerId") Long beerId) {
-        SessionMember sessionMember = (SessionMember) request.getAttribute("sessionMember");
-        preferenceService.setPreference(sessionMember.getId(), beerId);
+        AuthMember authMember = (AuthMember) request.getAttribute("authMember");
+        preferenceService.setPreference(authMember.getId(), beerId);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/survey")
+    @RequireAuth
+    @Operation(summary = "맥주 설문 제출", description = "좋아요 초기 설정에 대한 작업")
+    public ResponseEntity<Void> submitSurvey(HttpServletRequest request, @ModelAttribute SurveyParam param) {
+        AuthMember authMember = (AuthMember) request.getAttribute("authMember");
+        Long memberId = authMember.getId();
+        List<Long> beerIds = param.getBeers();
+        preferenceService.cancelAllPreferences(memberId);
+        for (Long beerId : beerIds) {
+            preferenceService.setPreference(memberId, beerId);
+        }
+        return ResponseEntity.ok().build();
+    }
+
 }

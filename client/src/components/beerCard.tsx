@@ -27,9 +27,12 @@ interface BeerCardProps {
 }
 
 function BeerCard({ beer }: BeerCardProps) {
-	const [isFavorite, setIsFavorite] = useState<boolean>(false);
-	const [rate, setRate] = useState<number>(3.5);
+	const [isFavorite, setIsFavorite] = useState<boolean>(false); // 좋아요 상태 관리
+	const [rate, setRate] = useState<number>(3.5); // 평점 상태 관리
 
+	/*
+	사용자 좋아요 클릭 -> 좋아요 상태 변경
+	*/
 	const handlerFavorite = () => {
 		if (isFavorite) {
 			setIsFavorite(false);

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import {
 	Button,
 	Container,
@@ -11,25 +10,37 @@ import {
 } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import EjectIcon from '@mui/icons-material/Eject';
+import customAxios from '../customAxios';
 import Navbar from '../components/navbar';
 import style from '../styles/surveyPage.module.css';
+import TabBar from '../components/tabBar';
+import beerIcon from '../images/beer.png';
 
 interface Beer {
-	image_url: string;
 	id: number;
+	image: string;
 	name: string;
+	largeCategory: string;
 }
 
 function SurveyPage() {
-	const PER_PAGE = 20;
+	// const PER_PAGE = 20;
 
 	const [beerList, setBeerList] = useState<Beer[]>([]);
-	const url = `https://api.punkapi.com/v2/beers?page=1&per_page=${PER_PAGE}`;
+	// const url = `https://api.punkapi.com/v2/beers?page=1&per_page=${PER_PAGE}`;
+	// useEffect(() => {
+	// 	axios.get(url).then((res) => {
+	// 		setBeerList(res.data);
+	// 	});
+	// });
+
+	const axiosInstance = customAxios();
 	useEffect(() => {
-		axios.get(url).then((res) => {
-			setBeerList(res.data);
+		axiosInstance.get('/beers/survey').then((res) => {
+			setBeerList(res.data.entries);
 		});
-	});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	const [gender, setGender] = useState('');
 	const [age, setAge] = useState('');
@@ -51,13 +62,22 @@ function SurveyPage() {
 		setAge(event.target.value as string);
 	};
 
+	// const postSurvey = () => {
+	// 	axiosInstance.post(
+	// 		`api/beers/survey?age=${age}&gender=${gender}?beers=${selectedBeers}`,
+	// 	);
+	// };
+
 	return (
-		<>
+		<div>
 			<Navbar />
 			<Container className={style.description}>
-				<h2>사용자님의</h2>
-				<h2>취향을 알아볼까요?</h2>
-				<hr />
+				<div className={style.title}>
+					<span>사용자님의</span>
+					<br />
+					<span>취향을 알아볼까요?</span>
+				</div>
+
 				<h3>평소 좋아하는 맥주를 골라주세요</h3>
 				<span>선택하신 맥주를 기반으로</span>
 				<br />
@@ -71,8 +91,8 @@ function SurveyPage() {
 						onChange={handleGenderChange}
 						label="성별"
 					>
-						<MenuItem value="m">남성</MenuItem>
-						<MenuItem value="w">여성</MenuItem>
+						<MenuItem value="M">남성</MenuItem>
+						<MenuItem value="F">여성</MenuItem>
 					</Select>
 				</FormControl>
 				<FormControl variant="standard" sx={{ m: 2, minWidth: 240 }}>
@@ -113,8 +133,12 @@ function SurveyPage() {
 							>
 								<img
 									className={style.beerImage}
-									src={beer.image_url}
-									alt={beer.name}
+									src={beer.image || beerIcon}
+									onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+										const target = e.target as HTMLImageElement;
+										target.src = beerIcon; // 이미지 로드에 실패하면 beerIcon으로 대체
+									}}
+									alt=""
 									style={{
 										position: 'relative',
 										backgroundColor: selectedBeers.includes(beer.id)
@@ -137,12 +161,18 @@ function SurveyPage() {
 					className={style.submitBtn}
 					variant="contained"
 					color="primary"
-					sx={{ width: '330px' }}
+					sx={{
+						width: '330px',
+						margin: '0 auto', // 가운데 정렬 스타일
+						display: 'block', // 가운데 정렬을 위해 블록 레벨 요소로 설정
+					}}
+					// onClick={postSurvey}
 				>
 					선택 완료
 				</Button>
 			</Container>
-		</>
+			<TabBar />
+		</div>
 	);
 }
 
