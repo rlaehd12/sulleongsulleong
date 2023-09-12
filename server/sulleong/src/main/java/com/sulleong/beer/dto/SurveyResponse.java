@@ -11,8 +11,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FavoriteResponse {
+public class SurveyResponse {
 
-    private List<FavoriteResponseEntry> entries;
+    private List<SurveyResponseEntry> entries;
 
 }

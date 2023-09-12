@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 const customAxios = () => {
+	const token = sessionStorage.getItem('authorization');
+
 	return axios.create({
-		baseURL: 'http://sulleong.site/',
-		headers: {
-			Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-		},
+		baseURL: process.env.REACT_APP_BASE_URL,
+		headers: token ? { Authorization: `${token}` } : {},
 	});
 };
 

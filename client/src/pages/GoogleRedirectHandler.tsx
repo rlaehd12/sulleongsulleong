@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import customAxios from '../customAxios';
 
 function GoogleRedirectHandler() {
 	const location = useLocation();
@@ -11,8 +11,8 @@ function GoogleRedirectHandler() {
 		const code = urlParams.get('code');
 
 		if (code) {
-			axios
-				.post('http://localhost:8080/api/oauth/login/google', { code })
+			customAxios()
+				.post('/oauth/login/google', { code })
 				.then((response) => {
 					const authHeader = response.headers.authorization;
 					if (authHeader) {

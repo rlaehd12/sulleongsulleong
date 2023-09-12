@@ -34,7 +34,7 @@ function SurveyPage() {
 
 	const axiosInstance = customAxios();
 	useEffect(() => {
-		axiosInstance.get('api/beers/survey').then((res) => {
+		axiosInstance.get('/beers/survey').then((res) => {
 			setBeerList(res.data.entries);
 			console.log(res);
 		});
