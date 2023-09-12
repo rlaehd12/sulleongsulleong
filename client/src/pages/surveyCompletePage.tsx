@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Container, Divider } from '@mui/material';
+import React from 'react';
+import { Button, Container } from '@mui/material';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 
 import Navbar from '../components/navbar';

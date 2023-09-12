@@ -11,6 +11,8 @@ import customAxios from '../customAxios';
 
 import BeerCard from '../components/beerCard';
 import Navbar from '../components/navbar';
+import TabBar from '../components/tabBar';
+import style from '../styles/search.module.css';
 
 interface Beer {
 	id: number;
@@ -66,34 +68,37 @@ function SearchResultPage() {
 	return (
 		<>
 			<Navbar />
-			<Container>
-				<form onSubmit={querySubmit}>
-					<TextField
-						id="standard-search"
-						label="어떤 술을 찾으시나요?"
-						type="search"
-						variant="standard"
-						onChange={changeQuery}
-						value={query}
-						InputProps={{
-							endAdornment: (
-								<InputAdornment position="end">
-									<SearchIcon />
-								</InputAdornment>
-							),
-						}}
-					/>
-				</form>
-				<p>{searchQuery.get('q')} 에 대한 검색 결과</p>
-			</Container>
-			<hr />
-			<Container>
-				<div>
-					{beerList.map((beer) => (
-						<BeerCard key={beer.id} beer={beer} />
-					))}
-				</div>
-			</Container>
+			<div className={style.searchContainer}>
+				<Container>
+					<form onSubmit={querySubmit}>
+						<TextField
+							id="standard-search"
+							label="어떤 술을 찾으시나요?"
+							type="search"
+							variant="standard"
+							onChange={changeQuery}
+							value={query}
+							InputProps={{
+								endAdornment: (
+									<InputAdornment position="end">
+										<SearchIcon />
+									</InputAdornment>
+								),
+							}}
+						/>
+					</form>
+					<p>{searchQuery.get('q')} 에 대한 검색 결과</p>
+				</Container>
+				<hr />
+				<Container>
+					<div>
+						{beerList.map((beer) => (
+							<BeerCard key={beer.id} beer={beer} />
+						))}
+					</div>
+				</Container>
+			</div>
+			<TabBar />
 		</>
 	);
 }
