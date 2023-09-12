@@ -1,0 +1,11 @@
+@import './figmaVariables.css';
+
+.tabBar {
+	box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	background-color: var(--white);
+	margin-top: 50px;
+	z-index: auto;
+}

@@ -13,6 +13,8 @@ import EjectIcon from '@mui/icons-material/Eject';
 import customAxios from '../customAxios';
 import Navbar from '../components/navbar';
 import style from '../styles/surveyPage.module.css';
+import TabBar from '../components/tabBar';
+import beerIcon from '../images/beer.png';
 
 interface Beer {
 	id: number;
@@ -36,7 +38,6 @@ function SurveyPage() {
 	useEffect(() => {
 		axiosInstance.get('/beers/survey').then((res) => {
 			setBeerList(res.data.entries);
-			console.log(res);
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -68,12 +69,15 @@ function SurveyPage() {
 	// };
 
 	return (
-		<>
+		<div>
 			<Navbar />
 			<Container className={style.description}>
-				<h2>사용자님의</h2>
-				<h2>취향을 알아볼까요?</h2>
-				<hr />
+				<div className={style.title}>
+					<span>사용자님의</span>
+					<br />
+					<span>취향을 알아볼까요?</span>
+				</div>
+
 				<h3>평소 좋아하는 맥주를 골라주세요</h3>
 				<span>선택하신 맥주를 기반으로</span>
 				<br />
@@ -129,8 +133,12 @@ function SurveyPage() {
 							>
 								<img
 									className={style.beerImage}
-									src={beer.image}
-									alt={beer.name}
+									src={beer.image || beerIcon}
+									onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+										const target = e.target as HTMLImageElement;
+										target.src = beerIcon; // 이미지 로드에 실패하면 beerIcon으로 대체
+									}}
+									alt=""
 									style={{
 										position: 'relative',
 										backgroundColor: selectedBeers.includes(beer.id)
@@ -163,7 +171,8 @@ function SurveyPage() {
 					선택 완료
 				</Button>
 			</Container>
-		</>
+			<TabBar />
+		</div>
 	);
 }
 

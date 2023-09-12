@@ -17,6 +17,7 @@ import event1 from '../images/event1.jpg';
 import event2 from '../images/event2.jpg';
 import event3 from '../images/event3.jpg';
 import BeerSearch from '../components/beerSearch';
+import TabBar from '../components/tabBar';
 
 interface Beer {
 	id: number;
@@ -82,6 +83,7 @@ function MainPage() {
 					</Link>
 				</Container>
 			</div>
+			<TabBar />
 		</>
 	);
 }

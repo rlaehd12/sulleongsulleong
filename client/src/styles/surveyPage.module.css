@@ -1,6 +1,7 @@
 @import './figmaVariables.css';
 
 .description {
+	margin-top: 0.1rem;
 	background-color: var(--pastel-green-50);
 	display: flex;
 	flex-direction: column;
@@ -9,9 +10,18 @@
 	text-align: center;
 }
 
+.title {
+	margin-top: 0.5rem;
+	font-size: 24px;
+}
+
 .icon {
 	transform: rotate(180deg);
 	color: var(--pastel-green-300);
+}
+
+.beerChoice {
+	margin-bottom: 90px;
 }
 
 .beerList {
@@ -75,4 +85,8 @@
 	transform: translate(-50%, -50%);
 	color: var(--white);
 	font-size: 3rem;
+}
+
+.submitBtn {
+	margin-top: 20px;
 }
