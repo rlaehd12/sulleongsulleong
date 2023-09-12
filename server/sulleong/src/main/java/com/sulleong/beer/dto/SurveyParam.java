@@ -13,10 +13,5 @@ import java.util.List;
 @AllArgsConstructor
 public class SurveyParam {
 
-    private Integer age;
-
-    private String gender;
-
     private List<Long> beers;
-
 }
