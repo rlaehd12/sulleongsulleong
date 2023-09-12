@@ -40,9 +40,8 @@ public class MemberController {
     @RequireAuth
     @GetMapping("/info")
     public ResponseEntity<PersonalInfo> getPersonalInfo(HttpServletRequest request) throws Exception {
-//        AuthMember authMember = (AuthMember) request.getAttribute("authMember");
-        Long memberId = 3L;
-        PersonalInfo personalInfo = memberService.getPersonalInfo(memberId);
+        AuthMember authMember = (AuthMember) request.getAttribute("authMember");
+        PersonalInfo personalInfo = memberService.getPersonalInfo(authMember.getId());
         return ResponseEntity.ok(personalInfo);
     }
 
@@ -64,9 +63,8 @@ public class MemberController {
     @PatchMapping("/gender")
     public ResponseEntity<Gender> modifyGender(HttpServletRequest request, @ModelAttribute GenderParam param) throws Exception {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
-        Long memberId = 3L;
         Gender gender = param.getValue();
-        memberService.modifyGender(memberId, gender);
+        memberService.modifyGender(authMember.getId(), gender);
         return ResponseEntity.ok(gender);
     }
 
