@@ -8,19 +8,19 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class BeerSimilarityRepositoryImpl implements BeerSimilarityRepositoryCustom {
+public class RecommendRepositoryImpl implements RecommendRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
-    private final QBeerSimilarity qBeerSimilarity = QBeerSimilarity.beerSimilarity;
+    private final QRecommend qRecommend = QRecommend.recommend;
 
     @Override
     public List<Long> recommendBeersByFavoriteBeers(List<Long> beerIds) {
         return queryFactory
-                .select(qBeerSimilarity.beer2)
-                .from(qBeerSimilarity)
-                .where(qBeerSimilarity.beer1.in(beerIds))
-                .where(qBeerSimilarity.beer2.notIn(beerIds))
-                .orderBy(qBeerSimilarity.distance.asc())
+                .select(qRecommend.beer2)
+                .from(qRecommend)
+                .where(qRecommend.beer1.in(beerIds))
+                .where(qRecommend.beer2.notIn(beerIds))
+                .orderBy(qRecommend.distance.asc())
                 .limit(4)
                 .fetch();
     }
