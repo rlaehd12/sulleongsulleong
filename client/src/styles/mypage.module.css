@@ -1,0 +1,10 @@
+.myPageContainer {
+	display: flex;
+	text-align: center;
+	flex-direction: column;
+	align-items: center;
+}
+
+.logoutBtn {
+	margin-top: 2rem;
+}

@@ -8,6 +8,7 @@ import RecommendListPage from './pages/recommendListPage';
 import SurveyPage from './pages/surveyPage';
 import SurveyCompPage from './pages/surveyCompletePage';
 import SearchResultPage from './pages/searchResultPage';
+import MyPage from './pages/myPage';
 
 function App() {
 	return (
@@ -19,6 +20,7 @@ function App() {
 				<Route path="/survey" element={<SurveyPage />} />
 				<Route path="/surveyComp" element={<SurveyCompPage />} />
 				<Route path="/searchresult" element={<SearchResultPage />} />
+				<Route path="/myPage" element={<MyPage />} />
 				<Route path="/" element={<MainPage />} />
 			</Routes>
 		</Router>

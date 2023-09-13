@@ -7,6 +7,7 @@ import com.sulleong.login.dto.AuthMember;
 import com.sulleong.member.dto.AgeParam;
 import com.sulleong.member.dto.GenderParam;
 import com.sulleong.member.dto.PersonalInfo;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,7 @@ public class MemberController {
 
     @RequireAuth
     @GetMapping("/info")
+    @Operation(summary = "회원 개인 정보", description = "선호도 설문 시 회원의 개인 정보를 가져오는 작업")
     public ResponseEntity<PersonalInfo> getPersonalInfo(HttpServletRequest request) throws Exception {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
         PersonalInfo personalInfo = memberService.getPersonalInfo(authMember.getId());
@@ -47,6 +49,7 @@ public class MemberController {
 
     @RequireAuth
     @PatchMapping("/age")
+    @Operation(summary = "회원 연령대 수정", description = "선호도 설문 시 회원의 연령대를 수정하는 작업")
     public ResponseEntity<Integer> modifyAge(HttpServletRequest request, @ModelAttribute AgeParam param) throws Exception {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
         Long memberId = authMember.getId();
@@ -61,6 +64,7 @@ public class MemberController {
 
     @RequireAuth
     @PatchMapping("/gender")
+    @Operation(summary = "회원 성별 수정", description = "선호도 설문 시 회원의 성별을 수정하는 작업")
     public ResponseEntity<Gender> modifyGender(HttpServletRequest request, @ModelAttribute GenderParam param) throws Exception {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
         Gender gender = param.getValue();

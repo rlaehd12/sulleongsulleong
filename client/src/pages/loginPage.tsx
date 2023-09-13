@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import GoogleLoginButton from '../components/GoogleLoginButton';
 import GuestLoginButton from '../components/GuestLoginButton';
-import logo from '../images/logo.png';
+import logo from '../images/logo_kr.png';
 import style from '../styles/login.module.css';
 
 function LoginPage() {

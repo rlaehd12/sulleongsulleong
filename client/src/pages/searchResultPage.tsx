@@ -34,11 +34,13 @@ function SearchResultPage() {
 	const [query, setQuery] = useState<string>('');
 	const [searchQuery, setSearchQuery] = useSearchParams({ q: '' });
 
+	const axiosInstance = customAxios();
+
 	const url = `/beers/search?keyword=${searchQuery.get(
 		'q',
 	)}&page=1&size=${PER_PAGE}`;
 	useEffect(() => {
-		customAxios()
+		axiosInstance
 			.get(url)
 			.then((res) => {
 				setBeerList(res.data.entries);

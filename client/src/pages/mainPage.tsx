@@ -16,7 +16,6 @@ import style from '../styles/mainpage.module.css';
 import event1 from '../images/event1.jpg';
 import event2 from '../images/event2.jpg';
 import event3 from '../images/event3.jpg';
-import BeerSearch from '../components/beerSearch';
 import TabBar from '../components/tabBar';
 
 interface Beer {
@@ -48,7 +47,6 @@ function MainPage() {
 			<Navbar />
 			<div className={style.mainPage}>
 				<Container>
-					<BeerSearch />
 					<Carousel className={style.carousel}>
 						<img className={style.carouselImg} src={event1} alt="event1" />
 						<img className={style.carouselImg} src={event2} alt="event2" />

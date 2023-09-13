@@ -26,6 +26,7 @@ function GuestLoginButton() {
 		<Button
 			className={style.loginBtn}
 			variant="outlined"
+			sx={{ borderWidth: '2px', fontWeight: 'bold', fontSize: '1.2rem' }}
 			onClick={handleGuestLogin}
 		>
 			비회원으로 이용하기
