@@ -5,6 +5,7 @@ import com.sulleong.beer.BeerService;
 import com.sulleong.beer.Beers;
 import com.sulleong.member.Member;
 import com.sulleong.member.MemberService;
+import com.sulleong.preference.dto.TogglePreferResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,10 +27,18 @@ public class PreferenceService {
      * 좋아요 누른 이력을 바탕으로 새로 만들거나 기존 정보 업데이트합니다.
      */
     @Transactional
-    public Preference setPreference(Long memberId, Long beerId) {
+    public TogglePreferResponse setPreference(Long memberId, Long beerId) {
         Optional<Preference> optionalPreference = findPreference(memberId, beerId);
-        return optionalPreference.map(this::toggleChoiceAndSave)
-                .orElseGet(() -> createAndSaveNewPreference(memberId, beerId));
+        Preference preference;
+        if (optionalPreference.isEmpty()) {
+            preference = createAndSaveNewPreference(memberId, beerId);
+            return new TogglePreferResponse(preference);
+        }
+        preference = optionalPreference.get();
+        preference.toggleChoice();
+        preference.setUpdatedAt();
+
+        return new TogglePreferResponse(preference);
     }
 
     /**
