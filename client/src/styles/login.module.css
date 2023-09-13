@@ -12,12 +12,14 @@
 	margin-bottom: 10%;
 	height: 2px;
 	width: 85%;
-	background-color: var(--smalt-500);
+	background-color: var(--pastel-green-500);
 }
 
 .loginLogo {
-	width: 90%;
-	height: 90%;
+	margin-top: 8rem;
+	margin-bottom: 3rem;
+	width: 60%;
+	height: 60%;
 }
 
 .loginBtn {
@@ -35,4 +37,5 @@
 .noLoginText {
 	text-align: center;
 	font-size: var(--font_size2);
+	margin-bottom: 1rem;
 }
