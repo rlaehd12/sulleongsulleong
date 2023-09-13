@@ -32,6 +32,19 @@ public class PreferenceService {
                 .orElseGet(() -> createAndSaveNewPreference(memberId, beerId));
     }
 
+    /**
+     * 설문에서 선택한 맥주들을 바탕으로 좋아하는 맥주를 재설정합니다.
+     */
+    @Transactional
+    public List<Preference> setPreferences(Long memberId, List<Long> beerIds) {
+        cancelAllPreferences(memberId);
+        return beerIds.stream().map(beerId -> {
+            Optional<Preference> optionalPreference = findPreference(memberId, beerId);
+            return optionalPreference.map(this::toggleChoiceAndSave)
+                    .orElseGet(() -> createAndSaveNewPreference(memberId, beerId));
+        }).collect(Collectors.toList());
+    }
+
     private Optional<Preference> findPreference(Long memberId, Long beerId) {
         return preferenceRepository.findByMemberIdAndBeerId(memberId, beerId);
     }
@@ -57,8 +70,7 @@ public class PreferenceService {
     /**
      * 사용자가 눌렀던 좋아요를 모두 취소합니다.
      */
-    @Transactional
-    public void cancelAllPreferences(Long memberId) {
+    private void cancelAllPreferences(Long memberId) {
         List<Preference> preferences = preferenceRepository.findByMemberId(memberId);
         for (Preference preference : preferences) {
             if (Boolean.TRUE.equals(preference.getChoice())) {

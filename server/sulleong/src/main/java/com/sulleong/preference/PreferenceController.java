@@ -1,6 +1,7 @@
 package com.sulleong.preference;
 
 import com.sulleong.beer.dto.SurveyParam;
+import com.sulleong.exception.BeerChoiceNotEnoughException;
 import com.sulleong.login.RequireAuth;
 import com.sulleong.login.dto.AuthMember;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,14 +31,14 @@ public class PreferenceController {
     @RequireAuth
     @PostMapping("/survey")
     @Operation(summary = "맥주 설문 제출", description = "좋아요 초기 설정에 대한 작업")
-    public ResponseEntity<Void> submitSurvey(HttpServletRequest request, @ModelAttribute SurveyParam param) {
+    public ResponseEntity<Void> submitSurvey(HttpServletRequest request, @RequestBody SurveyParam param) {
+        List<Long> beerIds = param.getBeerIds();
+        if (beerIds.size() < 5) {
+            throw new BeerChoiceNotEnoughException("맥주를 5개 이상 선택해주세요.");
+        }
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
         Long memberId = authMember.getId();
-        List<Long> beerIds = param.getBeers();
-        preferenceService.cancelAllPreferences(memberId);
-        for (Long beerId : beerIds) {
-            preferenceService.setPreference(memberId, beerId);
-        }
+        preferenceService.setPreferences(memberId, beerIds);
         return ResponseEntity.ok().build();
     }
 
