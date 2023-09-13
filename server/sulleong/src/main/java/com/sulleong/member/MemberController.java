@@ -65,9 +65,9 @@ public class MemberController {
     @RequireAuth
     @PatchMapping("/gender")
     @Operation(summary = "회원 성별 수정", description = "선호도 설문 시 회원의 성별을 수정하는 작업")
-    public ResponseEntity<Gender> modifyGender(HttpServletRequest request, @ModelAttribute GenderParam param) throws Exception {
+    public ResponseEntity<Character> modifyGender(HttpServletRequest request, @ModelAttribute GenderParam param) throws Exception {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
-        Gender gender = param.getValue();
+        Character gender = param.getValue();
         memberService.modifyGender(authMember.getId(), gender);
         return ResponseEntity.ok(gender);
     }

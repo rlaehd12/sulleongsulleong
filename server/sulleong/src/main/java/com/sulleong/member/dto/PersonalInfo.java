@@ -1,6 +1,5 @@
 package com.sulleong.member.dto;
 
-import com.sulleong.member.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,6 +9,6 @@ public class PersonalInfo {
 
     private Integer age;
 
-    private Gender gender;
+    private Character gender;
 
 }
