@@ -3,6 +3,7 @@ package com.sulleong.beer;
 import com.sulleong.beer.dto.SearchParam;
 import com.sulleong.beer.dto.SearchResponse;
 import com.sulleong.beer.dto.SurveyResponse;
+import com.sulleong.login.dto.AuthMember;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/beers")
@@ -24,9 +27,14 @@ public class BeerController {
         return ResponseEntity.ok(beerService.getSurveyBeers());
     }
 
+//    @RequireAuth
     @GetMapping("/search")
     @Operation(summary = "맥주 검색", description = "입력한 내용을 포함하는 맥주 검색")
-    public ResponseEntity<SearchResponse> getSearchBeers(@ModelAttribute SearchParam searchParam) throws Exception {
+    public ResponseEntity<SearchResponse> getSearchBeers(HttpServletRequest request,
+                                                         @ModelAttribute SearchParam searchParam) throws Exception {
+        AuthMember authMember = (AuthMember) request.getAttribute("authMember");
+        Long memberId = authMember.getId();
+
         // 페이지 정보 기본값 설정
         if (searchParam.getPage() == null) {
             searchParam.setPage(1);
@@ -34,7 +42,7 @@ public class BeerController {
         if (searchParam.getSize() == null) {
             searchParam.setSize(5);
         }
-        return ResponseEntity.ok(beerService.getSearchBeers(searchParam));
+        return ResponseEntity.ok(beerService.getSearchBeers(memberId, searchParam));
     }
 
 }

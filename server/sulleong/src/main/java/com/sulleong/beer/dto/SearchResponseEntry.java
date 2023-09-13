@@ -29,4 +29,8 @@ public class SearchResponseEntry {
 
     private Double score;
 
+    private Boolean prefer;
+
+    private Integer preferCount;
+
 }
