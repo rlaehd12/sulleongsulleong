@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
 	Button,
 	Container,
@@ -7,6 +8,8 @@ import {
 	FormControl,
 	MenuItem,
 	InputLabel,
+	Alert,
+	AlertTitle,
 } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import EjectIcon from '@mui/icons-material/Eject';
@@ -24,10 +27,10 @@ interface Beer {
 }
 
 function SurveyPage() {
-	// const PER_PAGE = 20;
-
+	const navigate = useNavigate();
 	const [beerList, setBeerList] = useState<Beer[]>([]);
-
+	const [canSubmit, setCanSubmit] = useState<boolean>(false); // 선택된 맥주가 5개 이상인지 확인하는 상태
+	const [error, setError] = useState<boolean>(false);
 	const axiosInstance = customAxios();
 	useEffect(() => {
 		axiosInstance.get('/beers/survey').then((res) => {
@@ -39,6 +42,14 @@ function SurveyPage() {
 	const [gender, setGender] = useState('');
 	const [age, setAge] = useState('');
 	const [beerIds, setBeerIds] = useState<number[]>([]);
+
+	useEffect(() => {
+		if (beerIds.length >= 5) {
+			setCanSubmit(true);
+		} else {
+			setCanSubmit(false);
+		}
+	}, [beerIds]);
 
 	const toggleBeerSelection = (beerId: number) => {
 		if (beerIds.includes(beerId)) {
@@ -57,9 +68,21 @@ function SurveyPage() {
 	};
 
 	const postSurvey = () => {
-		axiosInstance.post(`/beers/preference/survey`, {
-			selectedBeers: beerIds,
-		});
+		axiosInstance
+			.post(`/beers/preference/survey`, {
+				beerIds,
+			})
+			.then((res: { status: number }) => {
+				if (res.status === 200) {
+					navigate('/surveyComp');
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+				if (err.response && err.response.status === 400) {
+					setError(true);
+				}
+			});
 	};
 
 	return (
@@ -151,6 +174,12 @@ function SurveyPage() {
 						</div>
 					))}
 				</div>
+				{error && (
+					<Alert severity="error">
+						<AlertTitle>에러</AlertTitle>
+						5개 이상의 맥주를 선택해주세요.
+					</Alert>
+				)}
 				<Button
 					className={style.submitBtn}
 					variant="contained"
@@ -161,9 +190,13 @@ function SurveyPage() {
 						display: 'block', // 가운데 정렬을 위해 블록 레벨 요소로 설정
 					}}
 					onClick={postSurvey}
+					disabled={!canSubmit}
 				>
 					선택 완료
 				</Button>
+				<div className={style.errMessage}>
+					{!canSubmit && <p>5개 이상의 맥주를 선택해주세요.</p>}
+				</div>
 			</Container>
 			<TabBar />
 		</div>
