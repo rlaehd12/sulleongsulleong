@@ -23,4 +23,8 @@ public class RedisService {
         redisTemplate.expire(token, ACCESS_TOKEN_EXPIRE, TimeUnit.SECONDS);
         return redisTemplate.opsForValue().get(token);
     }
+
+    public void deleteAuthMember(String token) {
+        redisTemplate.delete(token);
+    }
 }

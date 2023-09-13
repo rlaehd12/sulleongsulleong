@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.UUID;
 
@@ -45,5 +46,13 @@ public class LoginController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", token);
         return new ResponseEntity<>(headers, HttpStatus.OK);
+    }
+
+    @Operation(summary = "로그아웃", description = "이 요청을 수행했다면, 서버 에러를 제외하고 모두 200 처리")
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        redisService.deleteAuthMember(token);
+        return ResponseEntity.ok().build();
     }
 }
