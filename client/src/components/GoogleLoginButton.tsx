@@ -1,5 +1,7 @@
 import React from 'react';
 import { Button } from '@mui/material';
+import GoogleLogo from '../images/googlelogo';
+import googleLogo from '../images/googleLogo.png';
 import style from '../styles/login.module.css';
 
 function GoogleLoginButton() {
@@ -24,8 +26,15 @@ function GoogleLoginButton() {
 	};
 
 	return (
-		<Button className={style.loginBtn} variant="outlined" onClick={oauthSignIn}>
-			Sign in with Google
+		<Button
+			className={style.loginBtn}
+			variant="outlined"
+			color="info"
+			sx={{ borderWidth: '2px', fontWeight: 'bold', fontSize: '1.2rem' }}
+			onClick={oauthSignIn}
+		>
+			<img src={googleLogo} alt="Google Logo" />
+			구글로 시작하기
 		</Button>
 	);
 }
