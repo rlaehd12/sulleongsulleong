@@ -30,14 +30,11 @@ public class PreferenceController {
     @RequireAuth
     @PostMapping("/survey")
     @Operation(summary = "맥주 설문 제출", description = "좋아요 초기 설정에 대한 작업")
-    public ResponseEntity<Void> submitSurvey(HttpServletRequest request, @ModelAttribute SurveyParam param) {
+    public ResponseEntity<Void> submitSurvey(HttpServletRequest request, @RequestBody SurveyParam param) {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
         Long memberId = authMember.getId();
-        List<Long> beerIds = param.getBeers();
-        preferenceService.cancelAllPreferences(memberId);
-        for (Long beerId : beerIds) {
-            preferenceService.setPreference(memberId, beerId);
-        }
+        List<Long> beerIds = param.getBeerIds();
+        preferenceService.setPreferences(memberId, beerIds);
         return ResponseEntity.ok().build();
     }
 
