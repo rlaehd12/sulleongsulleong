@@ -18,9 +18,9 @@ public class MainController {
 
     private final MainService mainService;
 
-    @Operation(summary = "오늘의 맥주 추천", description = "메인 페이지에 진입 시 좋아요한 맥주를 기반으로 랜덤 추천")
     @RequireAuth
     @GetMapping
+    @Operation(summary = "오늘의 맥주 추천", description = "메인 페이지에 진입 시 좋아요한 맥주를 기반으로 랜덤 추천")
     public ResponseEntity<MainResponse> getTodayBeers(HttpServletRequest request) throws Exception {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
         Long memberId = authMember.getId();

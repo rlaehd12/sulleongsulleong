@@ -5,13 +5,13 @@ spring:
   # Database
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/sulleong
+    url: jdbc:postgresql://13.124.133.50:5432/sulleong
     username: sulleong
-    password: 1234
+    password: Sulleong104**
   # jpa properties
   jpa:
     hibernate:
-      ddl-auto: update # When you launch the application for the first time - switch "none" at "create"
+      ddl-auto: update
     show-sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -26,4 +26,4 @@ spring:
     host: localhost
     port: 6379
 
-image-base-url: http://localhost:8080/image/beer
+image-base-url: https://sulleong.site/api/image/beer
