@@ -27,12 +27,6 @@ function SurveyPage() {
 	// const PER_PAGE = 20;
 
 	const [beerList, setBeerList] = useState<Beer[]>([]);
-	// const url = `https://api.punkapi.com/v2/beers?page=1&per_page=${PER_PAGE}`;
-	// useEffect(() => {
-	// 	axios.get(url).then((res) => {
-	// 		setBeerList(res.data);
-	// 	});
-	// });
 
 	const axiosInstance = customAxios();
 	useEffect(() => {
@@ -44,13 +38,13 @@ function SurveyPage() {
 
 	const [gender, setGender] = useState('');
 	const [age, setAge] = useState('');
-	const [selectedBeers, setSelectedBeers] = useState<number[]>([]);
+	const [beerIds, setBeerIds] = useState<number[]>([]);
 
 	const toggleBeerSelection = (beerId: number) => {
-		if (selectedBeers.includes(beerId)) {
-			setSelectedBeers(selectedBeers.filter((id) => id !== beerId));
+		if (beerIds.includes(beerId)) {
+			setBeerIds(beerIds.filter((id) => id !== beerId));
 		} else {
-			setSelectedBeers([...selectedBeers, beerId]);
+			setBeerIds([...beerIds, beerId]);
 		}
 	};
 
@@ -62,11 +56,11 @@ function SurveyPage() {
 		setAge(event.target.value as string);
 	};
 
-	// const postSurvey = () => {
-	// 	axiosInstance.post(
-	// 		`api/beers/survey?age=${age}&gender=${gender}?beers=${selectedBeers}`,
-	// 	);
-	// };
+	const postSurvey = () => {
+		axiosInstance.post(`/beers/preference/survey`, {
+			selectedBeers: beerIds,
+		});
+	};
 
 	return (
 		<div>
@@ -141,15 +135,15 @@ function SurveyPage() {
 									alt=""
 									style={{
 										position: 'relative',
-										backgroundColor: selectedBeers.includes(beer.id)
+										backgroundColor: beerIds.includes(beer.id)
 											? 'rgba(0, 0, 0, 0.7)'
 											: 'transparent',
-										filter: selectedBeers.includes(beer.id)
+										filter: beerIds.includes(beer.id)
 											? 'brightness(50%)'
 											: 'none',
 									}}
 								/>
-								{selectedBeers.includes(beer.id) && (
+								{beerIds.includes(beer.id) && (
 									<CheckIcon className={style.checkIcon} />
 								)}
 							</div>
@@ -166,7 +160,7 @@ function SurveyPage() {
 						margin: '0 auto', // 가운데 정렬 스타일
 						display: 'block', // 가운데 정렬을 위해 블록 레벨 요소로 설정
 					}}
-					// onClick={postSurvey}
+					onClick={postSurvey}
 				>
 					선택 완료
 				</Button>
