@@ -27,7 +27,7 @@ public class PreferenceService {
      * 좋아요 누른 이력을 바탕으로 새로 만들거나 기존 정보 업데이트합니다.
      */
     @Transactional
-    public TogglePreferResponse setPreference(Long memberId, Long beerId) {
+    public TogglePreferResponse togglePreference(Long memberId, Long beerId) {
         Optional<Preference> optionalPreference = findPreference(memberId, beerId);
         Preference preference;
         if (optionalPreference.isEmpty()) {
@@ -45,13 +45,13 @@ public class PreferenceService {
      * 설문에서 선택한 맥주들을 바탕으로 좋아하는 맥주를 재설정합니다.
      */
     @Transactional
-    public List<Preference> setPreferences(Long memberId, List<Long> beerIds) {
+    public void setPreferences(Long memberId, List<Long> beerIds) {
         cancelAllPreferences(memberId);
-        return beerIds.stream().map(beerId -> {
+        for (Long beerId : beerIds) {
             Optional<Preference> optionalPreference = findPreference(memberId, beerId);
-            return optionalPreference.map(this::toggleChoiceAndSave)
+            optionalPreference.map(this::toggleChoiceAndSave)
                     .orElseGet(() -> createAndSaveNewPreference(memberId, beerId));
-        }).collect(Collectors.toList());
+        }
     }
 
     private Optional<Preference> findPreference(Long memberId, Long beerId) {

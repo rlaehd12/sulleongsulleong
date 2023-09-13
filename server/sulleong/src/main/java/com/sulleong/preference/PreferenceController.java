@@ -25,12 +25,12 @@ public class PreferenceController {
     @RequireAuth
     @PostMapping("/{beerId}")
     @Operation(summary = "맥주 좋아요 클릭", description = "좋아요/취소에 대한 작업")
-    public ResponseEntity<TogglePreferResponse> clickPrefer(HttpServletRequest request, @PathVariable("beerId") Long beerId) {
+    public ResponseEntity<TogglePreferResponse> togglePrefer(HttpServletRequest request, @PathVariable("beerId") Long beerId) {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
         if (authMember == null || authMember.getRole() != Role.USER) {
             throw new GuestNotAllowException("only user role set prefer");
         }
-        TogglePreferResponse togglePreferResponse = preferenceService.setPreference(authMember.getId(), beerId);
+        TogglePreferResponse togglePreferResponse = preferenceService.togglePreference(authMember.getId(), beerId);
         return ResponseEntity.ok(togglePreferResponse);
     }
 
