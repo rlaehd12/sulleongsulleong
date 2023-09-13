@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URI;
 
 @Slf4j
 @RestControllerAdvice
@@ -33,12 +32,14 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({
+            GuestNotAllowException.class,
             NotLoginException.class,
             AccessTokenExpiredException.class,
             GoogleOauthLoginException.class
     })
-    public ResponseEntity<Void> handleAuthFail() {
-        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).location(URI.create("/login")).build();
+    public ResponseEntity<ErrorMessage> handleForBidden(Exception e, HttpServletRequest request) {
+        return new ResponseEntity<>(buildErrorMessage(e, request),
+                HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler({

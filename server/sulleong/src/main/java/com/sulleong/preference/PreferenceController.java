@@ -1,9 +1,12 @@
 package com.sulleong.preference;
 
 import com.sulleong.beer.dto.SurveyParam;
+import com.sulleong.exception.GuestNotAllowException;
 import com.sulleong.exception.BeerChoiceNotEnoughException;
 import com.sulleong.login.RequireAuth;
 import com.sulleong.login.dto.AuthMember;
+import com.sulleong.member.Role;
+import com.sulleong.preference.dto.TogglePreferResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,10 +25,13 @@ public class PreferenceController {
     @RequireAuth
     @PostMapping("/{beerId}")
     @Operation(summary = "맥주 좋아요 클릭", description = "좋아요/취소에 대한 작업")
-    public ResponseEntity<Void> clickPrefer(HttpServletRequest request, @PathVariable("beerId") Long beerId) {
+    public ResponseEntity<TogglePreferResponse> clickPrefer(HttpServletRequest request, @PathVariable("beerId") Long beerId) {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
-        preferenceService.setPreference(authMember.getId(), beerId);
-        return ResponseEntity.ok().build();
+        if (authMember == null || authMember.getRole() != Role.USER) {
+            throw new GuestNotAllowException("only user role set prefer");
+        }
+        TogglePreferResponse togglePreferResponse = preferenceService.setPreference(authMember.getId(), beerId);
+        return ResponseEntity.ok(togglePreferResponse);
     }
 
     @RequireAuth
