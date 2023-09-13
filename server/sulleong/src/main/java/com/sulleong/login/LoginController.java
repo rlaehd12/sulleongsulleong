@@ -22,15 +22,15 @@ public class LoginController {
     private final GuestService guestService;
 
     @Operation(summary = "구글 로그인", description = "로그인 생성시 세션 값을 헤더로 전송")
-    @GetMapping("/oauth/login/google")
-    public ResponseEntity<Void> google(@RequestParam String code) throws Exception {
-        Member member = oauthService.getToken(code);
+    @PostMapping("/oauth/login/google")
+    public ResponseEntity<Void> google(@RequestBody Map<String, String> body) throws Exception {
+        Member member = oauthService.getToken(body.get("code"));
         AuthMember authMember = new AuthMember(member);
         String token = UUID.randomUUID().toString();
         redisService.setAuthMember(token, authMember);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("authorization", token);
+        headers.add("Authorization", token);
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 

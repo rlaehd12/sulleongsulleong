@@ -3,8 +3,6 @@ package com.sulleong.beer;
 import com.sulleong.beer.dto.SearchParam;
 import com.sulleong.beer.dto.SearchResponse;
 import com.sulleong.beer.dto.SurveyResponse;
-import com.sulleong.member.MemberService;
-import com.sulleong.preference.PreferenceService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class BeerController {
 
     private final BeerService beerService;
-    private final MemberService memberService;
-    private final PreferenceService preferenceService;
 
     @GetMapping("/survey")
-    @Operation(summary = "맥주 설문 폼", description = "맥주 선호도 조사를 위해 설문용 맥주들을 제시합니다.")
+    @Operation(summary = "맥주 설문 폼", description = "맥주 선호도 조사를 위해 설문용 맥주들을 제시")
     public ResponseEntity<SurveyResponse> getSurveyBeers() throws Exception {
         return ResponseEntity.ok(beerService.getSurveyBeers());
     }

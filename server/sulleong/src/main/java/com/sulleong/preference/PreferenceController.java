@@ -27,8 +27,8 @@ public class PreferenceController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/survey")
     @RequireAuth
+    @PostMapping("/survey")
     @Operation(summary = "맥주 설문 제출", description = "좋아요 초기 설정에 대한 작업")
     public ResponseEntity<Void> submitSurvey(HttpServletRequest request, @ModelAttribute SurveyParam param) {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");

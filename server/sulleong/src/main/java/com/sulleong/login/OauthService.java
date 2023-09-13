@@ -22,7 +22,7 @@ public class OauthService {
     private final String GOOGLE_OAUTH_URL = "https://oauth2.googleapis.com/token";
     private final String CLIENT_ID = "681159939854-mbkio13ft80rtf962te4vj5ni8mhgh1c.apps.googleusercontent.com";
     private final String CLIENT_SECRET = "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";
-    private final String REDIRECT_URI = "http://localhost:3000/login/google";
+    private final String REDIRECT_URI = "https://sulleong.site/login/google";
 
     private final MemberService memberService;
     private final JwtPayloadDecoder jwtPayloadDecoder;
@@ -50,9 +50,15 @@ public class OauthService {
 
             Map<String, String> userInfoMap = jwtPayloadDecoder.decode(tokenResponse.getId_token());
             return memberService.OauthSaveOrUpdate(userInfoMap.get("name"), userInfoMap.get("email"));
-        }
-        else {
-            throw new GoogleOauthLoginException("구글 로그인 오류");
+        } else {
+            BufferedReader errorBr = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+            StringBuilder errorMessage = new StringBuilder();
+            String line;
+            while ((line = errorBr.readLine()) != null) {
+                errorMessage.append(line).append('\n');
+            }
+            System.out.println("Error response: " + errorMessage.toString());
+            throw new GoogleOauthLoginException("");
         }
     }
 }
