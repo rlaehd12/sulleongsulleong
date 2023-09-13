@@ -23,7 +23,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({
-            AgeRangeException.class,
+            InvalidAgeException.class,
+            InvalidGenderException.class,
             BeerChoiceNotEnoughException.class
     })
     public ResponseEntity<ErrorMessage> handleBadRequest(Exception e, HttpServletRequest request) {

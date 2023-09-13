@@ -9,6 +9,6 @@ public class PersonalInfo {
 
     private Integer age;
 
-    private Character gender;
+    private String gender;
 
 }

@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class GenderParam {
 
-    private Character value;
+    private String value;
 
 }

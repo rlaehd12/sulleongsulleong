@@ -33,7 +33,7 @@ public class Member extends BaseTimeEntity {
 
     private Integer age;
 
-    private Character gender;
+    private String gender;
 
     @Builder
     public Member(String name, String email, Role role) {
