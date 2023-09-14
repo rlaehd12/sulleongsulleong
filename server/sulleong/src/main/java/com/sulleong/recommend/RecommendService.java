@@ -1,11 +1,13 @@
-package com.sulleong.main;
+package com.sulleong.recommend;
 
 import com.sulleong.beer.Beer;
 import com.sulleong.beer.BeerService;
 import com.sulleong.member.Member;
 import com.sulleong.member.MemberService;
 import com.sulleong.preference.PreferenceService;
-import com.sulleong.recommend.RecommendRepository;
+import com.sulleong.recommend.dto.MainResponse;
+import com.sulleong.recommend.repository.RecommendRepository;
+import com.sulleong.recommend.dto.TodayBeer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +18,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class MainService {
+public class RecommendService {
 
     private final BeerService beerService;
     private final MemberService memberService;

@@ -1,4 +1,4 @@
-package com.sulleong.recommend;
+package com.sulleong.recommend.repository;
 
 import java.util.List;
 

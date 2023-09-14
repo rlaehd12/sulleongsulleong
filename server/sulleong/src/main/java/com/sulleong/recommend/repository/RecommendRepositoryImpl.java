@@ -1,6 +1,7 @@
-package com.sulleong.recommend;
+package com.sulleong.recommend.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.sulleong.recommend.QRecommend;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

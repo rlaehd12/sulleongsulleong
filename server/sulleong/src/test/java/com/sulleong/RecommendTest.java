@@ -1,6 +1,6 @@
 package com.sulleong;
 
-import com.sulleong.recommend.RecommendRepository;
+import com.sulleong.recommend.repository.RecommendRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,7 +1,8 @@
-package com.sulleong.main;
+package com.sulleong.recommend;
 
 import com.sulleong.login.RequireAuth;
 import com.sulleong.login.dto.AuthMember;
+import com.sulleong.recommend.dto.MainResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/api/main")
 @RequiredArgsConstructor
-public class MainController {
+public class RecommendController {
 
-    private final MainService mainService;
+    private final RecommendService recommendService;
 
     @RequireAuth
     @GetMapping
@@ -24,7 +25,7 @@ public class MainController {
     public ResponseEntity<MainResponse> getTodayBeers(HttpServletRequest request) throws Exception {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
         Long memberId = authMember.getId();
-        return ResponseEntity.ok(mainService.getTodayBeers(memberId));
+        return ResponseEntity.ok(recommendService.getTodayBeers(memberId));
     }
 
 }
