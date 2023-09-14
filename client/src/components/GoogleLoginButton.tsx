@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button } from '@mui/material';
-import GoogleLogo from '../images/googlelogo';
 import googleLogo from '../images/googleLogo.png';
 import style from '../styles/login.module.css';
 
