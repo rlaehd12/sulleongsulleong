@@ -34,7 +34,7 @@ public class MemberService {
     public PersonalInfo getPersonalInfo(Long memberId) throws Exception {
         Member member = getMemberOrElseThrow(memberId);
         Integer age = member.getAge();
-        Gender gender = member.getGender();
+        String gender = member.getGender();
         return new PersonalInfo(age, gender);
     }
 
@@ -51,7 +51,7 @@ public class MemberService {
      * 회원의 성별을 업데이트 합니다.
      */
     @Transactional
-    public void modifyGender(Long memberId, Gender gender) throws Exception {
+    public void modifyGender(Long memberId, String gender) throws Exception {
         Member member = getMemberOrElseThrow(memberId);
         member.setGender(gender);
     }

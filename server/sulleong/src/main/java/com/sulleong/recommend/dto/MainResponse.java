@@ -1,20 +1,20 @@
-package com.sulleong.main;
+package com.sulleong.recommend.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TodayBeer {
+public class MainResponse {
 
-    private Long id;
+    private String memberName;
 
-    private String image;
-
-    private String name;
+    private List<TodayBeer> todayBeers;
 
 }

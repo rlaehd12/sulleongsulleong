@@ -23,7 +23,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({
-            AgeRangeException.class,
+            InvalidAgeException.class,
+            InvalidGenderException.class,
             BeerChoiceNotEnoughException.class
     })
     public ResponseEntity<ErrorMessage> handleBadRequest(Exception e, HttpServletRequest request) {
@@ -39,7 +40,7 @@ public class GlobalExceptionHandler {
     })
     public ResponseEntity<ErrorMessage> handleForBidden(Exception e, HttpServletRequest request) {
         return new ResponseEntity<>(buildErrorMessage(e, request),
-                HttpStatus.FORBIDDEN);
+                HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler({
@@ -48,6 +49,6 @@ public class GlobalExceptionHandler {
     })
     public ResponseEntity<ErrorMessage> handleNotFound(Exception e, HttpServletRequest request) {
         return new ResponseEntity<>(buildErrorMessage(e, request),
-                HttpStatus.FORBIDDEN);
+                HttpStatus.NOT_FOUND);
     }
 }

@@ -40,7 +40,7 @@ function SurveyPage() {
 	}, []);
 
 	const [gender, setGender] = useState('');
-	const [age, setAge] = useState('');
+	const [age, setAge] = useState<string>('');
 	const [beerIds, setBeerIds] = useState<number[]>([]);
 
 	useEffect(() => {
@@ -50,6 +50,20 @@ function SurveyPage() {
 			setCanSubmit(false);
 		}
 	}, [beerIds]);
+
+	useEffect(() => {
+		if (gender !== '') {
+			axiosInstance.patch(`/members/gender?value=${gender}`);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [gender]);
+
+	useEffect(() => {
+		if (age !== '') {
+			axiosInstance.patch(`/members/age?value=${age}`);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [age]);
 
 	const toggleBeerSelection = (beerId: number) => {
 		if (beerIds.includes(beerId)) {
@@ -78,7 +92,6 @@ function SurveyPage() {
 				}
 			})
 			.catch((err) => {
-				console.log(err);
 				if (err.response && err.response.status === 400) {
 					setError(true);
 				}
