@@ -3,6 +3,7 @@ package com.sulleong.beer;
 import com.sulleong.beer.dto.SearchParam;
 import com.sulleong.beer.dto.SearchResponse;
 import com.sulleong.beer.dto.SurveyResponse;
+import com.sulleong.login.RequireAuth;
 import com.sulleong.login.dto.AuthMember;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class BeerController {
         return ResponseEntity.ok(beerService.getSurveyBeers());
     }
 
-//    @RequireAuth
+    @RequireAuth
     @GetMapping("/search")
     @Operation(summary = "맥주 검색", description = "입력한 내용을 포함하는 맥주 검색")
     public ResponseEntity<SearchResponse> getSearchBeers(HttpServletRequest request,

@@ -1,6 +1,7 @@
 package com.sulleong.member;
 
-import com.sulleong.exception.AgeRangeException;
+import com.sulleong.exception.InvalidAgeException;
+import com.sulleong.exception.InvalidGenderException;
 import com.sulleong.exception.NotLoginException;
 import com.sulleong.login.RequireAuth;
 import com.sulleong.login.dto.AuthMember;
@@ -58,18 +59,23 @@ public class MemberController {
             memberService.modifyAge(memberId, age);
             return ResponseEntity.ok(age);
         } else {
-            throw new AgeRangeException("유효하지 않은 연령대 입니다.");
+            throw new InvalidAgeException("유효하지 않은 연령대 입니다.");
         }
     }
 
     @RequireAuth
     @PatchMapping("/gender")
     @Operation(summary = "회원 성별 수정", description = "선호도 설문 시 회원의 성별을 수정하는 작업")
-    public ResponseEntity<Gender> modifyGender(HttpServletRequest request, @ModelAttribute GenderParam param) throws Exception {
+    public ResponseEntity<String> modifyGender(HttpServletRequest request, @ModelAttribute GenderParam param) throws Exception {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
-        Gender gender = param.getValue();
-        memberService.modifyGender(authMember.getId(), gender);
-        return ResponseEntity.ok(gender);
+        Long memberId = authMember.getId();
+        String gender = param.getValue();
+        if (gender.equals("M") || gender.equals("F")) {
+            memberService.modifyGender(memberId, gender);
+            return ResponseEntity.ok(gender);
+        } else {
+            throw new InvalidGenderException("유효하지 않은 성별입니다.");
+        }
     }
 
 }
