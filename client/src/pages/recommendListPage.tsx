@@ -5,6 +5,7 @@ import { Container, TextField } from '@mui/material';
 import Navbar from '../components/navbar';
 import BeerCard from '../components/beerCard';
 import style from '../styles/recommendListPage.module.css';
+import TabBar from '../components/tabBar';
 
 interface Beer {
 	id: number;
@@ -19,7 +20,7 @@ interface Beer {
 }
 
 function RecommendListPage() {
-	const PER_PAGE = 10;
+	const PER_PAGE = 50;
 
 	const [beerList, setBeerList] = useState<Beer[]>([]);
 
@@ -46,7 +47,7 @@ function RecommendListPage() {
 						variant="standard"
 					/>
 				</Container>
-				<Container>
+				<Container className={style.beerList}>
 					<hr />
 					<div className={style.cardContainer}>
 						{beerList.map((beer) => (
@@ -55,6 +56,7 @@ function RecommendListPage() {
 					</div>
 				</Container>
 			</div>
+			<TabBar />
 		</>
 	);
 }

@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import {
 	Button,
 	Card,
 	Container,
 	Divider,
-	TextField,
-	InputAdornment,
 	CardMedia,
 	CardContent,
 } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
 import Carousel from 'react-material-ui-carousel';
 
 import Navbar from '../components/navbar';
@@ -19,41 +16,37 @@ import style from '../styles/mainpage.module.css';
 import event1 from '../images/event1.jpg';
 import event2 from '../images/event2.jpg';
 import event3 from '../images/event3.jpg';
+import TabBar from '../components/tabBar';
 
 interface Beer {
 	id: number;
-	name: string;
 	image: string;
+	name: string;
+	nameKor: string;
+	abv: number;
+	largeCategory: string;
+	subCategory: string;
+	country: string;
+	score: number;
 }
 
 function MainPage() {
 	const [beerList, setBeerList] = useState<Beer[]>([]);
+	const [query, setQuery] = useState<string>('');
+	const navigate = useNavigate();
 
-	const url = `http://localhost:8080/api/main`;
-	useEffect(() => {
-		axios.get(url).then((res) => {
-			setBeerList(res.data);
-		});
-	}, []);
+	// const url = `http://localhost:8080/api/main`;
+	// useEffect(() => {
+	// 	axios.get(url).then((res) => {
+	// 		setBeerList(res.data);
+	// 	});
+	// }, []);
+
 	return (
 		<>
 			<Navbar />
 			<div className={style.mainPage}>
 				<Container>
-					<TextField
-						className={style.searchBar}
-						id="standard-search"
-						label="어떤 술을 찾으시나요?"
-						type="search"
-						variant="standard"
-						InputProps={{
-							endAdornment: (
-								<InputAdornment position="end">
-									<SearchIcon />
-								</InputAdornment>
-							),
-						}}
-					/>
 					<Carousel className={style.carousel}>
 						<img className={style.carouselImg} src={event1} alt="event1" />
 						<img className={style.carouselImg} src={event2} alt="event2" />
@@ -83,9 +76,12 @@ function MainPage() {
 				<Container className={style.surveyArea}>
 					<span>술을 잘 모르시나요?</span>
 					<h3>나에게 맞는 술 찾으러 가기</h3>
-					<Button variant="contained">GO</Button>
+					<Link to="/survey">
+						<Button variant="contained">GO</Button>
+					</Link>
 				</Container>
 			</div>
+			<TabBar />
 		</>
 	);
 }

@@ -1,10 +1,11 @@
 import React from 'react';
-import { Button } from '@mui/material';
-// import { GoogleLogin } from '@react-oauth/google';
-import logo from '../images/logo.png';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import GoogleLoginButton from '../components/GoogleLoginButton';
+import GuestLoginButton from '../components/GuestLoginButton';
+import logo from '../images/logo_kr.png';
 import style from '../styles/login.module.css';
 
-function loginPage() {
+function LoginPage() {
 	return (
 		<div className={style.loginContainer}>
 			<img className={style.loginLogo} src={logo} alt="Logo" />
@@ -16,18 +17,18 @@ function loginPage() {
 					나를 위한 맥주 추천 받기
 				</span>
 			</div>
-			<Button className={style.loginBtn} variant="contained" color="primary">
-				Google Login
-			</Button>
+
+			<Routes>
+				<Route path="/" element={<GoogleLoginButton />} />
+			</Routes>
+
 			<hr />
 			<div className={style.noLoginText}>
 				<span>아직 회원이 아니신가요?</span>
 			</div>
-			<Button className={style.loginBtn} variant="outlined">
-				비회원으로 이용하기
-			</Button>
+			<GuestLoginButton />
 		</div>
 	);
 }
 
-export default loginPage;
+export default LoginPage;

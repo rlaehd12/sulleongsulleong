@@ -3,6 +3,7 @@ package com.sulleong.beer;
 import com.sulleong.beer.dto.*;
 import com.sulleong.beer.repository.BeerRepository;
 import com.sulleong.exception.BeerNotFoundException;
+import com.sulleong.preference.Preference;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class BeerService {
 
@@ -29,13 +30,12 @@ public class BeerService {
     private String imageUrl;
 
     /**
-     * 맥주 선호도 조사를 위해 설문을 합니다.
+     * 맥주 선호도 조사를 위해 설문용 맥주들을 제시합니다.
      * @return 일정 비율의 에일, 라거, 기타 맥주들을 랜덤으로 선택하여 반환합니다.
      */
-    @Transactional(readOnly = true)
-    public FavoriteResponse getSurveyBeers() throws Exception {
+    public SurveyResponse getSurveyBeers() throws Exception {
         // 설문을 위한 맥주 정보 리스트
-        List<FavoriteResponseEntry> entries = new ArrayList<>();
+        List<SurveyResponseEntry> entries = new ArrayList<>();
 
         // 맥주 카테고리 및 추출할 맥주 수
         String[] categories = {"ALE", "LAGER", "ETC"};
@@ -48,18 +48,17 @@ public class BeerService {
 
             // 각 카테고리별로 추출 후 타입 변환
             entries.addAll(beerList.subList(1, counts[i] + 1).stream().map(beer ->
-                    FavoriteResponseEntry.builder()
+                    SurveyResponseEntry.builder()
                             .id(beer.getId())
                             .image(getBeerImage(beer.getNameKor()))
-                            .name(beer.getName())
-                            .largeCategory(beer.getLargeCategory())
+                            .name(beer.getNameKor())
                             .build()
             ).collect(Collectors.toList()));
         }
 
         // 전체 순서 변경 후 반환
         Collections.shuffle(entries);
-        return new FavoriteResponse(entries);
+        return new SurveyResponse(entries);
     }
 
     /**
@@ -67,23 +66,27 @@ public class BeerService {
      * @param searchParam 검색을 위한 키워드, 페이지 정보입니다.
      * @return 맥주 검색 결과를 반환합니다.
      */
-    public SearchResponse getSearchBeers(SearchParam searchParam) throws Exception {
+    public SearchResponse getSearchBeers(Long memberId, SearchParam searchParam) throws Exception {
         Integer pageIndex = searchParam.getPage();
         Integer pageSize = searchParam.getSize();
         Pageable pageable = PageRequest.of(pageIndex - 1, pageSize);
         Page<Beer> beerPage = beerRepository.findAllBySearchParam(searchParam.getKeyword(), pageable);
-        Page<SearchResponseEntry> entryPage = beerPage.map(beer ->
-                SearchResponseEntry.builder()
-                        .id(beer.getId())
-                        .image(getBeerImage(beer.getNameKor()))
-                        .name(beer.getName())
-                        .nameKor(beer.getNameKor())
-                        .abv(beer.getAbv())
-                        .largeCategory(beer.getLargeCategory())
-                        .subCategory(beer.getSubCategory())
-                        .country(beer.getCountry())
-                        .score(null) // 별점은 리뷰 기능 구현 후 추가 예정
-                        .build());
+        Page<SearchResponseEntry> entryPage = beerPage.map(beer -> {
+            List<Preference> preferences = beer.getPreferences();
+            return SearchResponseEntry.builder()
+                    .id(beer.getId())
+                    .image(getBeerImage(beer.getNameKor()))
+                    .name(beer.getName())
+                    .nameKor(beer.getNameKor())
+                    .abv(beer.getAbv())
+                    .largeCategory(beer.getLargeCategory())
+                    .subCategory(beer.getSubCategory())
+                    .country(beer.getCountry())
+                    .score(null) // 별점은 리뷰 기능 구현 후 추가 예정
+                    .prefer(preferences.stream().anyMatch(preference -> preference.getMember().getId().equals(memberId)))
+                    .preferCount(preferences.size())
+                    .build();
+        });
 
         SearchResponse searchResponse = new SearchResponse();
         searchResponse.setEntries(entryPage.getContent());

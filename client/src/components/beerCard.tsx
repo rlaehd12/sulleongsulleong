@@ -4,11 +4,9 @@ import { Link } from 'react-router-dom';
 import { Card, CardActionArea, CardMedia, CardContent } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
+import Preference from './preference';
 
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-
-import style from './beerCard.module.css';
+import Style from '../styles/beerCard.module.css';
 
 interface Beer {
 	id: number;
@@ -27,27 +25,18 @@ interface BeerCardProps {
 }
 
 function BeerCard({ beer }: BeerCardProps) {
-	const [isFavorite, setIsFavorite] = useState<boolean>(false);
-	const [rate, setRate] = useState<number>(3.5);
-
-	const handlerFavorite = () => {
-		if (isFavorite) {
-			setIsFavorite(false);
-		} else {
-			setIsFavorite(true);
-		}
-	};
+	const [rate, setRate] = useState<number>(3.5); // 평점 상태 관리
 
 	return (
 		<div>
 			<Card>
-				<div className={style.cardWrap}>
+				<div className={Style.cardWrap}>
 					<CardActionArea component={Link} to="/">
-						<div className={style.cardActionArea}>
-							<div className={style.cardMedia}>
+						<div className={Style.cardActionArea}>
+							<div className={Style.cardMedia}>
 								<CardMedia component="img" image={beer.image} alt={beer.name} />
 							</div>
-							<CardContent className={style.cardContent}>
+							<CardContent className={Style.cardContent}>
 								<div>
 									<Typography
 										gutterBottom
@@ -74,19 +63,7 @@ function BeerCard({ beer }: BeerCardProps) {
 							</CardContent>
 						</div>
 					</CardActionArea>
-					<div className={style.cardFavorite}>
-						{isFavorite ? (
-							<FavoriteIcon
-								className={style.favorite}
-								onClick={() => handlerFavorite()}
-							/>
-						) : (
-							<FavoriteBorderIcon
-								className={style.favorite}
-								onClick={() => handlerFavorite()}
-							/>
-						)}
-					</div>
+					<Preference beerId={beer.id} />
 				</div>
 			</Card>
 		</div>
