@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
     })
     public ResponseEntity<ErrorMessage> handleForBidden(Exception e, HttpServletRequest request) {
         return new ResponseEntity<>(buildErrorMessage(e, request),
-                HttpStatus.FORBIDDEN);
+                HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler({
@@ -49,6 +49,6 @@ public class GlobalExceptionHandler {
     })
     public ResponseEntity<ErrorMessage> handleNotFound(Exception e, HttpServletRequest request) {
         return new ResponseEntity<>(buildErrorMessage(e, request),
-                HttpStatus.FORBIDDEN);
+                HttpStatus.NOT_FOUND);
     }
 }

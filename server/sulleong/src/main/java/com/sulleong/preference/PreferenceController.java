@@ -3,7 +3,7 @@ package com.sulleong.preference;
 import com.sulleong.beer.dto.SurveyParam;
 import com.sulleong.exception.GuestNotAllowException;
 import com.sulleong.exception.BeerChoiceNotEnoughException;
-import com.sulleong.login.RequireAuth;
+import com.sulleong.aop.LoginCheck;
 import com.sulleong.login.dto.AuthMember;
 import com.sulleong.member.Role;
 import com.sulleong.preference.dto.TogglePreferResponse;
@@ -22,19 +22,16 @@ public class PreferenceController {
 
     private final PreferenceService preferenceService;
 
-    @RequireAuth
+    @LoginCheck(type = LoginCheck.UserType.USER)
     @PostMapping("/{beerId}")
     @Operation(summary = "맥주 좋아요 클릭", description = "좋아요/취소에 대한 작업")
     public ResponseEntity<TogglePreferResponse> togglePrefer(HttpServletRequest request, @PathVariable("beerId") Long beerId) {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
-        if (authMember == null || authMember.getRole() != Role.USER) {
-            throw new GuestNotAllowException("only user role set prefer");
-        }
         TogglePreferResponse togglePreferResponse = preferenceService.togglePreference(authMember.getId(), beerId);
         return ResponseEntity.ok(togglePreferResponse);
     }
 
-    @RequireAuth
+    @LoginCheck(type = LoginCheck.UserType.GUEST)
     @PostMapping("/survey")
     @Operation(summary = "맥주 설문 제출", description = "좋아요 초기 설정에 대한 작업")
     public ResponseEntity<Void> submitSurvey(HttpServletRequest request, @RequestBody SurveyParam param) {
