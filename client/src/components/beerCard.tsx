@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
 import Preference from './preference';
 
-import style from './beerCard.module.css';
+import Style from '../styles/beerCard.module.css';
 
 interface Beer {
 	id: number;
@@ -30,13 +30,13 @@ function BeerCard({ beer }: BeerCardProps) {
 	return (
 		<div>
 			<Card>
-				<div className={style.cardWrap}>
+				<div className={Style.cardWrap}>
 					<CardActionArea component={Link} to="/">
-						<div className={style.cardActionArea}>
-							<div className={style.cardMedia}>
+						<div className={Style.cardActionArea}>
+							<div className={Style.cardMedia}>
 								<CardMedia component="img" image={beer.image} alt={beer.name} />
 							</div>
-							<CardContent className={style.cardContent}>
+							<CardContent className={Style.cardContent}>
 								<div>
 									<Typography
 										gutterBottom
@@ -63,7 +63,7 @@ function BeerCard({ beer }: BeerCardProps) {
 							</CardContent>
 						</div>
 					</CardActionArea>
-					<Preference />
+					<Preference beerId={beer.id} />
 				</div>
 			</Card>
 		</div>
