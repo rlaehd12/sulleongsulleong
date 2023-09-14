@@ -32,6 +32,7 @@ public class LoginController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", token);
+        headers.add("Role", "USER");
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 
@@ -45,6 +46,7 @@ public class LoginController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", token);
+        headers.add("Role", "GUEST");
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 
