@@ -83,7 +83,10 @@ function SearchResultPage() {
 							InputProps={{
 								endAdornment: (
 									<InputAdornment position="end">
-										<SearchIcon />
+										<SearchIcon
+											className={style.search}
+											onClick={querySubmit}
+										/>
 									</InputAdornment>
 								),
 							}}

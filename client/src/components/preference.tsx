@@ -3,7 +3,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import LoginModal from './loginModal';
 
-import Style from '../styles/beerCard.module.css';
+import style from '../styles/beerCard.module.css';
 import customAxios from '../customAxios';
 
 interface PreferenceProps {
@@ -44,8 +44,8 @@ function Preference({ beerId }: PreferenceProps) {
 
 	const handlerFavorite = () => {
 		if (
-			sessionStorage.getItem('Authorization') &&
-			sessionStorage.getItem('Role')
+			sessionStorage.getItem('authorization') &&
+			sessionStorage.getItem('role') === 'guest'
 		) {
 			setOpenModal(true);
 			return;
@@ -75,15 +75,15 @@ function Preference({ beerId }: PreferenceProps) {
 	};
 
 	return (
-		<div className={Style.cardFavorite}>
+		<div className={style.cardFavorite}>
 			{isFavorite ? (
 				<FavoriteIcon
-					className={Style.favorite}
+					className={style.favorite}
 					onClick={() => handlerFavorite()}
 				/>
 			) : (
 				<FavoriteBorderIcon
-					className={Style.favorite}
+					className={style.favorite}
 					onClick={() => handlerFavorite()}
 				/>
 			)}
