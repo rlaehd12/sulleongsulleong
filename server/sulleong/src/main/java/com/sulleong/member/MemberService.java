@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
@@ -16,7 +17,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Member OauthSaveOrUpdate(String name, String email) {
+    public Member oauthSaveOrUpdate(String name, String email) {
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
 
         if (optionalMember.isEmpty()) {
@@ -26,6 +27,16 @@ public class MemberService {
         Member existingMember = optionalMember.get();
         existingMember.setUpdatedAt();
         return existingMember;
+    }
+
+    public Member guestSave() {
+        String token = UUID.randomUUID().toString();
+        Member member = Member.builder()
+                .name(token)
+                .email(token + "@guest.com")
+                .role(Role.GUEST)
+                .build();
+        return memberRepository.save(member);
     }
 
     /**
