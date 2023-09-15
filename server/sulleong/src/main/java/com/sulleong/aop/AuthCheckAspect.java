@@ -2,16 +2,14 @@ package com.sulleong.aop;
 
 import com.sulleong.exception.AccessTokenExpiredException;
 import com.sulleong.exception.GuestNotAllowException;
-import com.sulleong.login.RedisService;
+import com.sulleong.login.service.RedisService;
 import com.sulleong.login.dto.AuthMember;
 import com.sulleong.member.Role;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
