@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
-import Style from '../styles/loginModal.module.css';
+import style from '../styles/loginModal.module.css';
 
 interface LoginModalProps {
 	openModal: boolean;
@@ -23,7 +23,7 @@ function LoginModal({ openModal, setOpenModal }: LoginModalProps) {
 				aria-labelledby="modal-modal-title"
 				aria-describedby="modal-modal-description"
 			>
-				<Box className={Style.box}>
+				<Box className={style.box}>
 					<Typography
 						id="modal-modal-title"
 						variant="h6"
@@ -32,12 +32,12 @@ function LoginModal({ openModal, setOpenModal }: LoginModalProps) {
 					>
 						로그인이 필요합니다
 					</Typography>
-					<div className={Style.buttonBox}>
-						<Button className={Style.button} onClick={() => handleClose()}>
+					<div className={style.buttonBox}>
+						<Button className={style.button} onClick={() => handleClose()}>
 							돌아가기
 						</Button>
 						<Link to="/login">
-							<Button className={Style.button}>로그인</Button>
+							<Button className={style.button}>로그인</Button>
 						</Link>
 					</div>
 				</Box>
