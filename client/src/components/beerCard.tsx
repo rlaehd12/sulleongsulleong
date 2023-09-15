@@ -43,6 +43,7 @@ function BeerCard({ beer }: BeerCardProps) {
 										variant="h6"
 										component="div"
 										sx={{ mb: 2 }}
+										className={style.truncateText}
 									>
 										{beer.name}
 									</Typography>

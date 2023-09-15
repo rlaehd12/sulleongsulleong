@@ -11,7 +11,7 @@
 	margin-right: 1em;
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
-	min-height: 120px;
+	height: 140px;
 }
 
 .cardMedia {
@@ -43,3 +43,11 @@ cardFavorite {
 .favorite {
 	cursor: pointer;
 }
+
+.truncateText {
+	white-space: nowrap;	/* 텍스트 한 줄 */
+	overflow: hidden;
+	text-overflow: ellipsis;	/* overflow 텍스트 ...으로 표시 */
+	display: block;
+	width: 100%;
+  }
