@@ -13,6 +13,7 @@ import BeerCard from '../components/beerCard';
 import Navbar from '../components/navbar';
 import TabBar from '../components/tabBar';
 import style from '../styles/search.module.css';
+import InfiniteScroll from '../components/InfiniteScroll';
 
 interface Beer {
 	id: number;

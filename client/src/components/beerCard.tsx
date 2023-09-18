@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, forwardRef } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Card, CardActionArea, CardMedia, CardContent } from '@mui/material';
@@ -24,11 +24,11 @@ interface BeerCardProps {
 	beer: Beer;
 }
 
-function BeerCard({ beer }: BeerCardProps) {
+const BeerCard = forwardRef<HTMLDivElement, BeerCardProps>(({ beer }, ref) => {
 	const [rate, setRate] = useState<number>(3.5); // 평점 상태 관리
 
 	return (
-		<div>
+		<div ref={ref}>
 			<Card>
 				<div className={style.cardWrap}>
 					<CardActionArea component={Link} to="/">
@@ -69,6 +69,6 @@ function BeerCard({ beer }: BeerCardProps) {
 			</Card>
 		</div>
 	);
-}
+});
 
 export default BeerCard;

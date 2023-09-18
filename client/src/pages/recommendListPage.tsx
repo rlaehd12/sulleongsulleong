@@ -6,6 +6,7 @@ import Navbar from '../components/navbar';
 import BeerCard from '../components/beerCard';
 import style from '../styles/recommendListPage.module.css';
 import TabBar from '../components/tabBar';
+import InfiniteScroll from '../components/InfiniteScroll';
 
 interface Beer {
 	id: number;
@@ -20,7 +21,7 @@ interface Beer {
 }
 
 function RecommendListPage() {
-	const PER_PAGE = 50;
+	const PER_PAGE = 10;
 
 	const [beerList, setBeerList] = useState<Beer[]>([]);
 
@@ -50,9 +51,11 @@ function RecommendListPage() {
 				<Container className={style.beerList}>
 					<hr />
 					<div className={style.cardContainer}>
-						{beerList.map((beer) => (
+						{/* {beerList.map((beer) => (
 							<BeerCard key={beer.id} beer={beer} />
-						))}
+						))} */}
+
+						<InfiniteScroll />
 					</div>
 				</Container>
 			</div>
