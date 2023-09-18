@@ -12,6 +12,7 @@ function GuestLoginButton() {
 			const response = await customAxios().get('/login/guest');
 
 			const authHeaderValue = response.headers.authorization;
+
 			if (authHeaderValue) {
 				sessionStorage.setItem('authorization', authHeaderValue);
 			}

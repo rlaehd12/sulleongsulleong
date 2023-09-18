@@ -36,9 +36,8 @@ public class GlobalExceptionHandler {
             GuestNotAllowException.class,
             NotLoginException.class,
             AccessTokenExpiredException.class,
-            GoogleOauthLoginException.class
     })
-    public ResponseEntity<ErrorMessage> handleForBidden(Exception e, HttpServletRequest request) {
+    public ResponseEntity<ErrorMessage> handleUnAuthorized(Exception e, HttpServletRequest request) {
         return new ResponseEntity<>(buildErrorMessage(e, request),
                 HttpStatus.UNAUTHORIZED);
     }
@@ -50,5 +49,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorMessage> handleNotFound(Exception e, HttpServletRequest request) {
         return new ResponseEntity<>(buildErrorMessage(e, request),
                 HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({
+            GoogleOauthLoginException.class,
+            InvalidOAuthResponseException.class
+    })
+    public ResponseEntity<ErrorMessage> handleOauthException(Exception e, HttpServletRequest request) {
+        return new ResponseEntity<>(buildErrorMessage(e, request),
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
