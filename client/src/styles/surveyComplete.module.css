@@ -4,13 +4,13 @@
 	text-align: center;
 	display: block;
 	margin-top: 17%;
+	width: 80%;
 }
 
-.TaskAltIcon {
-	font-size: 22rem !important;
-	color: #022f8eff;
+.sudalImg {
+	width: 100%;
+	height: 100%;
 }
-
 .likeSentence {
 	text-align: center;
 	font-size: 25px;
@@ -20,18 +20,16 @@
 .mainPage {
 	display: flex;
 	flex-direction: column;
-	/* align-items: center; */
-	/* justify-content: center; */
-	height: 100vh;
 }
 
+.divider {
+	border-color: var(--pastel-green-300);
+}
 .buttonArea {
 	margin-top: 15%;
 	padding: 15px;
 	text-align: center;
 	height: object-fit;
-
-	height: 50%;
 }
 
 .button {

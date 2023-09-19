@@ -20,10 +20,6 @@
 	color: var(--pastel-green-300);
 }
 
-.beerChoice {
-	margin-bottom: 90px;
-}
-
 .beerList {
 	display: flex;
 	flex-wrap: wrap;

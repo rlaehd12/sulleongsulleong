@@ -5,7 +5,11 @@ import GuestLoginButton from '../components/GuestLoginButton';
 import logo from '../images/logo_kr.png';
 import style from '../styles/login.module.css';
 
-function LoginPage() {
+interface Props {
+	setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function LoginPage({ setIsAuthenticated }: Props) {
 	return (
 		<div className={style.loginContainer}>
 			<img className={style.loginLogo} src={logo} alt="Logo" />
@@ -26,7 +30,7 @@ function LoginPage() {
 			<div className={style.noLoginText}>
 				<span>아직 회원이 아니신가요?</span>
 			</div>
-			<GuestLoginButton />
+			<GuestLoginButton setIsAuthenticated={setIsAuthenticated} />
 		</div>
 	);
 }

@@ -5,8 +5,6 @@
 	flex-direction: column;
 	/* align-items: center; */
 	/* justify-content: center; */
-	height: 100vh;
-	margin-bottom: 90px;
 }
 
 .carousel {
@@ -23,27 +21,39 @@
 
 .titlehr {
 	width: 100%;
+	border-color: var(--pastel-green-300);
 }
 
 .cardContainer {
 	display: flex;
 	overflow-x: auto;
 	gap: 1rem;
-	/* padding: 1rem 0; */
-	/* margin-top: 10px; */
 }
 
 .card {
 	margin-top: 10px;
 	flex-shrink: 0;
-	width: 150px;
-	height: 200px;
+	width: 120px;
+	height: inherit;
+	border: 1px solid var(--pastel-green-300);
 }
 
-.cardImg {
+.imgContainer {
+	width: 95%;
+	height: 150px;
+	position: relative;
+}
+
+.beerImg {
 	width: 100%;
-	height: 80%;
+	height: 100%;
 	object-fit: contain;
+}
+
+.beerName {
+	margin-top: 0.5rem;
+	text-align: center;
+	white-space: break-spaces;
 }
 
 .surveyArea {
@@ -51,5 +61,5 @@
 	padding: 15px;
 	text-align: center;
 	height: object-fit;
-	background-color: var(--smalt-100);
+	background-color: var(--pastel-green-100);
 }
