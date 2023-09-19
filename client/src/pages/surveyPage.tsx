@@ -35,9 +35,9 @@ function SurveyPage({ setIsAuthenticated }: Props) {
 	const axiosInstance = customAxios();
 	useEffect(() => {
 		axiosInstance
-			.get<{ todayBeers: Beer[] }>('/beers/survey')
+			.get<{ entries: Beer[] }>('/beers/survey')
 			.then((res) => {
-				setBeerList(res.data.todayBeers);
+				setBeerList(res.data.entries);
 			})
 			.catch((err) => {
 				console.error('Axios Error:', err);
