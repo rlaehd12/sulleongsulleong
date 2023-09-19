@@ -1,6 +1,14 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route,
+	BrowserRouter,
+	useNavigate,
+} from 'react-router-dom';
 import './App.css';
+import Navbar from './components/navbar';
+import TabBar from './components/tabBar';
 import LoginPage from './pages/loginPage';
 import GoogleRedirectHandler from './pages/GoogleRedirectHandler';
 import MainPage from './pages/mainPage';
@@ -10,20 +18,79 @@ import SurveyCompPage from './pages/surveyCompletePage';
 import SearchResultPage from './pages/searchResultPage';
 import MyPage from './pages/myPage';
 
+interface AuthRedirectorProps {
+	isAuthenticated: boolean;
+}
+function AuthRedirector({ isAuthenticated }: AuthRedirectorProps) {
+	const navigate = useNavigate();
+	useEffect(() => {
+		if (!isAuthenticated) {
+			navigate('/login');
+		}
+	}, [isAuthenticated, navigate]);
+
+	return null;
+}
+
 function App() {
+	const [isAuthenticated, setIsAuthenticated] = useState(true);
+
 	return (
-		<Router>
-			<Routes>
-				<Route path="/login" element={<LoginPage />} />
-				<Route path="/login/google" element={<GoogleRedirectHandler />} />
-				<Route path="/recommendList" element={<RecommendListPage />} />
-				<Route path="/survey" element={<SurveyPage />} />
-				<Route path="/surveyComp" element={<SurveyCompPage />} />
-				<Route path="/searchresult" element={<SearchResultPage />} />
-				<Route path="/myPage" element={<MyPage />} />
-				<Route path="/" element={<MainPage />} />
-			</Routes>
-		</Router>
+		<BrowserRouter>
+			<AuthRedirector isAuthenticated={isAuthenticated} />
+			<div className="routes-content">
+				<Routes>
+					<Route
+						path="/login/*"
+						element={<LoginPage setIsAuthenticated={setIsAuthenticated} />}
+					/>
+					<Route
+						path="/login/google"
+						element={
+							<GoogleRedirectHandler setIsAuthenticated={setIsAuthenticated} />
+						}
+					/>
+					<Route
+						element={
+							<>
+								<Navbar /> <TabBar />
+							</>
+						}
+					>
+						<Route
+							path="/recommendList"
+							element={
+								<RecommendListPage setIsAuthenticated={setIsAuthenticated} />
+							}
+						/>
+						<Route
+							path="/survey"
+							element={<SurveyPage setIsAuthenticated={setIsAuthenticated} />}
+						/>
+						<Route
+							path="/surveyComp"
+							element={
+								<SurveyCompPage setIsAuthenticated={setIsAuthenticated} />
+							}
+						/>
+						<Route
+							path="/searchresult"
+							element={
+								<SearchResultPage setIsAuthenticated={setIsAuthenticated} />
+							}
+						/>
+						<Route
+							path="/myPage"
+							element={<MyPage setIsAuthenticated={setIsAuthenticated} />}
+						/>
+						<Route
+							path="/"
+							element={<MainPage setIsAuthenticated={setIsAuthenticated} />}
+						/>
+					</Route>
+				</Routes>
+			</div>
+		</BrowserRouter>
 	);
 }
 

@@ -1,10 +1,54 @@
+@import './figmaVariables.css';
+
+.myPage {
+	height: max-content;
+}
+
 .myPageContainer {
 	display: flex;
 	text-align: center;
 	flex-direction: column;
 	align-items: center;
+	width: 100%;
+}
+
+.title {
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
+	font-size: 2rem;
+	font-weight: 700;
+}
+
+.titleDivider {
+	width: 90%;
+	border-color: var(--pastel-green-300);
+}
+
+.label {
+	font-size: 1.5rem;
+	font-weight: 700;
+	margin-bottom: 1rem;
+	background-color: var(--pastel-green-300);
+	color: var(--white);
+}
+
+.infoContainer {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	padding: 1rem 1rem;
+	justify-content: space-evenly;
+}
+
+.infoText {
+	width: 40%;
+	margin-top: 5%;
+	margin-right: 3%;
+	margin-left: 3%;
 }
 
 .logoutBtn {
-	margin-top: 2rem;
+	position: fixed;
+	left: 10%;
+	bottom: 10%;
 }

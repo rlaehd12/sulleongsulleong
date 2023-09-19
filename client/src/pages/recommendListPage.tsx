@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Container, TextField } from '@mui/material';
 
-import Navbar from '../components/navbar';
 import BeerCard from '../components/beerCard';
 import style from '../styles/recommendListPage.module.css';
-import TabBar from '../components/tabBar';
 
 interface Beer {
 	id: number;
@@ -18,8 +16,11 @@ interface Beer {
 	country: string;
 	score: number;
 }
+interface Props {
+	setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-function RecommendListPage() {
+function RecommendListPage({ setIsAuthenticated }: Props) {
 	const PER_PAGE = 50;
 
 	const [beerList, setBeerList] = useState<Beer[]>([]);
@@ -32,32 +33,28 @@ function RecommendListPage() {
 	}, []);
 
 	return (
-		<>
-			<Navbar />
-			<div className={style.recommendPage}>
-				<Container sx={{ marginBottom: '30px' }}>
-					<TextField
-						className={style.textField}
-						id="standard-read-only-input"
-						defaultValue="사용자님의 취향에 맞는 술을 찾아보았어요"
-						InputProps={{
-							readOnly: true,
-							className: style.input,
-						}}
-						variant="standard"
-					/>
-				</Container>
-				<Container className={style.beerList}>
-					<hr />
-					<div className={style.cardContainer}>
-						{beerList.map((beer) => (
-							<BeerCard key={beer.id} beer={beer} />
-						))}
-					</div>
-				</Container>
-			</div>
-			<TabBar />
-		</>
+		<div className={style.recommendPage}>
+			<Container sx={{ marginBottom: '30px' }}>
+				<TextField
+					className={style.textField}
+					id="standard-read-only-input"
+					defaultValue="사용자님의 취향에 맞는 술을 찾아보았어요"
+					InputProps={{
+						readOnly: true,
+						className: style.input,
+					}}
+					variant="standard"
+				/>
+			</Container>
+			<Container className={style.beerList}>
+				<hr />
+				<div className={style.cardContainer}>
+					{beerList.map((beer) => (
+						<BeerCard key={beer.id} beer={beer} />
+					))}
+				</div>
+			</Container>
+		</div>
 	);
 }
 

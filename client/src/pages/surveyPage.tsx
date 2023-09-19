@@ -14,9 +14,7 @@ import {
 import CheckIcon from '@mui/icons-material/Check';
 import EjectIcon from '@mui/icons-material/Eject';
 import customAxios from '../customAxios';
-import Navbar from '../components/navbar';
 import style from '../styles/surveyPage.module.css';
-import TabBar from '../components/tabBar';
 import beerIcon from '../images/beer.png';
 
 interface Beer {
@@ -25,17 +23,28 @@ interface Beer {
 	name: string;
 	largeCategory: string;
 }
+interface Props {
+	setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-function SurveyPage() {
+function SurveyPage({ setIsAuthenticated }: Props) {
 	const navigate = useNavigate();
 	const [beerList, setBeerList] = useState<Beer[]>([]);
 	const [canSubmit, setCanSubmit] = useState<boolean>(false); // 선택된 맥주가 5개 이상인지 확인하는 상태
 	const [error, setError] = useState<boolean>(false);
 	const axiosInstance = customAxios();
 	useEffect(() => {
-		axiosInstance.get('/beers/survey').then((res) => {
-			setBeerList(res.data.entries);
-		});
+		axiosInstance
+			.get<{ todayBeers: Beer[] }>('/beers/survey')
+			.then((res) => {
+				setBeerList(res.data.todayBeers);
+			})
+			.catch((err) => {
+				console.error('Axios Error:', err);
+				if (err.response.status === 401) {
+					setIsAuthenticated(false);
+				}
+			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -100,7 +109,6 @@ function SurveyPage() {
 
 	return (
 		<div>
-			<Navbar />
 			<Container className={style.description}>
 				<div className={style.title}>
 					<span>사용자님의</span>
@@ -148,44 +156,45 @@ function SurveyPage() {
 				<h3>좋아하는 맥주를 선택해주세요</h3>
 				<hr />
 				<div className={style.beerList}>
-					{beerList.map((beer) => (
-						<div key={beer.id} className={style.beerItem}>
-							<div
-								className={style.imgContainer}
-								onClick={() => toggleBeerSelection(beer.id)}
-								onKeyDown={(e) => {
-									if (e.key === 'Enter' || e.key === ' ') {
-										toggleBeerSelection(beer.id);
-									}
-								}}
-								tabIndex={0}
-								role="button"
-							>
-								<img
-									className={style.beerImage}
-									src={beer.image || beerIcon}
-									onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-										const target = e.target as HTMLImageElement;
-										target.src = beerIcon; // 이미지 로드에 실패하면 beerIcon으로 대체
+					{Array.isArray(beerList) &&
+						beerList.map((beer) => (
+							<div key={beer.id} className={style.beerItem}>
+								<div
+									className={style.imgContainer}
+									onClick={() => toggleBeerSelection(beer.id)}
+									onKeyDown={(e) => {
+										if (e.key === 'Enter' || e.key === ' ') {
+											toggleBeerSelection(beer.id);
+										}
 									}}
-									alt=""
-									style={{
-										position: 'relative',
-										backgroundColor: beerIds.includes(beer.id)
-											? 'rgba(0, 0, 0, 0.7)'
-											: 'transparent',
-										filter: beerIds.includes(beer.id)
-											? 'brightness(50%)'
-											: 'none',
-									}}
-								/>
-								{beerIds.includes(beer.id) && (
-									<CheckIcon className={style.checkIcon} />
-								)}
+									tabIndex={0}
+									role="button"
+								>
+									<img
+										className={style.beerImage}
+										src={beer.image || beerIcon}
+										onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+											const target = e.target as HTMLImageElement;
+											target.src = beerIcon; // 이미지 로드에 실패하면 beerIcon으로 대체
+										}}
+										alt=""
+										style={{
+											position: 'relative',
+											backgroundColor: beerIds.includes(beer.id)
+												? 'rgba(0, 0, 0, 0.7)'
+												: 'transparent',
+											filter: beerIds.includes(beer.id)
+												? 'brightness(50%)'
+												: 'none',
+										}}
+									/>
+									{beerIds.includes(beer.id) && (
+										<CheckIcon className={style.checkIcon} />
+									)}
+								</div>
+								<div className={style.beerName}>{beer.name}</div>
 							</div>
-							<div className={style.beerName}>{beer.name}</div>
-						</div>
-					))}
+						))}
 				</div>
 				{error && (
 					<Alert severity="error">
@@ -211,7 +220,6 @@ function SurveyPage() {
 					{!canSubmit && <p>5개 이상의 맥주를 선택해주세요.</p>}
 				</div>
 			</Container>
-			<TabBar />
 		</div>
 	);
 }

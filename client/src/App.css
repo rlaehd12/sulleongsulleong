@@ -26,3 +26,10 @@
 	--font_size3: 24px;
 	--font_size4: 32px;
 }
+
+.routes-content {
+	padding-top: 80px;
+	padding-bottom: 70px;
+	min-height: calc(100vh - 110px);
+	box-sizing: border-box;
+}
