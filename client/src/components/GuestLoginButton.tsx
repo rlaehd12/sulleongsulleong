@@ -4,7 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import customAxios from '../customAxios';
 import style from '../styles/login.module.css';
 
-function GuestLoginButton() {
+interface Props {
+	setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function GuestLoginButton({ setIsAuthenticated }: Props) {
 	const navigate = useNavigate();
 
 	const handleGuestLogin = async () => {
@@ -16,7 +20,7 @@ function GuestLoginButton() {
 			if (authHeaderValue) {
 				sessionStorage.setItem('authorization', authHeaderValue);
 			}
-
+			setIsAuthenticated(true);
 			navigate('/');
 		} catch (error) {
 			console.error('API 요청 중 오류 발생:', error);
