@@ -7,49 +7,15 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useSearchParams } from 'react-router-dom';
-import customAxios from '../customAxios';
-
-import BeerCard from '../components/beerCard';
 import Navbar from '../components/navbar';
 import TabBar from '../components/tabBar';
 import style from '../styles/search.module.css';
 import InfiniteScroll from '../components/InfiniteScroll';
 
-interface Beer {
-	id: number;
-	image: string;
-	name: string;
-	nameKor: string;
-	abv: number;
-	largeCategory: string;
-	subCategory: string;
-	country: string;
-	score: number;
-}
-
 function SearchResultPage() {
-	const PER_PAGE = 10;
-
-	const [beerList, setBeerList] = useState<Beer[]>([]);
 	// input tag 상태관리, url 상태 관리
 	const [query, setQuery] = useState<string>('');
 	const [searchQuery, setSearchQuery] = useSearchParams({ q: '' });
-
-	const axiosInstance = customAxios();
-
-	const url = `/beers/search?keyword=${searchQuery.get(
-		'q',
-	)}&page=1&size=${PER_PAGE}`;
-	useEffect(() => {
-		axiosInstance
-			.get(url)
-			.then((res) => {
-				setBeerList(res.data.entries);
-			})
-			.catch((error) => {
-				console.error('Axios Error:', error);
-			});
-	}, [searchQuery]);
 
 	// input tag 변경 시 query 상태 변경
 	const changeQuery = useCallback((event: InputBaseComponentProps) => {
@@ -98,9 +64,11 @@ function SearchResultPage() {
 				<hr />
 				<Container>
 					<div>
-						{beerList.map((beer) => (
-							<BeerCard key={beer.id} beer={beer} />
-						))}
+						<InfiniteScroll
+							url="/beers/search"
+							PER_PAGE={10}
+							keyword={searchQuery.get('q') || undefined}
+						/>
 					</div>
 				</Container>
 			</div>

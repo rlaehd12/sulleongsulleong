@@ -1,37 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Container, TextField } from '@mui/material';
 
 import Navbar from '../components/navbar';
-import BeerCard from '../components/beerCard';
 import style from '../styles/recommendListPage.module.css';
 import TabBar from '../components/tabBar';
 import InfiniteScroll from '../components/InfiniteScroll';
 
-interface Beer {
-	id: number;
-	image: string;
-	name: string;
-	nameKor: string;
-	abv: number;
-	largeCategory: string;
-	subCategory: string;
-	country: string;
-	score: number;
-}
-
 function RecommendListPage() {
-	const PER_PAGE = 10;
-
-	const [beerList, setBeerList] = useState<Beer[]>([]);
-
-	const url = `https://api.punkapi.com/v2/beers?page=1&per_page=${PER_PAGE}`;
-	useEffect(() => {
-		axios.get(url).then((res) => {
-			setBeerList(res.data);
-		});
-	}, []);
-
 	return (
 		<>
 			<Navbar />
@@ -51,11 +26,10 @@ function RecommendListPage() {
 				<Container className={style.beerList}>
 					<hr />
 					<div className={style.cardContainer}>
-						{/* {beerList.map((beer) => (
-							<BeerCard key={beer.id} beer={beer} />
-						))} */}
-
-						<InfiniteScroll />
+						<InfiniteScroll
+							url="https://api.punkapi.com/v2/beers"
+							PER_PAGE={10}
+						/>
 					</div>
 				</Container>
 			</div>
