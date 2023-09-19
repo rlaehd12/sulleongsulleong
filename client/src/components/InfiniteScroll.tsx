@@ -69,7 +69,7 @@ function InfiniteScroll(
 				params: queryParams,
 			})
 			.then((res) => {
-				if (res.data.length > 0) {
+				if (Array.isArray(res.data) && res.data.length > 0) {
 					setBeerList((prevBeers) => [...prevBeers, ...res.data]);
 					setPage((prevPage) => prevPage + 1);
 				}
