@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URI;
 
 @Slf4j
 @RestControllerAdvice
@@ -24,7 +23,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({
-            AgeRangeException.class
+            InvalidAgeException.class,
+            InvalidGenderException.class,
+            BeerChoiceNotEnoughException.class
     })
     public ResponseEntity<ErrorMessage> handleBadRequest(Exception e, HttpServletRequest request) {
         return new ResponseEntity<>(buildErrorMessage(e, request),
@@ -32,12 +33,13 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({
+            GuestNotAllowException.class,
             NotLoginException.class,
             AccessTokenExpiredException.class,
-            GoogleOauthLoginException.class
     })
-    public ResponseEntity<Void> handleAuthFail() {
-        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).location(URI.create("/login")).build();
+    public ResponseEntity<ErrorMessage> handleUnAuthorized(Exception e, HttpServletRequest request) {
+        return new ResponseEntity<>(buildErrorMessage(e, request),
+                HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler({
@@ -46,6 +48,15 @@ public class GlobalExceptionHandler {
     })
     public ResponseEntity<ErrorMessage> handleNotFound(Exception e, HttpServletRequest request) {
         return new ResponseEntity<>(buildErrorMessage(e, request),
-                HttpStatus.FORBIDDEN);
+                HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({
+            GoogleOauthLoginException.class,
+            InvalidOAuthResponseException.class
+    })
+    public ResponseEntity<ErrorMessage> handleOauthException(Exception e, HttpServletRequest request) {
+        return new ResponseEntity<>(buildErrorMessage(e, request),
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

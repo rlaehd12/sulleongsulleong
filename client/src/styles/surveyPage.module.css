@@ -90,3 +90,7 @@
 .submitBtn {
 	margin-top: 20px;
 }
+
+.errMessage {
+	color: red;
+}

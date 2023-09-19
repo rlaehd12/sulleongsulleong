@@ -13,5 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 public class SurveyParam {
 
-    private List<Long> beers;
+    private List<Long> beerIds;
+
 }

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { TextField, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
-import style from './beerSearch.module.css';
+import style from '../styles/beerSearch.module.css';
 
 function BeerSearch() {
 	const navigate = useNavigate();
@@ -38,7 +38,7 @@ function BeerSearch() {
 					InputProps={{
 						endAdornment: (
 							<InputAdornment position="end">
-								<SearchIcon />
+								<SearchIcon className={style.search} onClick={querySubmit} />
 							</InputAdornment>
 						),
 					}}

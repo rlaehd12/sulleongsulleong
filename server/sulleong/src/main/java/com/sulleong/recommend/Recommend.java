@@ -6,10 +6,10 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-public class BeerSimilarity {
+public class Recommend {
 
     @Id
-    @Column(name = "beer_similarity_id")
+    @Column(name = "recommend_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

@@ -24,14 +24,9 @@ function MyPage() {
 
 	const navigate = useNavigate();
 	const handleLogout = () => {
+		axiosInstance.post('/api/logout');
 		sessionStorage.removeItem('authorization');
 		navigate('/login');
-	};
-	const handleTestMakeToken = () => {
-		sessionStorage.setItem(
-			'authorization',
-			'bc766b2c-272e-4607-b332-9de05557be92',
-		);
 	};
 
 	return (
@@ -39,7 +34,6 @@ function MyPage() {
 			<Navbar />
 			<div className={style.myPageContainer}>
 				<h1>마이페이지</h1>
-				<Button onClick={handleTestMakeToken}>테스트버튼이다</Button>
 
 				<div className={style.infoContainer}>
 					<div className={style.info}>

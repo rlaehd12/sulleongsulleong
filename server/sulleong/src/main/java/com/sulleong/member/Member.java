@@ -33,8 +33,7 @@ public class Member extends BaseTimeEntity {
 
     private Integer age;
 
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+    private String gender;
 
     @Builder
     public Member(String name, String email, Role role) {

@@ -3,6 +3,7 @@ package com.sulleong.beer;
 import com.sulleong.beer.dto.*;
 import com.sulleong.beer.repository.BeerRepository;
 import com.sulleong.exception.BeerNotFoundException;
+import com.sulleong.preference.Preference;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -65,23 +66,27 @@ public class BeerService {
      * @param searchParam 검색을 위한 키워드, 페이지 정보입니다.
      * @return 맥주 검색 결과를 반환합니다.
      */
-    public SearchResponse getSearchBeers(SearchParam searchParam) throws Exception {
+    public SearchResponse getSearchBeers(Long memberId, SearchParam searchParam) throws Exception {
         Integer pageIndex = searchParam.getPage();
         Integer pageSize = searchParam.getSize();
         Pageable pageable = PageRequest.of(pageIndex - 1, pageSize);
         Page<Beer> beerPage = beerRepository.findAllBySearchParam(searchParam.getKeyword(), pageable);
-        Page<SearchResponseEntry> entryPage = beerPage.map(beer ->
-                SearchResponseEntry.builder()
-                        .id(beer.getId())
-                        .image(getBeerImage(beer.getNameKor()))
-                        .name(beer.getName())
-                        .nameKor(beer.getNameKor())
-                        .abv(beer.getAbv())
-                        .largeCategory(beer.getLargeCategory())
-                        .subCategory(beer.getSubCategory())
-                        .country(beer.getCountry())
-                        .score(null) // 별점은 리뷰 기능 구현 후 추가 예정
-                        .build());
+        Page<SearchResponseEntry> entryPage = beerPage.map(beer -> {
+            List<Preference> preferences = beer.getPreferences();
+            return SearchResponseEntry.builder()
+                    .id(beer.getId())
+                    .image(getBeerImage(beer.getNameKor()))
+                    .name(beer.getName())
+                    .nameKor(beer.getNameKor())
+                    .abv(beer.getAbv())
+                    .largeCategory(beer.getLargeCategory())
+                    .subCategory(beer.getSubCategory())
+                    .country(beer.getCountry())
+                    .score(null) // 별점은 리뷰 기능 구현 후 추가 예정
+                    .prefer(preferences.stream().anyMatch(preference -> preference.getMember().getId().equals(memberId)))
+                    .preferCount(preferences.size())
+                    .build();
+        });
 
         SearchResponse searchResponse = new SearchResponse();
         searchResponse.setEntries(entryPage.getContent());

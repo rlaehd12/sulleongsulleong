@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
 	Button,
 	Container,
@@ -7,6 +8,8 @@ import {
 	FormControl,
 	MenuItem,
 	InputLabel,
+	Alert,
+	AlertTitle,
 } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import EjectIcon from '@mui/icons-material/Eject';
@@ -24,16 +27,10 @@ interface Beer {
 }
 
 function SurveyPage() {
-	// const PER_PAGE = 20;
-
+	const navigate = useNavigate();
 	const [beerList, setBeerList] = useState<Beer[]>([]);
-	// const url = `https://api.punkapi.com/v2/beers?page=1&per_page=${PER_PAGE}`;
-	// useEffect(() => {
-	// 	axios.get(url).then((res) => {
-	// 		setBeerList(res.data);
-	// 	});
-	// });
-
+	const [canSubmit, setCanSubmit] = useState<boolean>(false); // 선택된 맥주가 5개 이상인지 확인하는 상태
+	const [error, setError] = useState<boolean>(false);
 	const axiosInstance = customAxios();
 	useEffect(() => {
 		axiosInstance.get('/beers/survey').then((res) => {
@@ -43,14 +40,36 @@ function SurveyPage() {
 	}, []);
 
 	const [gender, setGender] = useState('');
-	const [age, setAge] = useState('');
-	const [selectedBeers, setSelectedBeers] = useState<number[]>([]);
+	const [age, setAge] = useState<string>('');
+	const [beerIds, setBeerIds] = useState<number[]>([]);
+
+	useEffect(() => {
+		if (beerIds.length >= 5) {
+			setCanSubmit(true);
+		} else {
+			setCanSubmit(false);
+		}
+	}, [beerIds]);
+
+	useEffect(() => {
+		if (gender !== '') {
+			axiosInstance.patch(`/members/gender?value=${gender}`);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [gender]);
+
+	useEffect(() => {
+		if (age !== '') {
+			axiosInstance.patch(`/members/age?value=${age}`);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [age]);
 
 	const toggleBeerSelection = (beerId: number) => {
-		if (selectedBeers.includes(beerId)) {
-			setSelectedBeers(selectedBeers.filter((id) => id !== beerId));
+		if (beerIds.includes(beerId)) {
+			setBeerIds(beerIds.filter((id) => id !== beerId));
 		} else {
-			setSelectedBeers([...selectedBeers, beerId]);
+			setBeerIds([...beerIds, beerId]);
 		}
 	};
 
@@ -62,11 +81,22 @@ function SurveyPage() {
 		setAge(event.target.value as string);
 	};
 
-	// const postSurvey = () => {
-	// 	axiosInstance.post(
-	// 		`api/beers/survey?age=${age}&gender=${gender}?beers=${selectedBeers}`,
-	// 	);
-	// };
+	const postSurvey = () => {
+		axiosInstance
+			.post(`/beers/preference/survey`, {
+				beerIds,
+			})
+			.then((res: { status: number }) => {
+				if (res.status === 200) {
+					navigate('/surveyComp');
+				}
+			})
+			.catch((err) => {
+				if (err.response && err.response.status === 400) {
+					setError(true);
+				}
+			});
+	};
 
 	return (
 		<div>
@@ -141,15 +171,15 @@ function SurveyPage() {
 									alt=""
 									style={{
 										position: 'relative',
-										backgroundColor: selectedBeers.includes(beer.id)
+										backgroundColor: beerIds.includes(beer.id)
 											? 'rgba(0, 0, 0, 0.7)'
 											: 'transparent',
-										filter: selectedBeers.includes(beer.id)
+										filter: beerIds.includes(beer.id)
 											? 'brightness(50%)'
 											: 'none',
 									}}
 								/>
-								{selectedBeers.includes(beer.id) && (
+								{beerIds.includes(beer.id) && (
 									<CheckIcon className={style.checkIcon} />
 								)}
 							</div>
@@ -157,6 +187,12 @@ function SurveyPage() {
 						</div>
 					))}
 				</div>
+				{error && (
+					<Alert severity="error">
+						<AlertTitle>에러</AlertTitle>
+						5개 이상의 맥주를 선택해주세요.
+					</Alert>
+				)}
 				<Button
 					className={style.submitBtn}
 					variant="contained"
@@ -166,10 +202,14 @@ function SurveyPage() {
 						margin: '0 auto', // 가운데 정렬 스타일
 						display: 'block', // 가운데 정렬을 위해 블록 레벨 요소로 설정
 					}}
-					// onClick={postSurvey}
+					onClick={postSurvey}
+					disabled={!canSubmit}
 				>
 					선택 완료
 				</Button>
+				<div className={style.errMessage}>
+					{!canSubmit && <p>5개 이상의 맥주를 선택해주세요.</p>}
+				</div>
 			</Container>
 			<TabBar />
 		</div>

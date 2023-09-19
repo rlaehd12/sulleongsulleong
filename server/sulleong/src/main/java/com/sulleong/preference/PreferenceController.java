@@ -1,8 +1,12 @@
 package com.sulleong.preference;
 
 import com.sulleong.beer.dto.SurveyParam;
-import com.sulleong.login.RequireAuth;
+import com.sulleong.exception.GuestNotAllowException;
+import com.sulleong.exception.BeerChoiceNotEnoughException;
+import com.sulleong.aop.LoginCheck;
 import com.sulleong.login.dto.AuthMember;
+import com.sulleong.member.Role;
+import com.sulleong.preference.dto.TogglePreferResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,26 +22,26 @@ public class PreferenceController {
 
     private final PreferenceService preferenceService;
 
-    @RequireAuth
+    @LoginCheck(type = LoginCheck.UserType.USER)
     @PostMapping("/{beerId}")
     @Operation(summary = "맥주 좋아요 클릭", description = "좋아요/취소에 대한 작업")
-    public ResponseEntity<Void> clickPrefer(HttpServletRequest request, @PathVariable("beerId") Long beerId) {
+    public ResponseEntity<TogglePreferResponse> togglePrefer(HttpServletRequest request, @PathVariable("beerId") Long beerId) {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
-        preferenceService.setPreference(authMember.getId(), beerId);
-        return ResponseEntity.ok().build();
+        TogglePreferResponse togglePreferResponse = preferenceService.togglePreference(authMember.getId(), beerId);
+        return ResponseEntity.ok(togglePreferResponse);
     }
 
-    @RequireAuth
+    @LoginCheck(type = LoginCheck.UserType.GUEST)
     @PostMapping("/survey")
     @Operation(summary = "맥주 설문 제출", description = "좋아요 초기 설정에 대한 작업")
-    public ResponseEntity<Void> submitSurvey(HttpServletRequest request, @ModelAttribute SurveyParam param) {
+    public ResponseEntity<Void> submitSurvey(HttpServletRequest request, @RequestBody SurveyParam param) {
+        List<Long> beerIds = param.getBeerIds();
+        if (beerIds.size() < 5) {
+            throw new BeerChoiceNotEnoughException("맥주를 5개 이상 선택해주세요.");
+        }
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
         Long memberId = authMember.getId();
-        List<Long> beerIds = param.getBeers();
-        preferenceService.cancelAllPreferences(memberId);
-        for (Long beerId : beerIds) {
-            preferenceService.setPreference(memberId, beerId);
-        }
+        preferenceService.setPreferences(memberId, beerIds);
         return ResponseEntity.ok().build();
     }
 

@@ -5,6 +5,9 @@ spring:
   # Database
   datasource:
     driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://localhost:5432/sulleong
+#    username: sulleong
+#    password: 1234
     url: jdbc:postgresql://13.124.133.50:5432/sulleong
     username: sulleong
     password: Sulleong104**
@@ -27,3 +30,4 @@ spring:
     port: 6379
 
 image-base-url: https://sulleong.site/api/image/beer
+#image-base-url: http://localhost:8080/image/beer

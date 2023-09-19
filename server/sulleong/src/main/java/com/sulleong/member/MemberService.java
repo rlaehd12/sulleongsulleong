@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
@@ -16,7 +17,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Member OauthSaveOrUpdate(String name, String email) {
+    public Member oauthSaveOrUpdate(String name, String email) {
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
 
         if (optionalMember.isEmpty()) {
@@ -28,13 +29,24 @@ public class MemberService {
         return existingMember;
     }
 
+    @Transactional
+    public Member guestSave() {
+        String token = UUID.randomUUID().toString();
+        Member member = Member.builder()
+                .name(token)
+                .email(token + "@guest.com")
+                .role(Role.GUEST)
+                .build();
+        return memberRepository.save(member);
+    }
+
     /**
      * 회원의 연령대 및 성별 정보를 가져옵니다.
      */
     public PersonalInfo getPersonalInfo(Long memberId) throws Exception {
         Member member = getMemberOrElseThrow(memberId);
         Integer age = member.getAge();
-        Gender gender = member.getGender();
+        String gender = member.getGender();
         return new PersonalInfo(age, gender);
     }
 
@@ -51,7 +63,7 @@ public class MemberService {
      * 회원의 성별을 업데이트 합니다.
      */
     @Transactional
-    public void modifyGender(Long memberId, Gender gender) throws Exception {
+    public void modifyGender(Long memberId, String gender) throws Exception {
         Member member = getMemberOrElseThrow(memberId);
         member.setGender(gender);
     }
