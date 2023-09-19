@@ -8,7 +8,7 @@ spring:
 #    url: jdbc:postgresql://localhost:5432/sulleong
 #    username: sulleong
 #    password: 1234
-    url: jdbc:postgresql://13.124.133.50:5432/sulleong
+    url: jdbc:postgresql://3.39.254.24:5432/sulleong
     username: sulleong
     password: Sulleong104**
   # jpa properties
@@ -20,6 +20,8 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
     generate-ddl: true
+    properties:
+      hibernate.default_batch_fetch_size: 1000
   http:
     encoding:
       charset: UTF-8
