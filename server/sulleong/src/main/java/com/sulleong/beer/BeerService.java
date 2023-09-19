@@ -6,7 +6,6 @@ import com.sulleong.exception.BeerNotFoundException;
 import com.sulleong.preference.Preference;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,9 +24,6 @@ import java.util.stream.Collectors;
 public class BeerService {
 
     private final BeerRepository beerRepository;
-
-    @Value("${image-base-url}")
-    private String imageUrl;
 
     /**
      * 맥주 선호도 조사를 위해 설문용 맥주들을 제시합니다.
@@ -50,7 +46,7 @@ public class BeerService {
             entries.addAll(beerList.subList(1, counts[i] + 1).stream().map(beer ->
                     SurveyResponseEntry.builder()
                             .id(beer.getId())
-                            .image(getBeerImage(beer.getNameKor()))
+                            .image(getBeerImage(beer.getId()))
                             .name(beer.getNameKor())
                             .build()
             ).collect(Collectors.toList()));
@@ -75,7 +71,7 @@ public class BeerService {
             List<Preference> preferences = beer.getPreferences();
             return SearchResponseEntry.builder()
                     .id(beer.getId())
-                    .image(getBeerImage(beer.getNameKor()))
+                    .image(getBeerImage(beer.getId()))
                     .name(beer.getName())
                     .nameKor(beer.getNameKor())
                     .abv(beer.getAbv())
@@ -123,11 +119,11 @@ public class BeerService {
 
     /**
      * 맥주 이미지 URL을 가져옵니다.
-     * @param nameKor 한국어로 된 맥주 이름입니다.
+     * @param beerId 맥주 식별자입니다.
      * @return 맥주 이미지 URL 입니다.
      */
-    public String getBeerImage(String nameKor) {
-        return imageUrl + "/" + nameKor.replace(" ", "") + ".png";
+    public String getBeerImage(Long beerId) {
+        return "https://res.cloudinary.com/ratebeer/image/upload/d_beer_img_default.png,f_auto/beer_" + beerId;
     }
 
 }

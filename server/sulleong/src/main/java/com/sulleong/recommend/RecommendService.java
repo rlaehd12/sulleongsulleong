@@ -42,7 +42,7 @@ public class RecommendService {
         List<TodayBeer> todayBears = similarBeers.stream().map(beer ->
                 TodayBeer.builder()
                         .id(beer.getId())
-                        .image(beerService.getBeerImage(beer.getNameKor()))
+                        .image(beerService.getBeerImage(beer.getId()))
                         .name(beer.getName())
                         .build()
         ).collect(Collectors.toList());
