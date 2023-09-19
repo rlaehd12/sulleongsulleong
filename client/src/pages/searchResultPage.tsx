@@ -12,7 +12,11 @@ import TabBar from '../components/tabBar';
 import style from '../styles/search.module.css';
 import InfiniteScroll from '../components/InfiniteScroll';
 
-function SearchResultPage() {
+interface Props {
+	setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function SearchResultPage({ setIsAuthenticated }: Props) {
 	// input tag 상태관리, url 상태 관리
 	const [query, setQuery] = useState<string>('');
 	const [searchQuery, setSearchQuery] = useSearchParams({ q: '' });

@@ -15,6 +15,10 @@ interface Beer {
 	score: number;
 }
 
+interface Props {
+	setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 // keyword는 옵션이라 없어도 괜찮음
 // <InfiniteScroll
 // 		url="https://api.punkapi.com/v2/beers"
@@ -26,11 +30,14 @@ interface InfiniteScrollProps {
 	keyword?: string;
 }
 
-function InfiniteScroll({
-	url = 'https://api.punkapi.com/v2/beers',
-	PER_PAGE,
-	keyword = '',
-}: InfiniteScrollProps) {
+function InfiniteScroll(
+	{
+		url = 'https://api.punkapi.com/v2/beers',
+		PER_PAGE,
+		keyword = '',
+	}: InfiniteScrollProps,
+	{ setIsAuthenticated }: Props,
+) {
 	const threshold = 1;
 	const [page, setPage] = useState<number>(1);
 	const [beerList, setBeerList] = useState<Beer[]>([]);
@@ -65,6 +72,12 @@ function InfiniteScroll({
 				if (res.data.length > 0) {
 					setBeerList((prevBeers) => [...prevBeers, ...res.data]);
 					setPage((prevPage) => prevPage + 1);
+				}
+			})
+			.catch((error) => {
+				console.error('Axios Error:', error);
+				if (error.response.status === 401) {
+					setIsAuthenticated(false);
 				}
 			});
 		setLoading(false);
@@ -104,6 +117,12 @@ function InfiniteScroll({
 			.then((res) => {
 				setBeerList((prevBeers) => [...prevBeers, ...res.data]);
 				setPage((prevPage) => prevPage + 1);
+			})
+			.catch((error) => {
+				console.error('Axios Error:', error);
+				if (error.response.status === 401) {
+					setIsAuthenticated(false);
+				}
 			});
 	}, []);
 

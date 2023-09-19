@@ -6,7 +6,11 @@ import style from '../styles/recommendListPage.module.css';
 import TabBar from '../components/tabBar';
 import InfiniteScroll from '../components/InfiniteScroll';
 
-function RecommendListPage() {
+interface Props {
+	setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function RecommendListPage({ setIsAuthenticated }: Props) {
 	return (
 		<>
 			<Navbar />

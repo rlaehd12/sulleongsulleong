@@ -2,7 +2,10 @@ import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import customAxios from '../customAxios';
 
-function GoogleRedirectHandler() {
+interface Props {
+	setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}
+function GoogleRedirectHandler({ setIsAuthenticated }: Props) {
 	const location = useLocation();
 	const navigate = useNavigate();
 
@@ -17,7 +20,7 @@ function GoogleRedirectHandler() {
 					const authHeader = response.headers.authorization;
 					if (authHeader) {
 						sessionStorage.setItem('authorization', authHeader);
-
+						setIsAuthenticated(true);
 						navigate('/');
 					} else {
 						console.error('Authorization header is missing in the response.');

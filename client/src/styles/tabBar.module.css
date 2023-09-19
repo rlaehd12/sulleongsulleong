@@ -6,6 +6,5 @@
 	position: fixed;
 	bottom: 0;
 	background-color: var(--white);
-	margin-top: 50px;
 	z-index: auto;
 }
