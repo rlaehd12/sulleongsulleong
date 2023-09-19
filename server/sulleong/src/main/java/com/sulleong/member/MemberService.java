@@ -29,6 +29,7 @@ public class MemberService {
         return existingMember;
     }
 
+    @Transactional
     public Member guestSave() {
         String token = UUID.randomUUID().toString();
         Member member = Member.builder()
