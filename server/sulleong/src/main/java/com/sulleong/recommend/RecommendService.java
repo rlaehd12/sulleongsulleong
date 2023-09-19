@@ -42,7 +42,7 @@ public class RecommendService {
         List<TodayBeer> todayBears = similarBeers.stream().map(beer ->
                 TodayBeer.builder()
                         .id(beer.getId())
-                        .image(beerService.getBeerImage(beer.getId()))
+                        .image("https://res.cloudinary.com/ratebeer/image/upload/d_beer_img_default.png,f_auto/beer_" + beer.getId())
                         .name(beer.getName())
                         .build()
         ).collect(Collectors.toList());
