@@ -5,12 +5,9 @@ spring:
   # Database
   datasource:
     driver-class-name: org.postgresql.Driver
-#    url: jdbc:postgresql://localhost:5432/sulleong
-#    username: sulleong
-#    password: 1234
-    url: jdbc:postgresql://13.124.133.50:5432/sulleong
+    url: jdbc:postgresql://localhost:5432/sulleong
     username: sulleong
-    password: Sulleong104**
+    password: 1234
   # jpa properties
   jpa:
     hibernate:
@@ -20,6 +17,8 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
     generate-ddl: true
+    properties:
+      hibernate.default_batch_fetch_size: 1000
   http:
     encoding:
       charset: UTF-8
@@ -28,6 +27,3 @@ spring:
   redis:
     host: localhost
     port: 6379
-
-image-base-url: https://sulleong.site/api/image/beer
-#image-base-url: http://localhost:8080/image/beer

@@ -17,4 +17,6 @@ public class SurveyResponseEntry {
 
     private String name;
 
+    private String nameKor;
+
 }

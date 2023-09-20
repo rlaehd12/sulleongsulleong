@@ -1,6 +1,7 @@
 package com.sulleong.beer.repository;
 
 import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sulleong.beer.Beer;
 import com.sulleong.beer.QBeer;
@@ -18,6 +19,15 @@ public class BeerRepositoryImpl implements BeerRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
     private final QBeer beer = QBeer.beer;
+
+    @Override
+    public List<Beer> getRandomBeers(Integer count) {
+        return queryFactory
+                .selectFrom(beer)
+                .orderBy(NumberExpression.random().asc())
+                .limit(count)
+                .fetch();
+    }
 
     @Override
     public Page<Beer> findAllBySearchParam(String keyword, Pageable pageable) {

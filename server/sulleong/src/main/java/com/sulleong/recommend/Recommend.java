@@ -9,7 +9,6 @@ import javax.persistence.*;
 public class Recommend {
 
     @Id
-    @Column(name = "recommend_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
