@@ -3,6 +3,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import customAxios from '../customAxios';
 import BeerCard from './beerCard';
 
+import style from '../styles/InfiniteScroll.module.css';
+
 interface Beer {
 	id: number;
 	image: string;
@@ -158,7 +160,7 @@ function InfiniteScroll(
 				return <BeerCard key={beer.id} beer={beer} />;
 			})}
 			{loading && (
-				<div>
+				<div className={style.circularProgress}>
 					<CircularProgress color="primary" />
 				</div>
 			)}

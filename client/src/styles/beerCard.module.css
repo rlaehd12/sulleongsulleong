@@ -7,11 +7,10 @@
 .cardActionArea {
 	display: flex !important;
 	justify-content: space-between !important;
-	margin-left: 1em;
-	margin-right: 1em;
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
+	margin: 0.5em 1em;
 	height: 140px;
+	width: 90%;
+	overflow: hidden; /* 추가: 내부 내용이 넘치면 숨김 */
 }
 
 .cardMedia {
@@ -32,8 +31,8 @@
 	justify-content: space-between;
 	width: 70%;
 	height: 100%;
-	padding-top: 8px !important;
-	padding-bottom: 8px !important;
+	padding: 8px 0 !important;
+    overflow: hidden;
 }
 
 cardFavorite {
@@ -50,4 +49,5 @@ cardFavorite {
 	text-overflow: ellipsis;	/* overflow 텍스트 ...으로 표시 */
 	display: block;
 	width: 100%;
+	max-width: 190px; /* 제한 너비를 추가 (이 값은 상황에 따라 조정해야 할 수 있음) */
   }
