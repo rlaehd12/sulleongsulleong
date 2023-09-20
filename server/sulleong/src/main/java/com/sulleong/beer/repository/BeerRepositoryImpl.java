@@ -24,6 +24,7 @@ public class BeerRepositoryImpl implements BeerRepositoryCustom {
     public List<Beer> getRandomBeers(Integer count) {
         return queryFactory
                 .selectFrom(beer)
+                .where(beer.nameKor.isNotNull())
                 .orderBy(NumberExpression.random().asc())
                 .limit(count)
                 .fetch();
