@@ -34,7 +34,7 @@ function InfiniteScroll(
 	{
 		url = 'https://api.punkapi.com/v2/beers',
 		PER_PAGE,
-		keyword = '',
+		keyword,
 	}: InfiniteScrollProps,
 	{ setIsAuthenticated }: Props,
 ) {
@@ -60,7 +60,7 @@ function InfiniteScroll(
 			page: page + 1,
 			size: PER_PAGE,
 		};
-		if (keyword !== '') {
+		if (keyword !== undefined) {
 			queryParams.keyword = keyword;
 		}
 
@@ -106,7 +106,7 @@ function InfiniteScroll(
 			page,
 			size: PER_PAGE,
 		};
-		if (keyword !== '') {
+		if (keyword !== undefined) {
 			queryParams.keyword = keyword;
 		}
 
