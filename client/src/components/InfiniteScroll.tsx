@@ -57,7 +57,7 @@ function InfiniteScroll(
 
 		setLoading(true);
 		const queryParams: { page: number; size: number; keyword?: string } = {
-			page: page + 1,
+			page,
 			size: PER_PAGE,
 		};
 		if (keyword !== undefined) {
@@ -69,8 +69,8 @@ function InfiniteScroll(
 				params: queryParams,
 			})
 			.then((res) => {
-				if (Array.isArray(res.data) && res.data.length > 0) {
-					setBeerList((prevBeers) => [...prevBeers, ...res.data]);
+				if (Array.isArray(res.data.entries) && res.data.entries.length > 0) {
+					setBeerList((prevBeers) => [...prevBeers, ...res.data.entries]);
 					setPage((prevPage) => prevPage + 1);
 				}
 			})
@@ -102,6 +102,9 @@ function InfiniteScroll(
 	// 1. 요청한 맥주 정보를 맥주 리스트에 추가
 	// 2. page 상태 변화
 	useEffect(() => {
+		setPage(1);
+		setBeerList([]);
+
 		const queryParams: { page: number; size: number; keyword?: string } = {
 			page,
 			size: PER_PAGE,
@@ -115,8 +118,10 @@ function InfiniteScroll(
 				params: queryParams,
 			})
 			.then((res) => {
-				if (Array.isArray(res.data)) {
-					setBeerList((prevBeers) => [...prevBeers, ...res.data]);
+				console.log(`keyword: ${keyword}`);
+				console.log(`keyword type: ${typeof keyword}`);
+				if (Array.isArray(res.data.entries)) {
+					setBeerList((prevBeers) => [...prevBeers, ...res.data.entries]);
 				}
 				setPage((prevPage) => prevPage + 1);
 			})
@@ -126,7 +131,7 @@ function InfiniteScroll(
 					setIsAuthenticated(false);
 				}
 			});
-	}, []);
+	}, [keyword]);
 
 	// beerList가 변경될 때마다 lastBeerRef에 observer를 설정
 	useEffect(() => {

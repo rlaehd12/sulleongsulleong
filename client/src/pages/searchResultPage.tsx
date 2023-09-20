@@ -71,7 +71,7 @@ function SearchResultPage({ setIsAuthenticated }: Props) {
 						<InfiniteScroll
 							url="/beers/search"
 							PER_PAGE={10}
-							keyword={searchQuery.get('q') || undefined}
+							keyword={searchQuery.get('q') || ''}
 						/>
 					</div>
 				</Container>
