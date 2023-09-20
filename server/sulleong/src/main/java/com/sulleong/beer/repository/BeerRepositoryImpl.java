@@ -31,10 +31,10 @@ public class BeerRepositoryImpl implements BeerRepositoryCustom {
 
     @Override
     public Page<Beer> findAllBySearchParam(String keyword, Pageable pageable) {
-        keyword = "%" + keyword + "%";
+        String pattern = "%" + keyword.toLowerCase() + "%";
         QueryResults<Beer> queryResults = queryFactory
                 .selectFrom(beer)
-                .where(beer.name.like(keyword).or(beer.nameKor.like(keyword)))
+                .where(beer.name.toLowerCase().like(pattern).or(beer.nameKor.like(pattern)))
                 .orderBy(beer.nameKor.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
