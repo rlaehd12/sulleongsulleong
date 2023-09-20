@@ -35,6 +35,11 @@ pipeline {
         /*************** TAR파일 생성******************/
         stage('make deploy file'){
             steps{
+                dir('../') {
+                    script {
+                        sh (script: 'pwd')
+                    }
+                }
                 dir('./server/sulleong/') {
                     script{
                         //baseline 커맨드를 이용해 war파일명을 가져온다
