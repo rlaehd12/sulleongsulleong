@@ -24,6 +24,11 @@ pipeline {
         stage('Build Front Server') {
             steps {
                 // 프로젝트 디렉토리로 이동합니다.
+                dir('../') {
+                    script {
+                        sh (script: 'cp ./configurefile/.env ./build-task/client')
+                    }
+                }
                 dir('./client/') {
                     // Gradle 빌드를 실행합니다.
                     sh 'npm install'
@@ -35,11 +40,6 @@ pipeline {
         /*************** TAR파일 생성******************/
         stage('make deploy file'){
             steps{
-                dir('../') {
-                    script {
-                        sh (script: 'cp ./configurefile/.env ./build-task/client')
-                    }
-                }
                 dir('./server/sulleong/') {
                     script{
                         //baseline 커맨드를 이용해 war파일명을 가져온다
