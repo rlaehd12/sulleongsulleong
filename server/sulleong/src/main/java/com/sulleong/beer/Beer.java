@@ -47,4 +47,7 @@ public class Beer {
 
     private Integer reviewCount; // 리뷰수
 
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
 }

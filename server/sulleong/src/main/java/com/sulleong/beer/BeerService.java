@@ -29,11 +29,10 @@ public class BeerService {
      */
     public SurveyResponse getSurveyBeers() throws Exception {
         // 설문을 위한 맥주 정보 리스트
-        List<SurveyResponseEntry> entries = beerRepository.getRandomBeers(10).stream().map(beer ->
+        List<SurveyResponseEntry> entries = beerRepository.getRandomBeers(20).stream().map(beer ->
                 SurveyResponseEntry.builder()
                         .id(beer.getId())
                         .image("https://res.cloudinary.com/ratebeer/image/upload/d_beer_img_default.png,f_auto/beer_" + beer.getId())
-                        .name(beer.getName())
                         .nameKor(beer.getNameKor())
                         .build()
         ).collect(Collectors.toList());
