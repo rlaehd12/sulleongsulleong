@@ -28,16 +28,15 @@ interface InfiniteScrollProps {
 	url: string;
 	PER_PAGE: number;
 	keyword?: string;
+	setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function InfiniteScroll(
-	{
-		url = 'https://api.punkapi.com/v2/beers',
-		PER_PAGE,
-		keyword = '',
-	}: InfiniteScrollProps,
-	{ setIsAuthenticated }: Props,
-) {
+function InfiniteScroll({
+	url = 'https://api.punkapi.com/v2/beers',
+	PER_PAGE,
+	keyword = '',
+	setIsAuthenticated,
+}: InfiniteScrollProps) {
 	const threshold = 1;
 	const [page, setPage] = useState<number>(1);
 	const [beerList, setBeerList] = useState<Beer[]>([]);
@@ -115,7 +114,9 @@ function InfiniteScroll(
 				params: queryParams,
 			})
 			.then((res) => {
-				setBeerList((prevBeers) => [...prevBeers, ...res.data]);
+				if (Array.isArray(res.data)) {
+					setBeerList((prevBeers) => [...prevBeers, ...res.data]);
+				}
 				setPage((prevPage) => prevPage + 1);
 			})
 			.catch((error) => {
