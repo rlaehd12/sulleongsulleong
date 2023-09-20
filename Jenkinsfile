@@ -37,7 +37,7 @@ pipeline {
             steps{
                 dir('../') {
                     script {
-                        sh (script: 'pwd')
+                        sh (script: 'cp ./configurefile/.env ./build-task/client')
                     }
                 }
                 dir('./server/sulleong/') {
