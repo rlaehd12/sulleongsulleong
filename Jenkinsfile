@@ -35,9 +35,9 @@ pipeline {
         /*************** TAR파일 생성******************/
         stage('make deploy file'){
             steps{
-                dir('./') {
+                dir('../') {
                     script {
-                        sh ("pwd")
+                        sh (script: 'pwd')
                     }
                 }
                 dir('./server/sulleong/') {
