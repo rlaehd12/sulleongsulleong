@@ -5,6 +5,7 @@ import { Card, CardActionArea, CardMedia, CardContent } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
 import Preference from './preference';
+import beerIcon from '../images/beer.png';
 
 import style from '../styles/beerCard.module.css';
 
@@ -34,7 +35,15 @@ const BeerCard = forwardRef<HTMLDivElement, BeerCardProps>(({ beer }, ref) => {
 					<CardActionArea component={Link} to="/">
 						<div className={style.cardActionArea}>
 							<div className={style.cardMedia}>
-								<CardMedia component="img" image={beer.image} alt={beer.name} />
+								<CardMedia
+									component="img"
+									image={beer.image}
+									onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+										const target = e.target as HTMLImageElement;
+										target.src = beerIcon; // 이미지 로드에 실패하면 beerIcon으로 대체
+									}}
+									alt={beer.name}
+								/>
 							</div>
 							<CardContent className={style.cardContent}>
 								<div>

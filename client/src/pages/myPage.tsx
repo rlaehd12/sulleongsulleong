@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, TextField } from '@mui/material';
+import { Button, Container, TextField } from '@mui/material';
 import customAxios from '../customAxios';
 import style from '../styles/mypage.module.css';
 
@@ -39,7 +39,7 @@ function MyPage({ setIsAuthenticated }: Props) {
 
 	return (
 		<div className={style.myPage}>
-			<div className={style.myPageContainer}>
+			<Container className={style.myPageContainer}>
 				<span className={style.title}>마이페이지</span>
 				<hr className={style.titleDivider} />
 
@@ -67,7 +67,7 @@ function MyPage({ setIsAuthenticated }: Props) {
 						focused
 					/>
 				</div>
-			</div>
+			</Container>
 			<Button
 				className={style.logoutBtn}
 				variant="outlined"
