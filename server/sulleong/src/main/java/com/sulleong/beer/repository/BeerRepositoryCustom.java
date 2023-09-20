@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface BeerRepositoryCustom {
 
+    List<Beer> getRandomBeers(Integer count);
+
     Page<Beer> findAllBySearchParam(String keyword, Pageable pageable);
 
     List<Beer> findAllByBeerIds(List<Long> beerIds);

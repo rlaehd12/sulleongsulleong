@@ -15,6 +15,6 @@ public class SurveyResponseEntry {
 
     private String image;
 
-    private String name;
+    private String nameKor;
 
 }
