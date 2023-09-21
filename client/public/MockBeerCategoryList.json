@@ -1,0 +1,38 @@
+{
+	"Lager": [
+		{ "id": 1, "image": "/c/Users/SSAFY/S09P22A104/client/src/images/beer.png", "nameKor": "Classic Lager" },
+		{ "id": 2, "image": "/c/Users/SSAFY/S09P22A104/client/src/images/beer.png", "nameKor": "Golden Lager" }
+	],
+	"Ale": [
+		{ "id": 3, "image": "/c/Users/SSAFY/S09P22A104/client/src/images/beer.png", "nameKor": "Pale Ale" },
+		{ "id": 4, "image": "/c/Users/SSAFY/S09P22A104/client/src/images/beer.png", "nameKor": "Brown Ale" }
+	],
+	"Stout": [
+		{ "id": 5, "image": "/c/Users/SSAFY/S09P22A104/client/src/images/beer.png", "nameKor": "Dry Stout" },
+		{ "id": 6, "image": "/c/Users/SSAFY/S09P22A104/client/src/images/beer.png", "nameKor": "Imperial Stout" }
+	],
+	"Lager": [
+		{ "id": 7, "image": "/c/Users/SSAFY/S09P22A104/client/src/images/beer.png", "nameKor": "Classic Lager" },
+		{ "id": 8, "image": "/c/Users/SSAFY/S09P22A104/client/src/images/beer.png", "nameKor": "Golden Lager" }
+	],
+	"Ale": [
+		{ "id": 9, "image": "/c/Users/SSAFY/S09P22A104/client/src/images/beer.png", "nameKor": "Pale Ale" },
+		{ "id": 10, "image": "/c/Users/SSAFY/S09P22A104/client/src/images/beer.png", "nameKor": "Brown Ale" }
+	],
+	"Stout": [
+		{ "id": 11, "image": "/c/Users/SSAFY/S09P22A104/client/src/images/beer.png", "nameKor": "Dry Stout" },
+		{ "id": 12, "image": "/c/Users/SSAFY/S09P22A104/client/src/images/beer.png", "nameKor": "Imperial Stout" }
+	],
+	"Lager": [
+		{ "id": 13, "image": "/c/Users/SSAFY/S09P22A104/client/src/images/beer.png", "nameKor": "Classic Lager" },
+		{ "id": 14, "image": "/c/Users/SSAFY/S09P22A104/client/src/images/beer.png", "nameKor": "Golden Lager" }
+	],
+	"Ale": [
+		{ "id": 15, "image": "/c/Users/SSAFY/S09P22A104/client/src/images/beer.png", "nameKor": "Pale Ale" },
+		{ "id": 16, "image": "/c/Users/SSAFY/S09P22A104/client/src/images/beer.png", "nameKor": "Brown Ale" }
+	],
+	"Stout": [
+		{ "id": 17, "image": "/c/Users/SSAFY/S09P22A104/client/src/images/beer.png", "nameKor": "Dry Stout" },
+		{ "id": 18, "image": "/c/Users/SSAFY/S09P22A104/client/src/images/beer.png", "nameKor": "Imperial Stout" }
+	]
+}

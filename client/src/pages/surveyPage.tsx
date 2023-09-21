@@ -20,7 +20,7 @@ import beerIcon from '../images/beer.png';
 interface Beer {
 	id: number;
 	image: string;
-	name: string;
+	nameKor: string;
 	largeCategory: string;
 }
 interface Props {
@@ -192,7 +192,7 @@ function SurveyPage({ setIsAuthenticated }: Props) {
 										<CheckIcon className={style.checkIcon} />
 									)}
 								</div>
-								<div className={style.beerName}>{beer.name}</div>
+								<div className={style.beerName}>{beer.nameKor}</div>
 							</div>
 						))}
 				</div>
