@@ -10,7 +10,7 @@ function GoogleLoginButton() {
 			const params = {
 				client_id:
 					'681159939854-mbkio13ft80rtf962te4vj5ni8mhgh1c.apps.googleusercontent.com',
-				redirect_uri: 'https://sulleong.site/login/google',
+				redirect_uri: `${process.env.REACT_LOGIN_URL}`,
 				response_type: 'code',
 				scope: 'email profile',
 			};

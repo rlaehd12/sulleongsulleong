@@ -1,9 +1,5 @@
 @import './figmaVariables.css';
 
-.myPage {
-	height: max-content;
-}
-
 .myPageContainer {
 	display: flex;
 	text-align: center;
