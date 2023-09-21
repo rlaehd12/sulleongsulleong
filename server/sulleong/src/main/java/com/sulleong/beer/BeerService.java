@@ -85,7 +85,7 @@ public class BeerService {
      * @param beerIds 맥주 식별자 리스트입니다.
      * @return 맥주 정보 리스트를 반환합니다.
      */
-    public List<Beer> getBeersByBeerIds(List<Long> beerIds) throws Exception {
+    public List<Beer> getBeersByBeerIds(List<Long> beerIds) {
         return beerRepository.findAllByBeerIds(beerIds);
     }
 

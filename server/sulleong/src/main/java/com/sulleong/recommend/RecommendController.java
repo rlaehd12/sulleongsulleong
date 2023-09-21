@@ -3,6 +3,7 @@ package com.sulleong.recommend;
 import com.sulleong.aop.LoginCheck;
 import com.sulleong.login.dto.AuthMember;
 import com.sulleong.recommend.dto.MainResponse;
+import com.sulleong.recommend.dto.RecommendBeer;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/main")
@@ -25,7 +27,12 @@ public class RecommendController {
     public ResponseEntity<MainResponse> getTodayBeers(HttpServletRequest request) throws Exception {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
         Long memberId = authMember.getId();
-        return ResponseEntity.ok(recommendService.getTodayBeers(memberId));
+        String memberName = authMember.getName();
+        List<RecommendBeer> todayBeers = recommendService.getTodayBeers(memberId);
+        List<RecommendBeer> popularBeers = recommendService.getPopularBeers();
+        List<RecommendBeer> similarPeoplesBeers = recommendService.getSimilarPeoplesBeers(memberId);
+        MainResponse mainResponse = new MainResponse(memberName, todayBeers, popularBeers, similarPeoplesBeers);
+        return ResponseEntity.ok(mainResponse);
     }
 
 }

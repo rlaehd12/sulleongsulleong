@@ -1,6 +1,8 @@
 package com.sulleong.recommend.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.sulleong.beer.Beer;
+import com.sulleong.preference.QPreference;
 import com.sulleong.recommend.QRecommend;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -12,10 +14,11 @@ import java.util.List;
 public class RecommendRepositoryImpl implements RecommendRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
+    private final QPreference qPreference = QPreference.preference;
     private final QRecommend qRecommend = QRecommend.recommend;
 
     @Override
-    public List<Long> recommendBeersByFavoriteBeers(List<Long> beerIds) {
+    public List<Long> recommendBeersByMyFavoriteBeers(List<Long> beerIds) {
         return queryFactory
                 .select(qRecommend.beer2)
                 .from(qRecommend)
@@ -25,4 +28,16 @@ public class RecommendRepositoryImpl implements RecommendRepositoryCustom {
                 .limit(4)
                 .fetch();
     }
+
+    @Override
+    public List<Long> recommendBeersByFavoriteBeers() {
+        return queryFactory
+                .select(qPreference.beer.id)
+                .from(qPreference)
+                .groupBy(qPreference.beer.id)
+                .orderBy(qPreference.count().desc())
+                .limit(10)
+                .fetch();
+    }
+
 }
