@@ -33,6 +33,117 @@ function ListForSimpleBeerList(
 	const [loading, setLoading] = useState<boolean>(false);
 	const targetRef = useRef<HTMLDivElement | null>(null);
 
+	const mockData: { [key: string]: Beer[] } = {
+		Lager: [
+			{
+				id: 1,
+				image: 'https://picsum.photos/200/300​',
+				nameKor: 'Classic Lager',
+			},
+			{
+				id: 2,
+				image: 'https://picsum.photos/200/300​',
+				nameKor: 'Golden Lager',
+			},
+		],
+		Ale: [
+			{
+				id: 3,
+				image: 'https://picsum.photos/200/300​',
+				nameKor: 'Pale Ale',
+			},
+			{
+				id: 4,
+				image: 'https://picsum.photos/200/300​',
+				nameKor: 'Brown Ale',
+			},
+		],
+		Stout: [
+			{
+				id: 5,
+				image: 'https://picsum.photos/200/300​',
+				nameKor: 'Dry Stout',
+			},
+			{
+				id: 6,
+				image: 'https://picsum.photos/200/300​',
+				nameKor: 'Imperial Stout',
+			},
+		],
+		정승구: [
+			{
+				id: 7,
+				image: 'https://picsum.photos/200/300​',
+				nameKor: 'Classic Lager',
+			},
+			{
+				id: 8,
+				image: 'https://picsum.photos/200/300​',
+				nameKor: 'Golden Lager',
+			},
+		],
+		김성훈: [
+			{
+				id: 9,
+				image: 'https://picsum.photos/200/300​',
+				nameKor: 'Pale Ale',
+			},
+			{
+				id: 10,
+				image: 'https://picsum.photos/200/300​',
+				nameKor: 'Brown Ale',
+			},
+		],
+		김상연: [
+			{
+				id: 11,
+				image: 'https://picsum.photos/200/300​',
+				nameKor: 'Dry Stout',
+			},
+			{
+				id: 12,
+				image: 'https://picsum.photos/200/300​',
+				nameKor: 'Imperial Stout',
+			},
+		],
+		권민재: [
+			{
+				id: 13,
+				image: 'https://picsum.photos/200/300​',
+				nameKor: 'Classic Lager',
+			},
+			{
+				id: 14,
+				image: 'https://picsum.photos/200/300​',
+				nameKor: 'Golden Lager',
+			},
+		],
+		김인범: [
+			{
+				id: 15,
+				image: 'https://picsum.photos/200/300​',
+				nameKor: 'Pale Ale',
+			},
+			{
+				id: 16,
+				image: 'https://picsum.photos/200/300​',
+				nameKor: 'Brown Ale',
+			},
+		],
+		김동욱: [
+			{
+				id: 17,
+				image: 'https://picsum.photos/200/300​',
+				nameKor: 'Dry Stout',
+			},
+			{
+				id: 18,
+				image: 'https://picsum.photos/200/300​',
+				nameKor: 'Imperial Stout',
+			},
+		],
+	};
+
 	// 맥주 추가 함수
 	// 1. 비동기 요청
 	// 2. 요청이 왔을 때 맥주 리스트, 페이지 상태 관리
@@ -43,22 +154,23 @@ function ListForSimpleBeerList(
 			size: PER_PAGE,
 		};
 
-		await customAxios()
-			.get(url, {
-				params: queryParams,
-			})
-			.then((res: { data: { [category: string]: Beer[] } }) => {
-				setCategoryList((prevCategorys) => {
-					return { ...prevCategorys, ...res.data };
-				});
-				setPage((prevPage) => prevPage + 1);
-			})
-			.catch((error) => {
-				console.error('Axios Error:', error);
-				if (error.response.status === 401) {
-					setIsAuthenticated(false);
-				}
-			});
+		// await customAxios()
+		// 	.get(url, {
+		// 		params: queryParams,
+		// 	})
+		// 	.then((res: { data: { [category: string]: Beer[] } }) => {
+		// 		setCategoryList((prevCategorys) => {
+		// 			return { ...prevCategorys, ...res.data };
+		// 		});
+		// 		setPage((prevPage) => prevPage + 1);
+		// 	})
+		// 	.catch((error) => {
+		// 		console.error('Axios Error:', error);
+		// 		if (error.response.status === 401) {
+		// 			setIsAuthenticated(false);
+		// 		}
+		// 	});
+		console.log('무한스크롤 작동');
 		setLoading(false);
 	};
 
@@ -95,22 +207,22 @@ function ListForSimpleBeerList(
 			size: PER_PAGE,
 		};
 
-		customAxios()
-			.get(url, {
-				params: queryParams,
-			})
-			.then((res) => {
-				setCategoryList((prevCategorys) => {
-					return { ...prevCategorys, ...res.data };
-				});
-				setPage((prevPage) => prevPage + 1);
-			})
-			.catch((error) => {
-				console.error('Axios Error:', error);
-				if (error.response.status === 401) {
-					setIsAuthenticated(false);
-				}
-			});
+		// customAxios()
+		// 	.get(url, {
+		// 		params: queryParams,
+		// 	})
+		// 	.then((res) => {
+		// 		setCategoryList((prevCategorys) => {
+		// 			return { ...prevCategorys, ...res.data };
+		// 		});
+		// 		setPage((prevPage) => prevPage + 1);
+		// 	})
+		// 	.catch((error) => {
+		// 		console.error('Axios Error:', error);
+		// 		if (error.response.status === 401) {
+		// 			setIsAuthenticated(false);
+		// 		}
+		// 	});
 
 		return () => {
 			if (targetRef.current && observer) {
@@ -121,7 +233,7 @@ function ListForSimpleBeerList(
 
 	return (
 		<div className={style.listWrap}>
-			{Object.keys(categoryList).map((key) => {
+			{/* {Object.keys(categoryList).map((key) => {
 				return (
 					<div className={style.categoryList}>
 						<h3>{key}</h3>
@@ -133,6 +245,20 @@ function ListForSimpleBeerList(
 								</div>
 							);
 						})}
+						<Divider />
+					</div>
+				);
+			})} */}
+			{Object.keys(mockData).map((key) => {
+				return (
+					<div className={style.categoryList}>
+						<h3>{key}</h3>
+						<Divider />
+						<div className={style.beerList}>
+							{mockData[key].map((beer) => {
+								return <SimpleBeerCard key={beer.id} beer={beer} />;
+							})}
+						</div>
 						<Divider />
 					</div>
 				);

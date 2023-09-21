@@ -20,7 +20,6 @@
 
 .beerList {
     display: flex;
-    justify-content: space-between;
     overflow-x: auto;
     white-space: nowrap;
     margin-left: 4px;
