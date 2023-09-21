@@ -32,7 +32,6 @@ public class RecommendService {
      */
     public List<RecommendBeer> getTodayBeers(Long memberId) {
         // 사용자가 좋아요를 누른 맥주들의 식별자를 가져옵니다.
-        Member member = memberService.getMemberOrElseThrow(memberId);
         List<Beer> myBeers = preferenceService.getPreferBeers(memberId).getBeers();
         List<Long> myBeerIds = myBeers.stream().map(Beer::getId).collect(Collectors.toList());
 
@@ -53,7 +52,8 @@ public class RecommendService {
      * @return 모든 사용자들이 누른 좋아요를 기반으로 추천하는 맥주 10개를 반환합니다.
      */
     public List<RecommendBeer> getPopularBeers() {
-        List<Beer> beers = beerService.getBeersByBeerIds(recommendRepository.recommendBeersByFavoriteBeers());
+        List<Long> beerIds = recommendRepository.recommendBeersByFavoriteBeers();
+        List<Beer> beers = beerService.getBeersByBeerIds(beerIds);
         return beers.stream().map(beer ->
             RecommendBeer.builder()
                     .id(beer.getId())
@@ -68,7 +68,16 @@ public class RecommendService {
      * @return 연령대 및 성별을 기반으로 추천하는 맥주 10개를 반환합니다.
      */
     public List<RecommendBeer> getSimilarPeoplesBeers(Long memberId) {
-        return null;
+        Member member = memberService.getMemberOrElseThrow(memberId);
+        List<Long> beerIds = recommendRepository.recommendBeersByAgeAndGender(member.getAge(), member.getGender());
+        List<Beer> beers = beerService.getBeersByBeerIds(beerIds);
+        return beers.stream().map(beer ->
+                RecommendBeer.builder()
+                        .id(beer.getId())
+                        .image(imageUrl + beer.getId())
+                        .name(beer.getName())
+                        .build()
+        ).collect(Collectors.toList());
     }
 
 }
