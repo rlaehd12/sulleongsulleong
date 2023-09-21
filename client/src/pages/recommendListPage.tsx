@@ -33,6 +33,7 @@ function RecommendListPage({ setIsAuthenticated }: Props) {
 						<InfiniteScroll
 							url="https://api.punkapi.com/v2/beers"
 							PER_PAGE={10}
+							Component="beerCard"
 						/>
 					</div>
 				</Container>

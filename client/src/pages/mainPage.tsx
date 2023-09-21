@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Container, Divider } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
 import customAxios from '../customAxios';
+import InfiniteScroll from '../components/InfiniteScroll';
 
 import style from '../styles/mainpage.module.css';
 
@@ -90,6 +91,13 @@ function MainPage({ setIsAuthenticated }: Props) {
 				>
 					GO
 				</Button>
+			</Container>
+			<Container>
+				<InfiniteScroll
+					url="/beers/search"
+					PER_PAGE={10}
+					Component="simpleBeerCard"
+				/>
 			</Container>
 		</div>
 	);

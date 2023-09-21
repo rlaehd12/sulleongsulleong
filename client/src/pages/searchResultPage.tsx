@@ -11,6 +11,7 @@ import Navbar from '../components/navbar';
 import TabBar from '../components/tabBar';
 import style from '../styles/search.module.css';
 import InfiniteScroll from '../components/InfiniteScroll';
+import ScrollButton from '../components/scrollButton';
 
 interface Props {
 	setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -72,10 +73,12 @@ function SearchResultPage({ setIsAuthenticated }: Props) {
 							url="/beers/search"
 							PER_PAGE={10}
 							keyword={searchQuery.get('q') || ''}
+							Component="beerCard"
 						/>
 					</div>
 				</Container>
 			</div>
+			<ScrollButton />
 			<TabBar />
 		</>
 	);
