@@ -19,4 +19,5 @@ from myrecommend import views
 
 urlpatterns = [
     path('rec1/', views.beerindex),
+    path('rank/', views.re_ranking),
 ]

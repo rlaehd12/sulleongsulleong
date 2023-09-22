@@ -88,11 +88,11 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "sulleong",
         "USER": "sulleong",
-        "PASSWORD": "1234",
+        "PASSWORD": "Sulleong104**",
         # "HOST": "localhost",
         # "PORT": "5432",
-        "HOST": "13.209.50.16",
-        "PORT": "5433",
+        "HOST": "sulleong.site",
+        "PORT": "5432",
     }
 }
 
@@ -146,4 +146,21 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
     ],
+}
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+        },
+    },
+    "loggers": {
+        "django.db.backends": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+        },
+    },
 }

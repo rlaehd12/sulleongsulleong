@@ -8,7 +8,7 @@
 ## db 관련
 
 * DB 긁어오기
-  * `python manage.py inspectdb > models.py`
+  * `python manage.py inspectdb > ./myrecommend/models.py`
 
 * 인증 비활성화
   * `python manage.py migrate auth zero`
