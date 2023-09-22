@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TodayBeer {
+public class RecommendBeer {
 
     private Long id;
 

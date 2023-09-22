@@ -4,3 +4,24 @@
     align-items: center;
     margin-top: 8px;
 }
+
+.listWrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.categoryList {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 2em;
+}
+
+.beerList {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    margin-left: 4px;
+    margin-right: 4px;
+}
