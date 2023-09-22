@@ -21,10 +21,10 @@ public class RecommendController {
 
     private final RecommendService recommendService;
 
-    @LoginCheck(type = LoginCheck.UserType.GUEST)
     @GetMapping
-    @Operation(summary = "오늘의 맥주 추천", description = "메인 페이지에 진입 시 좋아요한 맥주를 기반으로 랜덤 추천")
-    public ResponseEntity<MainResponse> getTodayBeers(HttpServletRequest request) throws Exception {
+    @LoginCheck(type = LoginCheck.UserType.GUEST)
+    @Operation(summary = "메인 화면 추천", description = "메인 페이지에 진입 시에 3가지 방식으로 맥주를 추천")
+    public ResponseEntity<MainResponse> mainRecommend(HttpServletRequest request) {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
         Long memberId = authMember.getId();
         String memberName = authMember.getName();

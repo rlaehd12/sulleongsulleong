@@ -43,8 +43,6 @@ public class RecommendRepositoryImpl implements RecommendRepositoryCustom {
 
     @Override
     public List<Long> recommendBeersByAgeAndGender(Integer age, String gender) {
-        System.out.println("age: " + age);
-        System.out.println("gender: " + gender);
         return queryFactory
                 .select(qPreference.beer.id)
                 .from(qPreference)
