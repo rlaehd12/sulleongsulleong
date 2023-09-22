@@ -14,7 +14,7 @@ pipeline {
             steps {
                 dir('../') {
                     script {
-                        sh (script: 'cp ./configurefile/back/dev/.env ./build-task/server/sulleong/src/main/resources/')
+                        sh (script: 'cp ./configurefile/back/dev/.env ./build-task/server/sulleong/src/main/resources')
                     }
                 }
 

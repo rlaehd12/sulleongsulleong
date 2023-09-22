@@ -15,7 +15,7 @@ pipeline {
 
                 dir('../') {
                     script {
-                        sh (script: 'cp ./configurefile/back/main/.env ./build-main-task/server/sulleong/src/main/resources/')
+                        sh (script: 'cp ./configurefile/back/main/.env ./build-main-task/server/sulleong/src/main/resources')
                     }
                 }
 
@@ -33,7 +33,7 @@ pipeline {
                 // 프로젝트 디렉토리로 이동합니다.
                 dir('../') {
                     script {
-                        sh (script: 'cp ./configurefile/main/.env ./build-main-task/client/')
+                        sh (script: 'cp ./configurefile/main/.env ./build-main-task/client')
                     }
                 }
                 dir('./client/') {
