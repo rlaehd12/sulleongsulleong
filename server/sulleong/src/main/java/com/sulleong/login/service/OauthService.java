@@ -7,6 +7,7 @@ import com.sulleong.login.JwtPayloadDecoder;
 import com.sulleong.login.dto.TokenResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -25,7 +26,8 @@ public class OauthService {
     private final String GOOGLE_OAUTH_URL = "https://oauth2.googleapis.com/token";
     private final String CLIENT_ID = "681159939854-mbkio13ft80rtf962te4vj5ni8mhgh1c.apps.googleusercontent.com";
     private final String CLIENT_SECRET = "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";
-    private final String REDIRECT_URI = "https://dev.sulleong.site/login/google";
+    @Value("${spring.google.redirect-uri}")
+    private String REDIRECT_URI;
 
     private final JwtPayloadDecoder jwtPayloadDecoder;
 
