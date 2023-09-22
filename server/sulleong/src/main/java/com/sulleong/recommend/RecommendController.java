@@ -2,6 +2,7 @@ package com.sulleong.recommend;
 
 import com.sulleong.aop.LoginCheck;
 import com.sulleong.login.dto.AuthMember;
+import com.sulleong.recommend.dto.CategoryResponse;
 import com.sulleong.recommend.dto.MainResponse;
 import com.sulleong.recommend.dto.RecommendBeer;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,13 +16,13 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/main")
+@RequestMapping("/api/beers/recommend")
 @RequiredArgsConstructor
 public class RecommendController {
 
     private final RecommendService recommendService;
 
-    @GetMapping
+    @GetMapping("/main")
     @LoginCheck(type = LoginCheck.UserType.GUEST)
     @Operation(summary = "메인 화면 추천", description = "메인 페이지에 진입 시에 3가지 방식으로 맥주를 추천")
     public ResponseEntity<MainResponse> mainRecommend(HttpServletRequest request) {
@@ -33,6 +34,16 @@ public class RecommendController {
         List<RecommendBeer> similarPeoplesBeers = recommendService.getSimilarPeoplesBeers(memberId);
         MainResponse mainResponse = new MainResponse(memberName, todayBeers, popularBeers, similarPeoplesBeers);
         return ResponseEntity.ok(mainResponse);
+    }
+
+    @GetMapping("/category")
+    @LoginCheck(type = LoginCheck.UserType.GUEST)
+    @Operation(summary = "카테고리별 추천", description = "사용자가 관심있어 하는 카테고리 순서로 맥주를 추천")
+    public ResponseEntity<CategoryResponse> categoryRecommend(HttpServletRequest request) {
+        AuthMember authMember = (AuthMember) request.getAttribute("authMember");
+        Long memberId = authMember.getId();
+        CategoryResponse categoryResponse = new CategoryResponse(recommendService.getRecommendCategoryBeers(memberId));
+        return ResponseEntity.ok(categoryResponse);
     }
 
 }
