@@ -26,12 +26,11 @@ public class OauthService {
     private final String GOOGLE_OAUTH_URL = "https://oauth2.googleapis.com/token";
     private final String CLIENT_ID = "681159939854-mbkio13ft80rtf962te4vj5ni8mhgh1c.apps.googleusercontent.com";
     private final String CLIENT_SECRET = "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";
-    @Value("${spring.google.redirect-uri}")
-    private String REDIRECT_URI;
+    private final String REDIRECT_URI = System.getProperty("GOOGLE_REDIRECT_URI");
 
     private final JwtPayloadDecoder jwtPayloadDecoder;
 
-    public Map<String, String> getToken(String code) throws Exception {
+    public Map<String, String> getToken(String code) throws Exception { 
         HttpURLConnection connection = makeHttpURLConnection();
         accessAPIServer(connection, code);
         if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
