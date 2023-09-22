@@ -94,7 +94,7 @@ function MainPage({ setIsAuthenticated }: Props) {
 			</Container>
 			<Container>
 				<InfiniteScroll
-					url="/beers/search"
+					url="/beers/recommend/category"
 					PER_PAGE={10}
 					Component="simpleBeerCard"
 				/>

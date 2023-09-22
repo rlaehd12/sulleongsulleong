@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, FC } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
 import customAxios from '../customAxios';
@@ -12,21 +12,17 @@ interface Beer {
 	nameKor: string;
 }
 
-interface Props {
-	setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
 interface InfiniteScrollProps {
 	url: string;
 	PER_PAGE: number;
 }
 
-function ListForSimpleBeerList(
-	{ url = 'https://api.punkapi.com/v2/beers', PER_PAGE }: InfiniteScrollProps,
-	{ setIsAuthenticated }: Props,
-) {
+function ListForSimpleBeerList({
+	url = 'https://api.punkapi.com/v2/beers',
+	PER_PAGE,
+}: InfiniteScrollProps) {
 	const threshold = 1;
-	const [page, setPage] = useState<number>(1);
+	const [page, setPage] = useState<number>(0);
 	const [categoryList, setCategoryList] = useState<{
 		[category: string]: Beer[];
 	}>({});
@@ -147,10 +143,10 @@ function ListForSimpleBeerList(
 	// 맥주 추가 함수
 	// 1. 비동기 요청
 	// 2. 요청이 왔을 때 맥주 리스트, 페이지 상태 관리
-	const loadMore = async () => {
+	const loadMore = async (currentPage: number) => {
 		setLoading(true);
 		const queryParams: { page: number; size: number; keyword?: string } = {
-			page,
+			page: currentPage + 1,
 			size: PER_PAGE,
 		};
 
@@ -178,7 +174,7 @@ function ListForSimpleBeerList(
 	const handleIntersection = (entries: IntersectionObserverEntry[]) => {
 		const entry = entries[0];
 		if (entry.isIntersecting) {
-			loadMore();
+			loadMore(page);
 		}
 	};
 
@@ -199,11 +195,12 @@ function ListForSimpleBeerList(
 			observer.observe(targetRef.current);
 		}
 
-		setPage(1);
+		setPage(0);
 		setCategoryList({});
 
+		const nextPage = page + 1;
 		const queryParams: { page: number; size: number; keyword?: string } = {
-			page,
+			page: nextPage,
 			size: PER_PAGE,
 		};
 
@@ -217,12 +214,6 @@ function ListForSimpleBeerList(
 		// 		});
 		// 		setPage((prevPage) => prevPage + 1);
 		// 	})
-		// 	.catch((error) => {
-		// 		console.error('Axios Error:', error);
-		// 		if (error.response.status === 401) {
-		// 			setIsAuthenticated(false);
-		// 		}
-		// 	});
 
 		return () => {
 			if (targetRef.current && observer) {
