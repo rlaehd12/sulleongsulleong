@@ -1,6 +1,7 @@
 package com.sulleong.recommend.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.sulleong.beer.QBeer;
 import com.sulleong.member.QMember;
 import com.sulleong.preference.QPreference;
 import com.sulleong.recommend.QRecommend;
@@ -17,6 +18,7 @@ public class RecommendRepositoryImpl implements RecommendRepositoryCustom {
     private final QRecommend qRecommend = QRecommend.recommend;
     private final QPreference qPreference = QPreference.preference;
     private final QMember qMember = QMember.member;
+    private final QBeer qBeer = QBeer.beer;
 
     @Override
     public List<Long> recommendBeersByMyFavoriteBeers(List<Long> beerIds) {
@@ -55,5 +57,33 @@ public class RecommendRepositoryImpl implements RecommendRepositoryCustom {
                 .limit(10)
                 .fetch();
     }
+
+    @Override
+    public List<String> findMyFavoriteCategories(Long memberId) {
+        return queryFactory
+                .select(qBeer.largeCategory)
+                .from(qPreference)
+                .join(qBeer)
+                .on(qPreference.beer.id.eq(qBeer.id))
+                .where(qPreference.member.id.eq(memberId))
+                .groupBy(qBeer.largeCategory)
+                .orderBy(qPreference.count().desc())
+                .fetch();
+    }
+
+    @Override
+    public List<Long> recommendBeersByLargeCategory(String category) {
+        return queryFactory
+                .select(qPreference.beer.id)
+                .from(qPreference)
+                .join(qMember)
+                .on(qPreference.member.id.eq(qMember.id))
+                .where(qPreference.beer.largeCategory.eq(category))
+                .groupBy(qPreference.beer.id)
+                .orderBy(qPreference.count().desc())
+                .limit(10)
+                .fetch();
+    }
+
 
 }
