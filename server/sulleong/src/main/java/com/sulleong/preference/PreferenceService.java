@@ -54,7 +54,7 @@ public class PreferenceService {
         }
     }
 
-    private Optional<Preference> findPreference(Long memberId, Long beerId) {
+    public Optional<Preference> findPreference(Long memberId, Long beerId) {
         return preferenceRepository.findByMemberIdAndBeerId(memberId, beerId);
     }
 
