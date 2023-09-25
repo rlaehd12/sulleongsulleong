@@ -17,6 +17,7 @@ import SurveyPage from './pages/surveyPage';
 import SurveyCompPage from './pages/surveyCompletePage';
 import SearchResultPage from './pages/searchResultPage';
 import MyPage from './pages/myPage';
+import DetailPage from './pages/beerDetailPage';
 
 interface AuthRedirectorProps {
 	isAuthenticated: boolean;
@@ -82,6 +83,10 @@ function App() {
 						<Route
 							path="/myPage"
 							element={<MyPage setIsAuthenticated={setIsAuthenticated} />}
+						/>
+						<Route
+							path="/detail/:beerId"
+							element={<DetailPage setIsAuthenticated={setIsAuthenticated} />}
 						/>
 						<Route
 							path="/"
