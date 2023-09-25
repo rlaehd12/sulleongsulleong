@@ -12,7 +12,19 @@ import TabBar from '../components/tabBar';
 import style from '../styles/search.module.css';
 import InfiniteScroll from '../components/InfiniteScroll';
 import ScrollButton from '../components/scrollButton';
+import customAxios from '../customAxios';
 
+interface Beer {
+	id: number;
+	image: string;
+	name: string;
+	nameKor: string;
+	abv: number;
+	largeCategory: string;
+	subCategory: string;
+	country: string;
+	score: number;
+}
 interface Props {
 	setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -21,6 +33,9 @@ function SearchResultPage({ setIsAuthenticated }: Props) {
 	// input tag 상태관리, url 상태 관리
 	const [query, setQuery] = useState<string>('');
 	const [searchQuery, setSearchQuery] = useSearchParams({ q: '' });
+	const [page, setPage] = useState<number>(0);
+	const [beerList, setBeerList] = useState<Beer[]>([]);
+	const [loading, setLoading] = useState<boolean>(false);
 
 	// input tag 변경 시 query 상태 변경
 	const changeQuery = useCallback((event: InputBaseComponentProps) => {
@@ -38,6 +53,32 @@ function SearchResultPage({ setIsAuthenticated }: Props) {
 		},
 		[query],
 	);
+
+	const loadBeerList = async () => {
+		try {
+			setLoading(true);
+			const res = await customAxios().get(
+				`/beers/search?kewword=${searchQuery.get('q')}&page=${
+					page + 1
+				}&size=10`,
+			);
+			if (Array.isArray(res.data.entries) && res.data.entries.length > 0) {
+				setPage((prevPage) => prevPage + 1);
+				setBeerList((prevBeers) => [...prevBeers, ...res.data.entries]);
+			}
+		} catch (error) {
+			// 요청이 실패할 경우에 대한 에러 핸들링도 추가할 수 있습니다.
+			console.error('Error fetching search beer list:', error);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		setPage(0);
+		setBeerList([]);
+		loadBeerList();
+	}, [searchQuery]);
 
 	return (
 		<>
@@ -70,10 +111,10 @@ function SearchResultPage({ setIsAuthenticated }: Props) {
 				<Container>
 					<div>
 						<InfiniteScroll
-							url="/beers/search"
-							PER_PAGE={10}
-							keyword={searchQuery.get('q') || ''}
 							Component="beerCard"
+							loadMore={loadBeerList}
+							list={beerList}
+							loading={loading}
 						/>
 					</div>
 				</Container>

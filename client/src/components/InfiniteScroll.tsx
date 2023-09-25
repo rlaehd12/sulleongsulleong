@@ -2,25 +2,66 @@ import React from 'react';
 import ListForBeerCard from './listForBeerCard';
 import ListForSimpleBeerCard from './listForSimpleBeerCard';
 
+interface Beer {
+	id: number;
+	image: string;
+	name: string;
+}
+
+interface ExtendedBeer extends Beer {
+	nameKor: string;
+	abv: number;
+	largeCategory: string;
+	subCategory: string;
+	country: string;
+	score: number;
+}
+
+interface Entry {
+	category: string;
+	recommenBeers: Beer[];
+}
 interface InfiniteScrollProps {
-	url: string;
-	PER_PAGE: number;
-	keyword?: string;
 	Component: 'beerCard' | 'simpleBeerCard';
+	loadMore: () => void;
+	list: ExtendedBeer[] | Entry[];
+	loading: boolean;
+}
+
+function isExtendedBeerList(
+	list: ExtendedBeer[] | Entry[],
+): list is ExtendedBeer[] {
+	if (!list.length || !list[0]) {
+		return false;
+	}
+	return (list[0] as ExtendedBeer).largeCategory !== undefined;
 }
 
 function InfiniteScroll({
-	url = 'https://api.punkapi.com/v2/beers',
-	PER_PAGE,
-	keyword,
 	Component,
+	loadMore,
+	list,
+	loading,
 }: InfiniteScrollProps) {
-	if (Component === 'beerCard') {
-		return <ListForBeerCard url={url} PER_PAGE={PER_PAGE} keyword={keyword} />;
+	if (Component === 'beerCard' && isExtendedBeerList(list)) {
+		return (
+			<ListForBeerCard
+				beerList={list}
+				loadBeerList={loadMore}
+				loading={loading}
+			/>
+		);
 	}
-	if (Component === 'simpleBeerCard') {
-		return <ListForSimpleBeerCard url={url} PER_PAGE={PER_PAGE} />;
+	if (Component === 'simpleBeerCard' && !isExtendedBeerList(list)) {
+		return (
+			<ListForSimpleBeerCard
+				categoryList={list}
+				loadCategoryList={loadMore}
+				loading={loading}
+			/>
+		);
 	}
+
 	return null;
 }
 

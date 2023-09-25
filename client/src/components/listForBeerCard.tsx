@@ -17,71 +17,32 @@ interface Beer {
 }
 
 interface InfiniteScrollProps {
-	url: string;
-	PER_PAGE: number;
-	keyword?: string;
+	beerList: Beer[];
+	loadBeerList: () => void;
+	loading: boolean;
 }
 
-// 옵션
-const options = {
-	root: null,
-	rootMargin: '0px',
-	threshold: 1,
-};
-
 function ListForBeerCard({
-	url = 'https://api.punkapi.com/v2/beers',
-	PER_PAGE,
-	keyword,
+	beerList,
+	loadBeerList,
+	loading,
 }: InfiniteScrollProps) {
-	const [page, setPage] = useState<number>(0);
-	const [beerList, setBeerList] = useState<Beer[]>([]);
-	const [loading, setLoading] = useState<boolean>(false);
 	const targetRef = useRef<HTMLDivElement | null>(null);
-
-	// 맥주 추가 함수
-	// 1. 비동기 요청
-	// 2. 요청이 왔을 때 맥주 리스트, 상태 관리
-	const loadMore = useCallback(
-		async (currentPage: number) => {
-			setLoading(true);
-			const queryParams: { page: number; size: number; keyword?: string } = {
-				page: currentPage,
-				size: PER_PAGE,
-			};
-			if (keyword !== undefined) {
-				queryParams.keyword = keyword;
-			}
-
-			await customAxios()
-				.get(url, {
-					params: queryParams,
-				})
-				.then((res) => {
-					if (Array.isArray(res.data.entries) && res.data.entries.length > 0) {
-						setBeerList((prevBeers) => [...prevBeers, ...res.data.entries]);
-					}
-				});
-			setLoading(false);
-		},
-		[PER_PAGE, keyword, url],
-	);
 
 	// callback 함수
 	const handleIntersection = (entries: IntersectionObserverEntry[]) => {
 		const entry = entries[0];
 		if (entry.isIntersecting) {
-			setPage((prevPage) => prevPage + 1);
+			loadBeerList();
 		}
 	};
 
-	// 무한스크롤 flow
-	// 1. target 교차 => 2. callback함수 호출(page 증가) => 3. loadMore함수 호출(axios 요청 및 list 관리)
-	useEffect(() => {
-		if (page !== 0) {
-			loadMore(page);
-		}
-	}, [page]);
+	// 옵션
+	const options = {
+		root: null,
+		rootMargin: '0px',
+		threshold: 1,
+	};
 
 	// 초기 화면
 	useEffect(() => {
@@ -90,11 +51,8 @@ function ListForBeerCard({
 			observer.observe(targetRef.current);
 		}
 
-		setPage(0);
-		setBeerList([]);
-
 		return () => observer.disconnect();
-	}, [keyword]);
+	}, []);
 
 	return (
 		<div>

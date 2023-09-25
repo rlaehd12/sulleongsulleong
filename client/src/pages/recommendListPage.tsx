@@ -30,11 +30,11 @@ function RecommendListPage({ setIsAuthenticated }: Props) {
 				<Container className={style.beerList}>
 					<hr />
 					<div className={style.cardContainer}>
-						<InfiniteScroll
+						{/* <InfiniteScroll
 							url="https://api.punkapi.com/v2/beers"
 							PER_PAGE={10}
 							Component="beerCard"
-						/>
+						/> */}
 					</div>
 				</Container>
 			</div>

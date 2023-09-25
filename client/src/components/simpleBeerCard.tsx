@@ -1,4 +1,4 @@
-import React, { useEffect, useState, forwardRef } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardActionArea, CardMedia, CardContent } from '@mui/material';
 import Typography from '@mui/material/Typography';
@@ -8,7 +8,7 @@ import style from '../styles/beerCard.module.css';
 interface Beer {
 	id: number;
 	image: string;
-	nameKor: string;
+	name: string;
 }
 
 interface SimpleBeerCardProps {
@@ -27,7 +27,7 @@ function SimpleBeerCard({ beer }: SimpleBeerCardProps) {
 				/>
 				<CardContent>
 					<Typography variant="body2" color="text.secondary">
-						{beer.nameKor}
+						{beer.name}
 					</Typography>
 				</CardContent>
 			</CardActionArea>
