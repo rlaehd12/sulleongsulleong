@@ -45,4 +45,9 @@ public class PreferenceController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/test")
+    public ResponseEntity testMethod() {
+        return ResponseEntity.ok().build();
+    }
+
 }

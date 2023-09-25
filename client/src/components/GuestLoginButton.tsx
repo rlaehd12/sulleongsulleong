@@ -19,6 +19,7 @@ function GuestLoginButton({ setIsAuthenticated }: Props) {
 
 			if (authHeaderValue) {
 				sessionStorage.setItem('authorization', authHeaderValue);
+				sessionStorage.setItem('Role', 'GUEST');
 			}
 			setIsAuthenticated(true);
 			navigate('/');
