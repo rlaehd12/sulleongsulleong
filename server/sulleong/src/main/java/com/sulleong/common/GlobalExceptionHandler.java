@@ -44,7 +44,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({
             BeerNotFoundException.class,
-            MemberNotFoundException.class
+            MemberNotFoundException.class,
+            ReviewNotFoundException.class
     })
     public ResponseEntity<ErrorMessage> handleNotFound(Exception e, HttpServletRequest request) {
         return new ResponseEntity<>(buildErrorMessage(e, request),
