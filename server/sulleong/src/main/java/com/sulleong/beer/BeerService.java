@@ -23,6 +23,8 @@ public class BeerService {
 
     private final BeerRepository beerRepository;
 
+    public static final String IMAGE_URL = "https://res.cloudinary.com/ratebeer/image/upload/d_beer_img_default.png,f_auto/beer_";
+
     /**
      * 맥주 선호도 조사를 위해 설문용 맥주들을 제시합니다.
      * @return 일정 비율의 에일, 라거, 기타 맥주들을 랜덤으로 선택하여 반환합니다.

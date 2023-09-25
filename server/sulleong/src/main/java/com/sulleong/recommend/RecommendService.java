@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.sulleong.beer.BeerService.IMAGE_URL;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -25,7 +27,6 @@ public class RecommendService {
     private final MemberService memberService;
     private final PreferenceService preferenceService;
     private final RecommendRepository recommendRepository;
-    private final String imageUrl = "https://res.cloudinary.com/ratebeer/image/upload/d_beer_img_default.png,f_auto/beer_";
 
     /**
      * 오늘의 맥주를 추천합니다.
@@ -43,7 +44,7 @@ public class RecommendService {
         return similarBeers.stream().map(beer ->
                 RecommendBeer.builder()
                         .id(beer.getId())
-                        .image(imageUrl + beer.getId())
+                        .image(IMAGE_URL + beer.getId())
                         .name(beer.getName())
                         .build()
         ).collect(Collectors.toList());
@@ -59,7 +60,7 @@ public class RecommendService {
         return beers.stream().map(beer ->
             RecommendBeer.builder()
                     .id(beer.getId())
-                    .image(imageUrl + beer.getId())
+                    .image(IMAGE_URL + beer.getId())
                     .name(beer.getName())
                     .build()
         ).collect(Collectors.toList());
@@ -76,7 +77,7 @@ public class RecommendService {
         return beers.stream().map(beer ->
                 RecommendBeer.builder()
                         .id(beer.getId())
-                        .image(imageUrl + beer.getId())
+                        .image(IMAGE_URL + beer.getId())
                         .name(beer.getName())
                         .build()
         ).collect(Collectors.toList());
@@ -105,7 +106,7 @@ public class RecommendService {
         return new CategoryResponseEntry(category, beers.stream().map(beer ->
                 RecommendBeer.builder()
                         .id(beer.getId())
-                        .image(imageUrl + beer.getId())
+                        .image(IMAGE_URL + beer.getId())
                         .name(beer.getName())
                         .build()
         ).collect(Collectors.toList()));
