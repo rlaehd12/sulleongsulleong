@@ -1,6 +1,7 @@
 package com.sulleong.review;
 
 import com.sulleong.beer.Beer;
+import com.sulleong.common.BaseTimeEntity;
 import com.sulleong.member.Member;
 import com.sulleong.review.create.controller.dto.request.BeerReviewCreateForm;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-public class Review {
+public class Review extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +32,6 @@ public class Review {
     private Integer mouthfeel;
 
     private Integer flavor;
-
-    private Integer overall;
 
     private Integer score;
 
