@@ -43,4 +43,7 @@ public class Review extends BaseTimeEntity {
         this.content = form.getContent();
         this.score = form.getScore();
     }
+
+    protected Review() {
+    }
 }
