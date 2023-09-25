@@ -18,6 +18,6 @@ from django.urls import path, include
 from myrecommend import views
 
 urlpatterns = [
-    path('rec1/', views.beerindex),
+    # path('rec1/', views.beerindex),
     path('rank/', views.re_ranking),
 ]

@@ -29,10 +29,14 @@ def beerindex(request):
 @api_view(['GET', 'POST', 'PUT'])
 def re_ranking(request):
     # Q 객체를 사용하여 OR 연산 수행
-    candidate = [1,2,3,4,5,6,7,8,9,152385]
+    request_user = int(request.GET.get('mid', None))
+    request_beer_list = request.GET.get('beers', None)
+    candidate = request_beer_list.split(',')
+    print(candidate, 'bbbbbbbbbbbbb')
+
     filter_query = Q()
     for id in candidate:
-        filter_query |= Q(beer = id)
+        filter_query |= Q(beer = int(id))
 
     # 데이터 요청
     if request.method == "GET":
@@ -60,12 +64,11 @@ def re_ranking(request):
         # 계산된 예측으로 순위 매기기
         result = []
         for i in candidate:
-            print(algo.predict(uid=1, iid=i))
             result.append(
                 {
-                    'uid':algo.predict(uid=1, iid=i).uid,
-                    'rid':algo.predict(uid=1, iid=i).iid,
-                    'estimate':algo.predict(uid=1, iid=i).est,
+                    'uid':algo.predict(uid=request_user, iid=int(i)).uid,
+                    'iid':algo.predict(uid=request_user, iid=int(i)).iid,
+                    'estimate':algo.predict(uid=request_user, iid=int(i)).est,
                 }
             )
 
