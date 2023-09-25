@@ -60,22 +60,26 @@ function ListForSimpleBeerList({
 
 	return (
 		<div className={style.listWrap}>
-			{categoryList.map((entry) => {
-				return (
-					<div className={style.categoryList}>
-						<h3>{entry.category}</h3>
-						<Divider />
-						{entry.recommenBeers.map((beer) => {
-							return (
-								<div className={style.beerList}>
-									<SimpleBeerCard key={beer.id} beer={beer} />;
-								</div>
-							);
-						})}
-						<Divider />
-					</div>
-				);
-			})}
+			{categoryList &&
+				categoryList.length > 0 &&
+				categoryList.map((entry) => {
+					return (
+						<div className={style.categoryList}>
+							<h3>{entry.category}</h3>
+							<Divider />
+							{entry.recommenBeers &&
+								entry.recommenBeers.length > 0 &&
+								entry.recommenBeers.map((beer) => {
+									return (
+										<div className={style.beerList}>
+											<SimpleBeerCard key={beer.id} beer={beer} />;
+										</div>
+									);
+								})}
+							<Divider />
+						</div>
+					);
+				})}
 			<div ref={targetRef} />
 			{loading && (
 				<div className={style.circularProgress}>

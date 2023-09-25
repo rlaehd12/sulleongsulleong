@@ -58,12 +58,12 @@ function SearchResultPage({ setIsAuthenticated }: Props) {
 		try {
 			setLoading(true);
 			const res = await customAxios().get(
-				`/beers/search?kewword=${searchQuery.get('q')}&page=${
+				`/beers/search?keyword=${searchQuery.get('q')}&page=${
 					page + 1
 				}&size=10`,
 			);
 			if (Array.isArray(res.data.entries) && res.data.entries.length > 0) {
-				setPage((prevPage) => prevPage + 1);
+				setPage(page + 1);
 				setBeerList((prevBeers) => [...prevBeers, ...res.data.entries]);
 			}
 		} catch (error) {
@@ -78,6 +78,7 @@ function SearchResultPage({ setIsAuthenticated }: Props) {
 		setPage(0);
 		setBeerList([]);
 		loadBeerList();
+		console.log('초기화');
 	}, [searchQuery]);
 
 	return (

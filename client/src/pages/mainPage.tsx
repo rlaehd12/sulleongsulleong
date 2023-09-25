@@ -54,7 +54,7 @@ function MainPage({ setIsAuthenticated }: Props) {
 		setLoading(true);
 		try {
 			const response = await axiosInstance.get('/beers/recommend/category');
-			console.log(`카테고리 리스트: ${response.data}`);
+			console.log(`${response.data}`);
 			setcategoryList(response.data.entries);
 		} catch (error) {
 			// 요청이 실패할 경우에 대한 에러 핸들링도 추가할 수 있습니다.

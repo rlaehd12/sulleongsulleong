@@ -29,7 +29,6 @@ function ListForBeerCard({
 }: InfiniteScrollProps) {
 	const targetRef = useRef<HTMLDivElement | null>(null);
 
-	// callback 함수
 	const handleIntersection = (entries: IntersectionObserverEntry[]) => {
 		const entry = entries[0];
 		if (entry.isIntersecting) {
@@ -56,9 +55,11 @@ function ListForBeerCard({
 
 	return (
 		<div>
-			{beerList.map((beer) => {
-				return <BeerCard key={beer.id} beer={beer} />;
-			})}
+			{beerList &&
+				beerList.length > 0 &&
+				beerList.map((beer) => {
+					return <BeerCard key={beer.id} beer={beer} />;
+				})}
 			<div ref={targetRef} />
 			{loading && (
 				<div className={style.circularProgress}>

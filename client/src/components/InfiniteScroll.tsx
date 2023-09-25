@@ -44,6 +44,7 @@ function InfiniteScroll({
 	loading,
 }: InfiniteScrollProps) {
 	if (Component === 'beerCard' && isExtendedBeerList(list)) {
+		console.log(`맥주카드`);
 		return (
 			<ListForBeerCard
 				beerList={list}
@@ -53,6 +54,7 @@ function InfiniteScroll({
 		);
 	}
 	if (Component === 'simpleBeerCard' && !isExtendedBeerList(list)) {
+		console.log(`심플맥주카드`);
 		return (
 			<ListForSimpleBeerCard
 				categoryList={list}
