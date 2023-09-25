@@ -10,4 +10,8 @@ public interface RecommendRepositoryCustom {
 
     List<Long> recommendBeersByAgeAndGender(Integer age, String gender);
 
+    List<String> findMyFavoriteCategories(Long memberId);
+
+    List<Long> recommendBeersByLargeCategory(String category);
+
 }

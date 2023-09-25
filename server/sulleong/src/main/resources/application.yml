@@ -27,3 +27,6 @@ spring:
   redis:
     host: localhost
     port: 6379
+
+  google:
+    redirect-uri: ${GOOGLE_REDIRECT_URI}

@@ -5,17 +5,21 @@ import com.sulleong.beer.BeerService;
 import com.sulleong.member.Member;
 import com.sulleong.member.MemberService;
 import com.sulleong.preference.PreferenceService;
+import com.sulleong.recommend.dto.CategoryResponseEntry;
 import com.sulleong.recommend.dto.RecommendBeer;
 import com.sulleong.recommend.repository.RecommendRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.sulleong.beer.BeerService.IMAGE_URL;
+
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class RecommendService {
 
@@ -23,7 +27,6 @@ public class RecommendService {
     private final MemberService memberService;
     private final PreferenceService preferenceService;
     private final RecommendRepository recommendRepository;
-    private final String imageUrl = "https://res.cloudinary.com/ratebeer/image/upload/d_beer_img_default.png,f_auto/beer_";
 
     /**
      * 오늘의 맥주를 추천합니다.
@@ -41,7 +44,7 @@ public class RecommendService {
         return similarBeers.stream().map(beer ->
                 RecommendBeer.builder()
                         .id(beer.getId())
-                        .image(imageUrl + beer.getId())
+                        .image(IMAGE_URL + beer.getId())
                         .name(beer.getName())
                         .build()
         ).collect(Collectors.toList());
@@ -57,7 +60,7 @@ public class RecommendService {
         return beers.stream().map(beer ->
             RecommendBeer.builder()
                     .id(beer.getId())
-                    .image(imageUrl + beer.getId())
+                    .image(IMAGE_URL + beer.getId())
                     .name(beer.getName())
                     .build()
         ).collect(Collectors.toList());
@@ -74,10 +77,39 @@ public class RecommendService {
         return beers.stream().map(beer ->
                 RecommendBeer.builder()
                         .id(beer.getId())
-                        .image(imageUrl + beer.getId())
+                        .image(IMAGE_URL + beer.getId())
                         .name(beer.getName())
                         .build()
         ).collect(Collectors.toList());
+    }
+
+    /**
+     * 사용자가 관심있어 하는 카테고리를 분석하여 각 카테고리별로 맥주를 추천합니다.
+     * @return 관심있는 카테고리별 추천 맥주를 10개씩 반환합니다.
+     */
+    public List<CategoryResponseEntry> getRecommendCategoryBeers(Long memberId) {
+        List<CategoryResponseEntry> categoryResponseEntries = new ArrayList<>();
+        List<String> categories = recommendRepository.findMyFavoriteCategories(memberId);
+        for (String category : categories) {
+            categoryResponseEntries.add(getPopularBeersWithCategory(category));
+        }
+        return categoryResponseEntries;
+    }
+
+    /**
+     * 카테고리별 가장 인기있는 맥주를 가져옵니다.
+     * @return 카테고리 이름과 카테고리별 가장 좋아요가 많은 맥주 10개를 반환합니다.
+     */
+    private CategoryResponseEntry getPopularBeersWithCategory(String category) {
+        List<Long> beerIds = recommendRepository.recommendBeersByLargeCategory(category);
+        List<Beer> beers = beerService.getBeersByBeerIds(beerIds);
+        return new CategoryResponseEntry(category, beers.stream().map(beer ->
+                RecommendBeer.builder()
+                        .id(beer.getId())
+                        .image(IMAGE_URL + beer.getId())
+                        .name(beer.getName())
+                        .build()
+        ).collect(Collectors.toList()));
     }
 
 }
