@@ -1,25 +1,27 @@
+@import './figmaVariables.css';
+
 .scrollToTopButton {
-    position: fixed; /* 고정 위치 */
-    bottom: 60px; /* 하단에서 20px 떨어진 위치 */
-    right: 10px; /* 우측에서 20px 떨어진 위치 */
-    z-index: 1000; /* 다른 요소 위에 표시 */
-    background-color: white; /* 배경색 */
-    color: rgb(149, 228, 114); /* 글자색 */
-    border: none; /* 테두리 없앰 */
-    padding: 1px 2px; /* 패딩 */
-    cursor: pointer; /* 커서 모양 */
-    box-shadow: 2px 2px 2px 3px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    position: fixed;
+    bottom: 60px;
+    right: 10px; 
+    z-index: 1000;
+    background-color: white;
+    color: var(--pastel-green-300);
+    border: none;
+    padding: 1px 2px;
+    cursor: pointer;
+    box-shadow: 2px 2px 2px 3px rgba(0, 0, 0, 0.2);
 }
 
 .scrollToBottomButton {
-    position: fixed; /* 고정 위치 */
+    position: fixed;
     bottom: 60px; /* 하단에서 20px 떨어진 위치 */
     right: 46px; /* 우측에서 20px 떨어진 위치 */
     z-index: 1000; /* 다른 요소 위에 표시 */
-    background-color: white; /* 배경색 */
-    color: rgb(149, 228, 114); /* 글자색 */
-    border: none; /* 테두리 없앰 */
-    padding: 1px 2px; /* 패딩 */
-    cursor: pointer; /* 커서 모양 */
-    box-shadow: 2px 2px 2px 3px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    background-color: white;
+    color: var(--pastel-green-300);
+    border: none;
+    padding: 1px 2px;
+    cursor: pointer;
+    box-shadow: 2px 2px 2px 3px rgba(0, 0, 0, 0.2);
 }
