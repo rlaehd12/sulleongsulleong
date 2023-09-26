@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Container, Divider } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
+import Recommend from '@mui/icons-material/Recommend';
 import customAxios from '../customAxios';
 import InfiniteScroll from '../components/InfiniteScroll';
 
@@ -17,6 +18,10 @@ interface Beer {
 	image: string;
 	name: string;
 }
+interface Entry {
+	category: string;
+	recommendBeers: Beer[];
+}
 interface Props {
 	setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -24,11 +29,14 @@ interface Props {
 function MainPage({ setIsAuthenticated }: Props) {
 	const axiosInstance = customAxios();
 	const [beerList, setBeerList] = useState<Beer[]>([]);
+	const [categoryList, setcategoryList] = useState<Entry[]>([]);
+	const [loading, setLoading] = useState<boolean>(false);
+	const [loadCategory, setLoadCategory] = useState<number>(0);
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		axiosInstance
-			.get('/main')
+			.get('/beers/recommend/main')
 			.then((res) => {
 				console.log(res.data);
 				setBeerList(res.data.todayBeers);
@@ -40,6 +48,24 @@ function MainPage({ setIsAuthenticated }: Props) {
 				}
 			});
 	}, []);
+
+	const loadCategoryList = async () => {
+		if (categoryList.length > 0) return;
+
+		setLoading(true);
+		try {
+			const response = await axiosInstance.get('/beers/recommend/category');
+			setcategoryList(response.data.entries);
+		} catch (error) {
+			console.error('Error fetching category list:', error);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		loadCategoryList();
+	}, [loadCategory]);
 
 	// const url = `http://localhost:8080/api/main`;
 	// useEffect(() => {
@@ -94,9 +120,10 @@ function MainPage({ setIsAuthenticated }: Props) {
 			</Container>
 			<Container>
 				<InfiniteScroll
-					url="/beers/search"
-					PER_PAGE={10}
 					Component="simpleBeerCard"
+					loadMore={setLoadCategory}
+					list={categoryList}
+					loading={loading}
 				/>
 			</Container>
 		</div>

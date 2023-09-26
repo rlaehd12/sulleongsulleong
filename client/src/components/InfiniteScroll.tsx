@@ -1,38 +1,58 @@
-import React, { useState, useEffect, useRef, useCallback, FC } from 'react';
+import React from 'react';
 import ListForBeerCard from './listForBeerCard';
 import ListForSimpleBeerCard from './listForSimpleBeerCard';
 
-interface Props {
-	setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+interface Beer {
+	id: number;
+	image: string;
+	name: string;
 }
 
-// keyword는 옵션이라 없어도 괜찮음
-// <InfiniteScroll
-// 		url="https://api.punkapi.com/v2/beers"
-// 		PER_PAGE={10}
-// />
+interface ExtendedBeer extends Beer {
+	nameKor: string;
+	abv: number;
+	largeCategory: string;
+	subCategory: string;
+	country: string;
+	score: number;
+}
+
+interface Entry {
+	category: string;
+	recommendBeers: Beer[];
+}
 interface InfiniteScrollProps {
-	url: string;
-	PER_PAGE: number;
-	keyword?: string;
 	Component: 'beerCard' | 'simpleBeerCard';
+	loadMore: React.Dispatch<React.SetStateAction<number>>;
+	list: ExtendedBeer[] | Entry[];
+	loading: boolean;
 }
 
-function InfiniteScroll(
-	{
-		url = 'https://api.punkapi.com/v2/beers',
-		PER_PAGE,
-		keyword,
-		Component,
-	}: InfiniteScrollProps,
-	{ setIsAuthenticated }: Props,
-) {
+function InfiniteScroll({
+	Component,
+	loadMore,
+	list,
+	loading,
+}: InfiniteScrollProps) {
 	if (Component === 'beerCard') {
-		return <ListForBeerCard url={url} PER_PAGE={PER_PAGE} keyword={keyword} />;
+		return (
+			<ListForBeerCard
+				beerList={list as ExtendedBeer[]}
+				setPage={loadMore}
+				loading={loading}
+			/>
+		);
 	}
 	if (Component === 'simpleBeerCard') {
-		return <ListForSimpleBeerCard url={url} PER_PAGE={PER_PAGE} />;
+		return (
+			<ListForSimpleBeerCard
+				categoryList={list as Entry[]}
+				setCategoryList={loadMore}
+				loading={loading}
+			/>
+		);
 	}
+
 	return null;
 }
 

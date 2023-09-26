@@ -22,6 +22,4 @@
     display: flex;
     overflow-x: auto;
     white-space: nowrap;
-    margin-left: 4px;
-    margin-right: 4px;
 }

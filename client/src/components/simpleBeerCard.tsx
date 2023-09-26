@@ -1,14 +1,14 @@
-import React, { useEffect, useState, forwardRef } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardActionArea, CardMedia, CardContent } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
-import style from '../styles/beerCard.module.css';
+import style from '../styles/simpleBeerCard.module.css';
 
 interface Beer {
 	id: number;
 	image: string;
-	nameKor: string;
+	name: string;
 }
 
 interface SimpleBeerCardProps {
@@ -17,21 +17,29 @@ interface SimpleBeerCardProps {
 
 function SimpleBeerCard({ beer }: SimpleBeerCardProps) {
 	return (
-		<Card sx={{ maxWidth: 150 }}>
-			<CardActionArea>
-				<CardMedia
-					component="img"
-					height="140"
-					image={beer.image}
-					alt="green iguana"
-				/>
-				<CardContent>
-					<Typography variant="body2" color="text.secondary">
-						{beer.nameKor}
-					</Typography>
-				</CardContent>
-			</CardActionArea>
-		</Card>
+		<div className={style.beerItem}>
+			<Card>
+				<CardActionArea>
+					<div className={style.cardMediaImage}>
+						<CardMedia
+							component="img"
+							height="200"
+							image={beer.image}
+							alt="green iguana"
+						/>
+					</div>
+					<CardContent>
+						<Typography
+							variant="body2"
+							color="text.secondary"
+							className={style.truncateText}
+						>
+							{beer.name}
+						</Typography>
+					</CardContent>
+				</CardActionArea>
+			</Card>
+		</div>
 	);
 }
 
