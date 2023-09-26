@@ -1,14 +1,11 @@
 package com.sulleong.beer.dto;
 
-import lombok.AllArgsConstructor;
+import com.sulleong.beer.Beer;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class SearchResponseEntry {
 
     private Long id;
@@ -32,5 +29,21 @@ public class SearchResponseEntry {
     private Boolean prefer;
 
     private Integer preferCount;
+
+    public static SearchResponseEntry create(Beer beer, Long memberId, String imageUrl) {
+        return SearchResponseEntry.builder()
+                .id(beer.getId())
+                .image(imageUrl + beer.getId())
+                .name(beer.getName())
+                .nameKor(beer.getNameKor())
+                .abv(beer.getAbv())
+                .largeCategory(beer.getLargeCategory())
+                .subCategory(beer.getSubCategory())
+                .country(beer.getCountry())
+                .score(null) // 별점은 리뷰 기능 구현 후 추가 예정
+                .prefer(beer.getPreferences().stream().anyMatch(preference -> preference.getMember().getId().equals(memberId)))
+                .preferCount(beer.getPreferences().size())
+                .build();
+    }
 
 }

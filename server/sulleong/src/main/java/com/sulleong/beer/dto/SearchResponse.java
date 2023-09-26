@@ -6,9 +6,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class SearchResponse {
 
     private Integer prevCursor;
