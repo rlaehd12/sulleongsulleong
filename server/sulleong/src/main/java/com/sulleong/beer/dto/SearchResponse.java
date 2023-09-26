@@ -11,10 +11,10 @@ import java.util.List;
 @AllArgsConstructor
 public class SearchResponse {
 
-    private Integer prevCursor = null;
+    private Integer prevCursor;
 
     private List<SearchResponseEntry> entries;
 
-    private Integer nextCursor = null;
+    private Integer nextCursor;
 
 }

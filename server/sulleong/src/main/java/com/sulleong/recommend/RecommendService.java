@@ -5,7 +5,7 @@ import com.sulleong.beer.BeerService;
 import com.sulleong.member.Member;
 import com.sulleong.member.MemberService;
 import com.sulleong.preference.PreferenceService;
-import com.sulleong.recommend.dto.CategoryResponseEntry;
+import com.sulleong.recommend.dto.CategoryRecommendResponseEntry;
 import com.sulleong.recommend.dto.RecommendBeer;
 import com.sulleong.recommend.repository.RecommendRepository;
 import lombok.RequiredArgsConstructor;
@@ -87,8 +87,8 @@ public class RecommendService {
      * 사용자가 관심있어 하는 카테고리를 분석하여 각 카테고리별로 맥주를 추천합니다.
      * @return 관심있는 카테고리별 추천 맥주를 10개씩 반환합니다.
      */
-    public List<CategoryResponseEntry> getRecommendCategoryBeers(Long memberId) {
-        List<CategoryResponseEntry> categoryResponseEntries = new ArrayList<>();
+    public List<CategoryRecommendResponseEntry> getRecommendCategoryBeers(Long memberId) {
+        List<CategoryRecommendResponseEntry> categoryResponseEntries = new ArrayList<>();
         List<String> categories = recommendRepository.findMyFavoriteCategories(memberId);
         for (String category : categories) {
             categoryResponseEntries.add(getPopularBeersWithCategory(category));
@@ -100,10 +100,10 @@ public class RecommendService {
      * 카테고리별 가장 인기있는 맥주를 가져옵니다.
      * @return 카테고리 이름과 카테고리별 가장 좋아요가 많은 맥주 10개를 반환합니다.
      */
-    private CategoryResponseEntry getPopularBeersWithCategory(String category) {
+    private CategoryRecommendResponseEntry getPopularBeersWithCategory(String category) {
         List<Long> beerIds = recommendRepository.recommendBeersByLargeCategory(category);
         List<Beer> beers = beerService.getBeersByBeerIds(beerIds);
-        return new CategoryResponseEntry(category, beers.stream().map(beer ->
+        return new CategoryRecommendResponseEntry(category, beers.stream().map(beer ->
                 RecommendBeer.builder()
                         .id(beer.getId())
                         .image(IMAGE_URL + beer.getId())

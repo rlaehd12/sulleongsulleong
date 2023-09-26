@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Builder
 @AllArgsConstructor
-public class MainResponse {
+public class MainRecommendResponse {
 
     private String memberName;
 
