@@ -6,11 +6,18 @@ import com.sulleong.member.Member;
 import com.sulleong.member.MemberService;
 import com.sulleong.preference.PreferenceService;
 import com.sulleong.recommend.dto.CategoryRecommendResponseEntry;
+import com.sulleong.recommend.dto.CustomRecommendResponse;
+import com.sulleong.recommend.dto.CustomRecommendResponseEntry;
 import com.sulleong.recommend.dto.RecommendBeer;
 import com.sulleong.recommend.repository.RecommendRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +35,9 @@ public class RecommendService {
     private final PreferenceService preferenceService;
     private final RecommendRepository recommendRepository;
 
+    @Value("${domain}")
+    private String DOMAIN;
+
     /**
      * 오늘의 맥주를 추천합니다.
      * @param memberId 사용자 아이디
@@ -39,7 +49,7 @@ public class RecommendService {
         List<Long> myBeerIds = myBeers.stream().map(Beer::getId).collect(Collectors.toList());
 
         // 좋아요를 누른 맥주들과 가장 유사도가 높은 맥주들을 가져옵니다.
-        List<Long> similarBeerIds = recommendRepository.recommendBeersByMyFavoriteBeers(myBeerIds);
+        List<Long> similarBeerIds = recommendRepository.recommendBeersByMyFavoriteBeers(myBeerIds, 4);
         List<Beer> similarBeers = beerService.getBeersByBeerIds(similarBeerIds);
         return similarBeers.stream().map(beer ->
                 RecommendBeer.builder()
@@ -110,6 +120,34 @@ public class RecommendService {
                         .name(beer.getName())
                         .build()
         ).collect(Collectors.toList()));
+    }
+
+    /**
+     * 사용자 맞춤형 맥주를 가져옵니다.
+     * @return 협업 필터링 방식으로 추천하는 맥주들을 반환합니다.
+     */
+    public CustomRecommendResponse getCustomizedBeers(Long memberId) {
+        // 사용자가 좋아요를 누른 맥주들의 식별자를 가져옵니다.
+        List<Beer> myBeers = preferenceService.getPreferBeers(memberId).getBeers();
+        List<Long> myBeerIds = myBeers.stream().map(Beer::getId).collect(Collectors.toList());
+
+        // 좋아요를 누른 맥주들과 가장 유사도가 높은 맥주들을 가져오고, 협업 필터링을 모델을 이용하여 순위를 정합니다.
+        List<Long> similarBeerIds = recommendRepository.recommendBeersByMyFavoriteBeers(myBeerIds, 100);
+        List<Long> recommendBeerIds = collaborativeFiltering(memberId, similarBeerIds);
+        List<CustomRecommendResponseEntry> recommendBeers = beerService.getBeersByBeerIds(recommendBeerIds)
+                .stream().map(beer -> CustomRecommendResponseEntry.create(beer, memberId, IMAGE_URL))
+                .collect(Collectors.toList());
+
+        return new CustomRecommendResponse(recommendBeers);
+    }
+
+    private List<Long> collaborativeFiltering(Long memberId, List<Long> beerIds) {
+        RestTemplate restTemplate = new RestTemplate();
+        String beers = beerIds.stream().map(Object::toString).collect(Collectors.joining(","));
+        ResponseEntity<List<Long>> response = restTemplate.exchange(
+                DOMAIN + "/recommend/rank/?mid={memberId}&beers={beers}", HttpMethod.GET,
+                null, new ParameterizedTypeReference<List<Long>>() {}, memberId, beers);
+        return response.getBody();
     }
 
 }

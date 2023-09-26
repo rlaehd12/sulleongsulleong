@@ -3,6 +3,7 @@ package com.sulleong.recommend;
 import com.sulleong.aop.LoginCheck;
 import com.sulleong.login.dto.AuthMember;
 import com.sulleong.recommend.dto.CategoryRecommendResponse;
+import com.sulleong.recommend.dto.CustomRecommendResponse;
 import com.sulleong.recommend.dto.MainRecommendResponse;
 import com.sulleong.recommend.dto.RecommendBeer;
 import io.swagger.v3.oas.annotations.Operation;
@@ -46,6 +47,14 @@ public class RecommendController {
         return ResponseEntity.ok(categoryResponse);
     }
 
-
+    @GetMapping("/rank")
+    @LoginCheck(type = LoginCheck.UserType.GUEST) // UserType.User로 변경 예정
+    @Operation(summary = "사용자 맞춤형 추천", description = "협업 필터링 추천 방식으로 사용자에게 가장 적합한 맥주들을 추천")
+    public ResponseEntity<CustomRecommendResponse> customRecommend(HttpServletRequest request) {
+        AuthMember authMember = (AuthMember) request.getAttribute("authMember");
+        Long memberId = authMember.getId();
+        CustomRecommendResponse response = recommendService.getCustomizedBeers(memberId);
+        return ResponseEntity.ok(response);
+    }
 
 }
