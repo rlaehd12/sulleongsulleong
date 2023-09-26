@@ -1,6 +1,7 @@
 package com.sulleong.review;
 
 import com.sulleong.beer.Beer;
+import com.sulleong.common.BaseTimeEntity;
 import com.sulleong.member.Member;
 import com.sulleong.review.create.controller.dto.request.BeerReviewCreateForm;
 import lombok.Getter;
@@ -9,10 +10,11 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-public class Review {
+public class Review extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "review_sequence_generator")
+    @SequenceGenerator(name = "review_sequence_generator", sequenceName = "review_sequence", allocationSize = 1)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -41,5 +43,8 @@ public class Review {
         this.beer = beer;
         this.content = form.getContent();
         this.score = form.getScore();
+    }
+
+    protected Review() {
     }
 }

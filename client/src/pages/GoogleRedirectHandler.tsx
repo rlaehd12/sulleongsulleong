@@ -20,6 +20,7 @@ function GoogleRedirectHandler({ setIsAuthenticated }: Props) {
 					const authHeader = response.headers.authorization;
 					if (authHeader) {
 						sessionStorage.setItem('authorization', authHeader);
+						sessionStorage.setItem('Role', 'USER');
 						setIsAuthenticated(true);
 						navigate('/');
 					} else {
