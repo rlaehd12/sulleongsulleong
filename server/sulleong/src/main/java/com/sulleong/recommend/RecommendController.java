@@ -48,7 +48,7 @@ public class RecommendController {
     }
 
     @GetMapping("/rank")
-    @LoginCheck(type = LoginCheck.UserType.GUEST) // UserType.User로 변경 예정
+    @LoginCheck(type = LoginCheck.UserType.USER)
     @Operation(summary = "사용자 맞춤형 추천", description = "협업 필터링 추천 방식으로 사용자에게 가장 적합한 맥주들을 추천")
     public ResponseEntity<CustomRecommendResponse> customRecommend(HttpServletRequest request) {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
