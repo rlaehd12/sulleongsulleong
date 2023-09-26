@@ -26,7 +26,7 @@ public class BeerDetailService {
 
     private final PreferenceService preferenceService;
 
-    public BeerDetailResponse getDetail(Long memberId, Long beerId) {
+    public BeerDetailResponse getDetail(Long beerId, Long memberId) {
         Beer beer = beerService.getBeerOrElseThrow(beerId);
         ReviewEntries reviewEntries = reviewReadsService.getRecentReviews(beerId);
         boolean isPrefer = false;

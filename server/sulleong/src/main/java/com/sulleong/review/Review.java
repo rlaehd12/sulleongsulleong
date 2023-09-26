@@ -13,7 +13,8 @@ import javax.persistence.*;
 public class Review extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "review_sequence_generator")
+    @SequenceGenerator(name = "review_sequence_generator", sequenceName = "review_sequence", allocationSize = 1)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
