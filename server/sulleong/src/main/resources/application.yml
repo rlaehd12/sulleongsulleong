@@ -34,3 +34,5 @@ spring:
     redirect-uri: ${GOOGLE_REDIRECT_URI}
 
 domain: https://dev.sulleong.site
+
+server-check : blue
