@@ -2,7 +2,7 @@ package com.sulleong.aop;
 
 import com.sulleong.exception.AccessTokenExpiredException;
 import com.sulleong.exception.GuestNotAllowException;
-import com.sulleong.login.service.RedisService;
+import com.sulleong.login.service.LoginRedisService;
 import com.sulleong.login.dto.AuthMember;
 import com.sulleong.member.Role;
 import org.aspectj.lang.JoinPoint;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 public class AuthCheckAspect {
 
     @Autowired
-    private RedisService redisService;
+    private LoginRedisService loginRedisService;
 
     @Before("@annotation(com.sulleong.aop.LoginCheck) && @ annotation(loginCheck)")
     public void loginCheck(JoinPoint joinPoint, LoginCheck loginCheck) throws Throwable {
@@ -50,7 +50,7 @@ public class AuthCheckAspect {
     }
 
     private AuthMember getAuthMemberOrElseThrow(String token) {
-        AuthMember authMember = redisService.getAuthMember(token);
+        AuthMember authMember = loginRedisService.getAuthMember(token);
         if (authMember == null) {
             throw new AccessTokenExpiredException("인증이 만료된 사용자입니다.");
         }

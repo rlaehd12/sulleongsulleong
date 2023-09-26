@@ -38,7 +38,8 @@ dependencies {
 
 	// querydsl
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
+    implementation 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
 
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'

@@ -5,11 +5,12 @@ import com.sulleong.review.Review;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Getter
-public class Beer {
+public class Beer implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

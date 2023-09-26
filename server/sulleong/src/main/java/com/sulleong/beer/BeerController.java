@@ -1,9 +1,9 @@
 package com.sulleong.beer;
 
+import com.sulleong.aop.LoginCheck;
 import com.sulleong.beer.dto.SearchParam;
 import com.sulleong.beer.dto.SearchResponse;
 import com.sulleong.beer.dto.SurveyResponse;
-import com.sulleong.aop.LoginCheck;
 import com.sulleong.login.dto.AuthMember;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -25,26 +25,26 @@ public class BeerController {
     @LoginCheck(type = LoginCheck.UserType.GUEST)
     @GetMapping("/survey")
     @Operation(summary = "맥주 설문 폼", description = "맥주 선호도 조사를 위해 설문용 맥주들을 제시")
-    public ResponseEntity<SurveyResponse> getSurveyBeers() throws Exception {
+    public ResponseEntity<SurveyResponse> getSurveyBeers() {
         return ResponseEntity.ok(beerService.getSurveyBeers());
     }
 
     @LoginCheck(type = LoginCheck.UserType.GUEST)
     @GetMapping("/search")
     @Operation(summary = "맥주 검색", description = "입력한 내용을 포함하는 맥주 검색")
-    public ResponseEntity<SearchResponse> getSearchBeers(HttpServletRequest request,
-                                                         @ModelAttribute SearchParam searchParam) throws Exception {
+    public ResponseEntity<SearchResponse> getSearchBeers(HttpServletRequest request, @ModelAttribute SearchParam param) {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
         Long memberId = authMember.getId();
 
         // 페이지 정보 기본값 설정
-        if (searchParam.getPage() == null) {
-            searchParam.setPage(1);
+        if (param.getPage() == null) {
+            param.setPage(1);
         }
-        if (searchParam.getSize() == null) {
-            searchParam.setSize(5);
+        if (param.getSize() == null) {
+            param.setSize(10);
         }
-        return ResponseEntity.ok(beerService.getSearchBeers(memberId, searchParam));
+        SearchResponse response = beerService.getSearchBeers(memberId, param);
+        return ResponseEntity.ok(response);
     }
 
 }

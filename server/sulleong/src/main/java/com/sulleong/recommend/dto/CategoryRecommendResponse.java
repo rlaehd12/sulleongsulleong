@@ -7,10 +7,8 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class CategoryResponseEntry {
+public class CategoryRecommendResponse {
 
-    private String category;
-
-    private List<RecommendBeer> recommendBeers;
+    private List<CategoryRecommendResponseEntry> entries;
 
 }

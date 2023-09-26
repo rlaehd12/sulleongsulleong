@@ -24,8 +24,9 @@ public class Preference extends BaseTimeEntity {
     @Column(nullable = false)
     private Boolean choice;
 
-    public void toggleChoice() {
+    public boolean toggleChoice() {
         this.choice = !this.choice;
+        return this.choice;
     }
 
     public Preference(Member member, Beer beer) {
