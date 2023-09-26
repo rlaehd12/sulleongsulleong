@@ -11,6 +11,7 @@ import com.sulleong.review.create.controller.dto.response.BeerReviewCreateRespon
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -23,6 +24,7 @@ public class ReviewCreateService {
 
     private final BeerService beerService;
 
+    @Transactional
     public BeerReviewCreateResponse create(Long beerId, Long memberId, BeerReviewCreateForm form) {
         Member member = memberService.getMemberOrElseThrow(memberId);
         Beer beer = beerService.getBeerOrElseThrow(beerId);
