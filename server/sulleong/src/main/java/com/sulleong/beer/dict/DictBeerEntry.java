@@ -1,6 +1,7 @@
 package com.sulleong.beer.dict;
 
 import com.sulleong.beer.Beer;
+import com.sulleong.beer.ImageUri;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,7 +29,7 @@ public class DictBeerEntry {
     public static DictBeerEntry createDictBeer(Beer beer, boolean check) {
         return DictBeerEntry.builder()
                 .beer_id(beer.getId())
-                .image("https://res.cloudinary.com/ratebeer/image/upload/d_beer_img_default.png,f_auto/beer_" + beer.getId())
+                .image(ImageUri.URI.getValue() + beer.getId())
                 .dictCheck(check)
                 .name(beer.getNameKor())
                 .largeCategory(beer.getLargeCategory())
