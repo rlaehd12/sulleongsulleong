@@ -24,6 +24,8 @@ spring:
       charset: UTF-8
       enabled: true
       force: true
+  cashe:
+    type: redis
   redis:
     host: localhost
     port: 6379
