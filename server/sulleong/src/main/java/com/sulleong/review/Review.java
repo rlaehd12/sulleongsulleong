@@ -13,7 +13,8 @@ import javax.persistence.*;
 public class Review extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "review_sequence_generator")
+    @SequenceGenerator(name = "review_sequence_generator", sequenceName = "review_sequence", allocationSize = 1)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -33,6 +34,8 @@ public class Review extends BaseTimeEntity {
 
     private Integer flavor;
 
+    private Integer overall;
+
     private Integer score;
 
     public Review(Member member, Beer beer, BeerReviewCreateForm form) {
@@ -40,5 +43,8 @@ public class Review extends BaseTimeEntity {
         this.beer = beer;
         this.content = form.getContent();
         this.score = form.getScore();
+    }
+
+    protected Review() {
     }
 }

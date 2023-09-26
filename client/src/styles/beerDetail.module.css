@@ -1,0 +1,92 @@
+@import './figmaVariables.css';
+
+.beerImg {
+	width: 100%;
+	height: 15rem;
+	object-fit: contain;
+}
+
+.beerTitle {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.beerInfo {
+	font-size: var(--font_size3);
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.beerInfo strong {
+	margin-right: 15px;
+}
+
+.divider {
+	width: 100%;
+	height: 1px;
+	background-color: var(--pastel-green-500);
+	margin: 10px 0;
+}
+
+.review {
+	border: 2px solid var(--pastel-green-500);
+	border-radius: var(--radius1);
+	padding: 5px 5px;
+	margin: 5px 5px;
+}
+
+.review p {
+	font-size: var(--font_size2);
+	word-wrap: break-word;
+}
+
+.btnContainer {
+	display: flex;
+	justify-content: center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.reviewBtn {
+	width: 95%;
+	margin-top: 10px;
+}
+
+.descriptionContent {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin-top: 5%;
+}
+
+.descriptionContent .reviewBtn {
+	margin-top: 20px;
+}
+
+.ratingDiv {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	margin-bottom: 5%;
+}
+.rating {
+	margin-left: 40%;
+}
+
+.modalContent {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 80%;
+	height: 80%;
+	background-color: var(--white);
+}
+
+.reviewText {
+	width: 100%;
+	height: 60%;
+	margin-bottom: 20px;
+}
