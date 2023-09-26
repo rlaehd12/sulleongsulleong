@@ -13,7 +13,7 @@ interface Props {
 interface reviews {
 	reviewId: number;
 	content: string;
-	rating: number;
+	score: number;
 }
 
 interface BeerDetail {
@@ -28,6 +28,7 @@ interface BeerDetail {
 
 function DetailPage({ setIsAuthenticated }: Props) {
 	const axiosInstance = customAxios();
+	const [beerInfo, setBeerInfo] = useState<BeerDetail>({} as BeerDetail);
 	const [open, setOpen] = useState(false);
 	const [reviewText, setReviewText] = useState('');
 	const [rate, setRate] = useState(2.5);
@@ -38,9 +39,13 @@ function DetailPage({ setIsAuthenticated }: Props) {
 			.get(`/beers/${id}`)
 			.then((res) => {
 				console.log(res.data);
+				setBeerInfo(res.data);
 			})
 			.catch((err) => {
 				console.error(err);
+				if (err.response.status === 401) {
+					setIsAuthenticated(false);
+				}
 			});
 	}, []);
 	const handleOpen = () => setOpen(true);
@@ -53,43 +58,50 @@ function DetailPage({ setIsAuthenticated }: Props) {
 			content: reviewText,
 			score: rate * 2,
 		});
+		handleClose();
+		setReviewText('');
 	};
 
 	return (
 		<>
 			<Container>
 				<div>
-					<img className={style.beerImg} src={beerIcon} alt="맥주이름" />
+					<img
+						className={style.beerImg}
+						src={beerInfo.imageUrl}
+						onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+							const target = e.target as HTMLImageElement;
+							target.src = beerIcon; // 이미지 로드에 실패하면 beerIcon으로 대체
+						}}
+						alt="맥주이름"
+					/>
 					<hr className={style.divider} />
 					<div className={style.beerTitle}>
 						<span className={style.beerInfo}>
 							<strong>이름</strong>
-							<span>맥주이름 와랄ㄹ랄라</span>
+							<span>{beerInfo.name}</span>
 						</span>
-						<Preference beerId={1} />
+						<Preference beerId={id} />
 					</div>
 					<p className={style.beerInfo}>
-						<strong>Large Category</strong>
-						{'>'} sub Category
+						<strong>
+							{beerInfo.largeCategory} {'>'}
+						</strong>
+						{beerInfo.subCategory}
 					</p>
 					<p className={style.beerInfo}>
 						<strong>도수</strong>
-						n.n%
+						{beerInfo.abv}%
 					</p>
 					<hr className={style.divider} />
 					<h3>리뷰</h3>
-					<Container className={style.review}>
-						<Rating name="별점" value={2.5} readOnly />
-						<p>리뷰 comment랑</p>
-						<p>mui에서 rating 기능 가져와서 찍어주어요</p>
-					</Container>
-					<Container className={style.review}>
-						<Rating name="별점" value={2.5} readOnly />
-						<p>
-							리뷰 Comment
-							길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다길이테스트중입니다
-						</p>
-					</Container>
+					{Array.isArray(beerInfo.entries) &&
+						beerInfo.entries.map((review) => (
+							<Container className={style.review}>
+								<Rating name="별점" value={review.score / 2} readOnly />
+								<p>{review.content}</p>
+							</Container>
+						))}
 					<div className={style.btnContainer}>
 						<Button
 							className={style.reviewBtn}
