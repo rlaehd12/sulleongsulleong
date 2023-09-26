@@ -66,7 +66,7 @@ public class BeerRepositoryImpl implements BeerRepositoryCustom {
     @Override
     public List<Beer> getDictBeerByMemberid(Long memberId) {
         return queryFactory
-                .selectFrom(beer)
+                .selectFrom(beer).distinct()
                 .join(review)
                 .on(beer.id.eq(review.beer.id))
                 .where(beer.nameKor.isNotNull().and(review.member.id.eq(memberId)))
