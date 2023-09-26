@@ -1,7 +1,7 @@
 package com.sulleong.beer.dict;
 
 import com.sulleong.beer.Beer;
-import com.sulleong.beer.ImageUri;
+import com.sulleong.common.ImageUri;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

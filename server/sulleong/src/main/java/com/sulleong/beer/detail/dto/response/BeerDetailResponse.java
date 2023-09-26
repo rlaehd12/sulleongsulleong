@@ -1,14 +1,13 @@
 package com.sulleong.beer.detail.dto.response;
 
 import com.sulleong.beer.Beer;
+import com.sulleong.common.ImageUri;
 import com.sulleong.review.reads.dto.ReviewEntries;
 import com.sulleong.review.reads.dto.ReviewEntry;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
-
-import static com.sulleong.beer.BeerService.IMAGE_URL;
 
 @Setter
 @Getter
@@ -29,7 +28,7 @@ public class BeerDetailResponse {
     private List<ReviewEntry> entries;
 
     public BeerDetailResponse(Beer beer, Boolean isPrefer, ReviewEntries entries) {
-        this.imageUrl = IMAGE_URL + beer.getId();
+        this.imageUrl = ImageUri.URI.getValue() + beer.getId();
         this.name = beer.getName();
         this.largeCategory = beer.getLargeCategory();
         this.subCategory = beer.getSubCategory();

@@ -4,8 +4,6 @@ import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class SearchParam {
 
     private String keyword;

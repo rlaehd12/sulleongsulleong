@@ -6,15 +6,13 @@ import java.util.List;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class SearchResponse {
 
-    private Integer prevCursor = null;
+    private Integer prevCursor;
 
     private List<SearchResponseEntry> entries;
 
-    private Integer nextCursor = null;
+    private Integer nextCursor;
 
 }

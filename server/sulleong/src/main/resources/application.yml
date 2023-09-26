@@ -32,3 +32,5 @@ spring:
 
   google:
     redirect-uri: ${GOOGLE_REDIRECT_URI}
+
+domain: https://dev.sulleong.site

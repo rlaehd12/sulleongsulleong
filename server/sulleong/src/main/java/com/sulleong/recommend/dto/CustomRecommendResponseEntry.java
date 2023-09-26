@@ -1,12 +1,13 @@
-package com.sulleong.beer.dto;
+package com.sulleong.recommend.dto;
 
 import com.sulleong.beer.Beer;
+import com.sulleong.common.ImageUri;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-public class SearchResponseEntry {
+public class CustomRecommendResponseEntry {
 
     private Long id;
 
@@ -30,10 +31,10 @@ public class SearchResponseEntry {
 
     private Integer preferCount;
 
-    public static SearchResponseEntry create(Beer beer, Long memberId, String imageUrl) {
-        return SearchResponseEntry.builder()
+    public static CustomRecommendResponseEntry create(Beer beer, Long memberId) {
+        return CustomRecommendResponseEntry.builder()
                 .id(beer.getId())
-                .image(imageUrl + beer.getId())
+                .image(ImageUri.URI.getValue() + beer.getId())
                 .name(beer.getName())
                 .nameKor(beer.getNameKor())
                 .abv(beer.getAbv())
