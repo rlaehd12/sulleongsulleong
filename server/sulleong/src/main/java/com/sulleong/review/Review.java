@@ -33,6 +33,8 @@ public class Review extends BaseTimeEntity {
 
     private Integer flavor;
 
+    private Integer overall;
+
     private Integer score;
 
     public Review(Member member, Beer beer, BeerReviewCreateForm form) {
@@ -40,5 +42,8 @@ public class Review extends BaseTimeEntity {
         this.beer = beer;
         this.content = form.getContent();
         this.score = form.getScore();
+    }
+
+    protected Review() {
     }
 }

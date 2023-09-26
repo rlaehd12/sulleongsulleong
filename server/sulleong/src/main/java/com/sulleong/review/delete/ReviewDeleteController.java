@@ -17,6 +17,7 @@ public class ReviewDeleteController implements ReviewDeleteControllerDocs{
 
     private final ReviewDeleteService reviewDeleteService;
 
+    @Override
     @LoginCheck(type = LoginCheck.UserType.USER)
     @DeleteMapping("/{reviewId}")
     public ResponseEntity<Void> deleteReview(@PathVariable("reviewId") Long reviewId, HttpServletRequest request) {
