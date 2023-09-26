@@ -34,7 +34,7 @@ public class DictService {
     }
 
 
-    public List<Beer> getDictBeerList() {
+    private List<Beer> getDictBeerList() {
         return beerRepository.getDictBeers();
     }
 }

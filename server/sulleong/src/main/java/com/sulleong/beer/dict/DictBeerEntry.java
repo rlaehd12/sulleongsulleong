@@ -23,11 +23,14 @@ public class DictBeerEntry {
 
     private boolean dictCheck;
 
+    private String name;
+
     public static DictBeerEntry createDictBeer(Beer beer, boolean check) {
         return DictBeerEntry.builder()
                 .beer_id(beer.getId())
                 .image("https://res.cloudinary.com/ratebeer/image/upload/d_beer_img_default.png,f_auto/beer_" + beer.getId())
                 .dictCheck(check)
+                .name(beer.getNameKor())
                 .largeCategory(beer.getLargeCategory())
                 .build();
     }

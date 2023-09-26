@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 @SpringBootTest
 @Slf4j
 class DictServiceTest {
@@ -18,18 +20,11 @@ class DictServiceTest {
     }
 
     @Test
-    public void getDictBeerListTest() {
-        dictService.getDictBeerList().stream().forEach(a -> System.out.println(a.getName()));
-    }
-
-    @Test
-    public void getDictListResponse() {
+    public void 도감_갯수_체크() {
         long TestMemberId = 10009839;
-        dictService.getDictListResponse(TestMemberId).getBeers().stream().forEach(System.out::println);
-    }
 
-    @Test
-    public void getReviewCheck() {
-        Assertions.assertThat(dictService.getReviewCheck(10009839L, 73158L)).isTrue();
+        List<DictBeerEntry> beers = dictService.getDictListResponse(TestMemberId).getBeers();
+
+        Assertions.assertThat(beers.size()).isEqualTo(118);
     }
 }
