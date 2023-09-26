@@ -1,0 +1,18 @@
+.beerItem {
+    margin-right: 8px; 
+    width: 250px;
+    max-width: 250px;
+}
+
+.cardMediaImage {
+    object-fit: contain !important;
+  }
+
+  .truncateText {
+	white-space: nowrap;	/* 텍스트 한 줄 */
+	overflow: hidden;
+	text-overflow: ellipsis;	/* overflow 텍스트 ...으로 표시 */
+	display: block;
+	width: 100%;
+	max-width: 190px; /* 제한 너비를 추가 (이 값은 상황에 따라 조정해야 할 수 있음) */
+  }

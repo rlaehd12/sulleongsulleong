@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import SimpleBeerCard from './simpleBeerCard';
 
 import style from '../styles/InfiniteScroll.module.css';
@@ -12,16 +14,16 @@ interface Beer {
 }
 interface Entry {
 	category: string;
-	recommenBeers: Beer[];
+	recommendBeers: Beer[];
 }
 interface InfiniteScrollProps {
 	categoryList: Entry[];
-	loadCategoryList: () => void;
+	setCategoryList: React.Dispatch<React.SetStateAction<number>>;
 	loading: boolean;
 }
 
 function ListForSimpleBeerList({
-	loadCategoryList,
+	setCategoryList,
 	categoryList,
 	loading,
 }: InfiniteScrollProps) {
@@ -30,8 +32,8 @@ function ListForSimpleBeerList({
 	// callback 함수
 	const handleIntersection = (entries: IntersectionObserverEntry[]) => {
 		const entry = entries[0];
-		if (entry.isIntersecting) {
-			loadCategoryList();
+		if (entry.isIntersecting && categoryList.length === 0) {
+			setCategoryList(1);
 		}
 	};
 
@@ -67,15 +69,13 @@ function ListForSimpleBeerList({
 						<div className={style.categoryList}>
 							<h3>{entry.category}</h3>
 							<Divider />
-							{entry.recommenBeers &&
-								entry.recommenBeers.length > 0 &&
-								entry.recommenBeers.map((beer) => {
-									return (
-										<div className={style.beerList}>
-											<SimpleBeerCard key={beer.id} beer={beer} />;
-										</div>
-									);
-								})}
+							<div className={style.beerList}>
+								{entry.recommendBeers &&
+									entry.recommendBeers.length > 0 &&
+									entry.recommendBeers.map((beer) => {
+										return <SimpleBeerCard key={beer.id} beer={beer} />;
+									})}
+							</div>
 							<Divider />
 						</div>
 					);

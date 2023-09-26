@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
-import customAxios from '../customAxios';
 import BeerCard from './beerCard';
 import style from '../styles/InfiniteScroll.module.css';
 
@@ -18,21 +17,19 @@ interface Beer {
 
 interface InfiniteScrollProps {
 	beerList: Beer[];
-	loadBeerList: () => void;
+	setPage: React.Dispatch<React.SetStateAction<number>>;
 	loading: boolean;
 }
 
-function ListForBeerCard({
-	beerList,
-	loadBeerList,
-	loading,
-}: InfiniteScrollProps) {
+function ListForBeerCard({ beerList, setPage, loading }: InfiniteScrollProps) {
 	const targetRef = useRef<HTMLDivElement | null>(null);
 
 	const handleIntersection = (entries: IntersectionObserverEntry[]) => {
 		const entry = entries[0];
-		if (entry.isIntersecting) {
-			loadBeerList();
+		if (entry.isIntersecting && beerList.length === 0) {
+			setPage(0);
+		} else if (entry.isIntersecting && beerList.length % 10 === 0) {
+			setPage((prevPage) => prevPage + 1);
 		}
 	};
 
@@ -50,8 +47,12 @@ function ListForBeerCard({
 			observer.observe(targetRef.current);
 		}
 
-		return () => observer.disconnect();
-	}, []);
+		return () => {
+			if (targetRef.current && observer) {
+				observer.unobserve(targetRef.current);
+			}
+		};
+	}, [beerList]);
 
 	return (
 		<div>

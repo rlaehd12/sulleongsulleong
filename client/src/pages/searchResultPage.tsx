@@ -25,6 +25,11 @@ interface Beer {
 	country: string;
 	score: number;
 }
+interface Params {
+	page: number;
+	size: number;
+	keyword: string;
+}
 interface Props {
 	setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -55,31 +60,38 @@ function SearchResultPage({ setIsAuthenticated }: Props) {
 	);
 
 	const loadBeerList = async () => {
-		try {
-			setLoading(true);
-			const res = await customAxios().get(
-				`/beers/search?keyword=${searchQuery.get('q')}&page=${
-					page + 1
-				}&size=10`,
-			);
-			if (Array.isArray(res.data.entries) && res.data.entries.length > 0) {
-				setPage(page + 1);
-				setBeerList((prevBeers) => [...prevBeers, ...res.data.entries]);
-			}
-		} catch (error) {
-			// 요청이 실패할 경우에 대한 에러 핸들링도 추가할 수 있습니다.
-			console.error('Error fetching search beer list:', error);
-		} finally {
-			setLoading(false);
-		}
+		setLoading(true);
+		const params: Params = {
+			page: page + 1,
+			size: 10,
+			keyword: searchQuery.get('q') || '',
+		};
+
+		await customAxios()
+			.get('/beers/search', { params })
+			.then((res) => {
+				if (Array.isArray(res.data.entries) && res.data.entries.length > 0) {
+					setBeerList((prevBeers) => [...prevBeers, ...res.data.entries]);
+				}
+			})
+			.catch((err) => {
+				console.error('Axios Error:', err.response.status);
+				if (err.response.status === 401) {
+					setIsAuthenticated(false);
+				}
+			});
+		setLoading(false);
 	};
 
+	// 페이지 진입 및 검색했을 때 상태 초기화
 	useEffect(() => {
-		setPage(0);
 		setBeerList([]);
-		loadBeerList();
-		console.log('초기화');
 	}, [searchQuery]);
+
+	// 페이지 상태 변경에 따른 리스트 추가
+	useEffect(() => {
+		loadBeerList();
+	}, [page, searchQuery]);
 
 	return (
 		<>
@@ -113,7 +125,7 @@ function SearchResultPage({ setIsAuthenticated }: Props) {
 					<div>
 						<InfiniteScroll
 							Component="beerCard"
-							loadMore={loadBeerList}
+							loadMore={setPage}
 							list={beerList}
 							loading={loading}
 						/>

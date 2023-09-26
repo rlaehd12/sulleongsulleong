@@ -19,22 +19,13 @@ interface ExtendedBeer extends Beer {
 
 interface Entry {
 	category: string;
-	recommenBeers: Beer[];
+	recommendBeers: Beer[];
 }
 interface InfiniteScrollProps {
 	Component: 'beerCard' | 'simpleBeerCard';
-	loadMore: () => void;
+	loadMore: React.Dispatch<React.SetStateAction<number>>;
 	list: ExtendedBeer[] | Entry[];
 	loading: boolean;
-}
-
-function isExtendedBeerList(
-	list: ExtendedBeer[] | Entry[],
-): list is ExtendedBeer[] {
-	if (!list.length || !list[0]) {
-		return false;
-	}
-	return (list[0] as ExtendedBeer).largeCategory !== undefined;
 }
 
 function InfiniteScroll({
@@ -43,22 +34,20 @@ function InfiniteScroll({
 	list,
 	loading,
 }: InfiniteScrollProps) {
-	if (Component === 'beerCard' && isExtendedBeerList(list)) {
-		console.log(`맥주카드`);
+	if (Component === 'beerCard') {
 		return (
 			<ListForBeerCard
-				beerList={list}
-				loadBeerList={loadMore}
+				beerList={list as ExtendedBeer[]}
+				setPage={loadMore}
 				loading={loading}
 			/>
 		);
 	}
-	if (Component === 'simpleBeerCard' && !isExtendedBeerList(list)) {
-		console.log(`심플맥주카드`);
+	if (Component === 'simpleBeerCard') {
 		return (
 			<ListForSimpleBeerCard
-				categoryList={list}
-				loadCategoryList={loadMore}
+				categoryList={list as Entry[]}
+				setCategoryList={loadMore}
 				loading={loading}
 			/>
 		);

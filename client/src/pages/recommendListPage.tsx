@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, TextField } from '@mui/material';
 
+import { AxiosError } from 'axios';
 import Navbar from '../components/navbar';
 import style from '../styles/recommendListPage.module.css';
 import TabBar from '../components/tabBar';
@@ -37,17 +38,21 @@ function RecommendListPage({ setIsAuthenticated }: Props) {
 				setPage((prevPage) => prevPage + 1);
 				setBeerList((prevBeers) => [...prevBeers, ...res.data.entries]);
 			}
-		} catch (error) {
+		} catch (err) {
 			// 요청이 실패할 경우에 대한 에러 핸들링도 추가할 수 있습니다.
-			console.error('Error fetching search beer list:', error);
+			console.error('Error fetching search beer list:', err);
+			if ((err as AxiosError).response?.status === 401) {
+				setIsAuthenticated(false);
+			}
 		} finally {
 			setLoading(false);
 		}
 	};
 
 	useEffect(() => {
+		if (page === 0) return;
 		loadBeerList();
-	}, []);
+	}, [page]);
 
 	return (
 		<>

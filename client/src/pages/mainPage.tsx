@@ -20,7 +20,7 @@ interface Beer {
 }
 interface Entry {
 	category: string;
-	recommenBeers: Beer[];
+	recommendBeers: Beer[];
 }
 interface Props {
 	setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -31,6 +31,7 @@ function MainPage({ setIsAuthenticated }: Props) {
 	const [beerList, setBeerList] = useState<Beer[]>([]);
 	const [categoryList, setcategoryList] = useState<Entry[]>([]);
 	const [loading, setLoading] = useState<boolean>(false);
+	const [loadCategory, setLoadCategory] = useState<number>(0);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -54,15 +55,17 @@ function MainPage({ setIsAuthenticated }: Props) {
 		setLoading(true);
 		try {
 			const response = await axiosInstance.get('/beers/recommend/category');
-			console.log(`${response.data}`);
 			setcategoryList(response.data.entries);
 		} catch (error) {
-			// 요청이 실패할 경우에 대한 에러 핸들링도 추가할 수 있습니다.
 			console.error('Error fetching category list:', error);
 		} finally {
 			setLoading(false);
 		}
 	};
+
+	useEffect(() => {
+		loadCategoryList();
+	}, [loadCategory]);
 
 	// const url = `http://localhost:8080/api/main`;
 	// useEffect(() => {
@@ -118,7 +121,7 @@ function MainPage({ setIsAuthenticated }: Props) {
 			<Container>
 				<InfiniteScroll
 					Component="simpleBeerCard"
-					loadMore={loadCategoryList}
+					loadMore={setLoadCategory}
 					list={categoryList}
 					loading={loading}
 				/>
