@@ -15,7 +15,8 @@ import java.util.List;
 public class Member extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_sequence_generator")
+    @SequenceGenerator(name = "member_sequence_generator", sequenceName = "member_sequence", allocationSize = 1)
     private Long id;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
