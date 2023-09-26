@@ -2,7 +2,7 @@ package com.sulleong.login;
 
 import com.sulleong.login.dto.AuthMember;
 import com.sulleong.login.service.OauthService;
-import com.sulleong.login.service.RedisService;
+import com.sulleong.login.service.LoginRedisService;
 import com.sulleong.member.Member;
 import com.sulleong.member.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,7 +20,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class LoginController {
 
-    private final RedisService redisService;
+    private final LoginRedisService loginRedisService;
     private final MemberService memberService;
     private final OauthService oauthService;
 
@@ -30,7 +30,7 @@ public class LoginController {
         Map<String, String> userInfoMap = oauthService.getToken(body.get("code"));
         Member member = memberService.oauthSaveOrUpdate(userInfoMap.get("name"), userInfoMap.get("email"));
         AuthMember authMember = new AuthMember(member);
-        String token = redisService.setAuthMember(authMember);
+        String token = loginRedisService.setAuthMember(authMember);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", token);
@@ -44,7 +44,7 @@ public class LoginController {
         Member member = memberService.guestSave();
         String token = member.getName();
         AuthMember authMember = new AuthMember(member);
-        redisService.setGuestMember(token, authMember);
+        loginRedisService.setGuestMember(token, authMember);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", token);
@@ -56,7 +56,7 @@ public class LoginController {
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
-        redisService.deleteAuthMember(token);
+        loginRedisService.deleteAuthMember(token);
         return ResponseEntity.ok().build();
     }
 }

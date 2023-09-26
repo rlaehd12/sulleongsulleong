@@ -4,6 +4,7 @@ import com.sulleong.beer.Beer;
 import com.sulleong.common.ImageUri;
 import com.sulleong.review.reads.dto.ReviewEntries;
 import com.sulleong.review.reads.dto.ReviewEntry;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,15 +26,19 @@ public class BeerDetailResponse {
 
     private Boolean isPreference;
 
+    private Integer preferCount;
+
     private List<ReviewEntry> entries;
 
-    public BeerDetailResponse(Beer beer, Boolean isPrefer, ReviewEntries entries) {
+    @Builder
+    public BeerDetailResponse(Beer beer, Boolean isPrefer, Integer preferCount, ReviewEntries entries) {
         this.imageUrl = ImageUri.URI.getValue() + beer.getId();
         this.name = beer.getName();
         this.largeCategory = beer.getLargeCategory();
         this.subCategory = beer.getSubCategory();
         this.abv = beer.getAbv();
         this.isPreference = isPrefer;
+        this.preferCount = preferCount;
         this.entries = entries.getEntries();
     }
 }
