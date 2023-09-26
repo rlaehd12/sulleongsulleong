@@ -4,6 +4,8 @@ import com.sulleong.beer.dto.*;
 import com.sulleong.beer.repository.BeerRepository;
 import com.sulleong.common.ImageUri;
 import com.sulleong.exception.BeerNotFoundException;
+import com.sulleong.preference.Preference;
+import com.sulleong.preference.total.TotalPreferenceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -22,6 +24,8 @@ import java.util.stream.Collectors;
 public class BeerService {
 
     private final BeerRepository beerRepository;
+
+    private final TotalPreferenceService preferenceService;
 
     /**
      * 맥주 선호도 조사를 위해 설문용 맥주들을 제시합니다.
@@ -45,7 +49,11 @@ public class BeerService {
         Integer pageSize = searchParam.getSize();
         Pageable pageable = PageRequest.of(pageIndex - 1, pageSize);
         Page<Beer> beerPage = beerRepository.findAllBySearchParam(searchParam.getKeyword(), pageable);
-        Page<SearchResponseEntry> entryPage = beerPage.map(beer -> SearchResponseEntry.create(beer, memberId, ImageUri.URI.getValue()));
+        Page<SearchResponseEntry> entryPage = beerPage.map(
+                beer -> SearchResponseEntry.create(
+                        beer, memberId, preferenceService.getTotalPreference(beer.getId()), ImageUri.URI.getValue()
+                )
+        );
 
         SearchResponse searchResponse = new SearchResponse();
         searchResponse.setEntries(entryPage.getContent());
