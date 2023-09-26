@@ -21,14 +21,14 @@ public class RecommendRepositoryImpl implements RecommendRepositoryCustom {
     private final QBeer qBeer = QBeer.beer;
 
     @Override
-    public List<Long> recommendBeersByMyFavoriteBeers(List<Long> beerIds) {
+    public List<Long> recommendBeersByMyFavoriteBeers(List<Long> beerIds, Integer count) {
         return queryFactory
                 .select(qRecommend.beer2)
                 .from(qRecommend)
                 .where(qRecommend.beer1.in(beerIds))
                 .where(qRecommend.beer2.notIn(beerIds))
                 .orderBy(qRecommend.distance.asc())
-                .limit(4)
+                .limit(count)
                 .fetch();
     }
 
