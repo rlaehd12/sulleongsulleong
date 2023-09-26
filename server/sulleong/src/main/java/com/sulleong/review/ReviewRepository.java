@@ -10,8 +10,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     Optional<Review> findByIdAndMemberId(Long reviewId, Long memberId);
 
-    Optional<List<Review>> findByMemberId(Long memberId);
-
     // ID가 크다는건 가장 나중에 생성된 거라 볼 수 있다.
     List<Review> findTop5ByBeerIdOrderByIdDesc(Long beerId, Pageable pageable);
 }

@@ -5,9 +5,9 @@ spring:
   # Database
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/sulleong
+    url: jdbc:postgresql://dev.sulleong.site:5432/sulleong
     username: sulleong
-    password: 1234
+    password: Sulleong104**
   # jpa properties
   jpa:
     hibernate:
@@ -24,8 +24,10 @@ spring:
       charset: UTF-8
       enabled: true
       force: true
+  cashe:
+    type: redis
   redis:
-    host: localhost
+    host: dev.sulleong.site
     port: 6379
 
   google:
