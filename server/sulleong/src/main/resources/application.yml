@@ -7,7 +7,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/sulleong
     username: sulleong
-    password: 1234
+    password: Sulleong104**
   # jpa properties
   jpa:
     hibernate:
@@ -34,3 +34,5 @@ spring:
     redirect-uri: ${GOOGLE_REDIRECT_URI}
 
 domain: https://dev.sulleong.site
+
+server-check : blue
