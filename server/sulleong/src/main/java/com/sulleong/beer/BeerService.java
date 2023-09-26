@@ -29,7 +29,8 @@ public class BeerService {
      */
     public SurveyResponse getSurveyBeers() {
         // 설문을 위한 맥주 정보 리스트
-        List<SurveyResponseEntry> entries = beerRepository.getRandomBeers(20)
+        Integer count = 20;
+        List<SurveyResponseEntry> entries = beerRepository.getRandomBeers(count)
                 .stream().map(SurveyResponseEntry::create).collect(Collectors.toList());
         return new SurveyResponse(entries);
     }
