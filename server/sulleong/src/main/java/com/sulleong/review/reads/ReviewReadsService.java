@@ -22,11 +22,8 @@ public class ReviewReadsService {
 
     private final ReviewRepository reviewRepository;
 
-    private final int REVIEW_SIZE = 5;
-
     public ReviewEntries getRecentReviews(Long beerId) {
-        Pageable pageable = PageRequest.of(0, REVIEW_SIZE);
-        List<Review> reviews = reviewRepository.findTop5ByBeerIdOrderByIdDesc(beerId, pageable);
+        List<Review> reviews = reviewRepository.findTop5ByBeerIdOrderByIdDesc(beerId);
         List<ReviewEntry> entries = new ArrayList<>();
         for (Review review : reviews) {
             entries.add(new ReviewEntry(review));
