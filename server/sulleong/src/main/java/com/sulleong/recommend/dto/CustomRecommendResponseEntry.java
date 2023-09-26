@@ -1,6 +1,7 @@
 package com.sulleong.recommend.dto;
 
 import com.sulleong.beer.Beer;
+import com.sulleong.common.ImageUri;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -30,10 +31,10 @@ public class CustomRecommendResponseEntry {
 
     private Integer preferCount;
 
-    public static CustomRecommendResponseEntry create(Beer beer, Long memberId, String imageUrl) {
+    public static CustomRecommendResponseEntry create(Beer beer, Long memberId) {
         return CustomRecommendResponseEntry.builder()
                 .id(beer.getId())
-                .image(imageUrl + beer.getId())
+                .image(ImageUri.URI.getValue() + beer.getId())
                 .name(beer.getName())
                 .nameKor(beer.getNameKor())
                 .abv(beer.getAbv())

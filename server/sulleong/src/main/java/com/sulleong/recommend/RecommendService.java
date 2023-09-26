@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.sulleong.beer.BeerService.IMAGE_URL;
-
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -51,13 +49,7 @@ public class RecommendService {
         // 좋아요를 누른 맥주들과 가장 유사도가 높은 맥주들을 가져옵니다.
         List<Long> similarBeerIds = recommendRepository.recommendBeersByMyFavoriteBeers(myBeerIds, 4);
         List<Beer> similarBeers = beerService.getBeersByBeerIds(similarBeerIds);
-        return similarBeers.stream().map(beer ->
-                RecommendBeer.builder()
-                        .id(beer.getId())
-                        .image(IMAGE_URL + beer.getId())
-                        .name(beer.getName())
-                        .build()
-        ).collect(Collectors.toList());
+        return similarBeers.stream().map(RecommendBeer::create).collect(Collectors.toList());
     }
 
     /**
@@ -67,13 +59,7 @@ public class RecommendService {
     public List<RecommendBeer> getPopularBeers() {
         List<Long> beerIds = recommendRepository.recommendBeersByFavoriteBeers();
         List<Beer> beers = beerService.getBeersByBeerIds(beerIds);
-        return beers.stream().map(beer ->
-            RecommendBeer.builder()
-                    .id(beer.getId())
-                    .image(IMAGE_URL + beer.getId())
-                    .name(beer.getName())
-                    .build()
-        ).collect(Collectors.toList());
+        return beers.stream().map(RecommendBeer::create).collect(Collectors.toList());
     }
 
     /**
@@ -84,13 +70,7 @@ public class RecommendService {
         Member member = memberService.getMemberOrElseThrow(memberId);
         List<Long> beerIds = recommendRepository.recommendBeersByAgeAndGender(member.getAge(), member.getGender());
         List<Beer> beers = beerService.getBeersByBeerIds(beerIds);
-        return beers.stream().map(beer ->
-                RecommendBeer.builder()
-                        .id(beer.getId())
-                        .image(IMAGE_URL + beer.getId())
-                        .name(beer.getName())
-                        .build()
-        ).collect(Collectors.toList());
+        return beers.stream().map(RecommendBeer::create).collect(Collectors.toList());
     }
 
     /**
@@ -113,13 +93,8 @@ public class RecommendService {
     private CategoryRecommendResponseEntry getPopularBeersWithCategory(String category) {
         List<Long> beerIds = recommendRepository.recommendBeersByLargeCategory(category);
         List<Beer> beers = beerService.getBeersByBeerIds(beerIds);
-        return new CategoryRecommendResponseEntry(category, beers.stream().map(beer ->
-                RecommendBeer.builder()
-                        .id(beer.getId())
-                        .image(IMAGE_URL + beer.getId())
-                        .name(beer.getName())
-                        .build()
-        ).collect(Collectors.toList()));
+        List<RecommendBeer> recommendBeers = beers.stream().map(RecommendBeer::create).collect(Collectors.toList());
+        return new CategoryRecommendResponseEntry(category, recommendBeers);
     }
 
     /**
@@ -135,7 +110,7 @@ public class RecommendService {
         List<Long> similarBeerIds = recommendRepository.recommendBeersByMyFavoriteBeers(myBeerIds, 100);
         List<Long> recommendBeerIds = collaborativeFiltering(memberId, similarBeerIds);
         List<CustomRecommendResponseEntry> recommendBeers = beerService.getBeersByBeerIds(recommendBeerIds)
-                .stream().map(beer -> CustomRecommendResponseEntry.create(beer, memberId, IMAGE_URL))
+                .stream().map(beer -> CustomRecommendResponseEntry.create(beer, memberId))
                 .collect(Collectors.toList());
 
         return new CustomRecommendResponse(recommendBeers);

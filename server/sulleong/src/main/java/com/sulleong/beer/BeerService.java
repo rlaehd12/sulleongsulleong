@@ -2,6 +2,7 @@ package com.sulleong.beer;
 
 import com.sulleong.beer.dto.*;
 import com.sulleong.beer.repository.BeerRepository;
+import com.sulleong.common.ImageUri;
 import com.sulleong.exception.BeerNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,21 +23,14 @@ public class BeerService {
 
     private final BeerRepository beerRepository;
 
-    public static final String IMAGE_URL = "https://res.cloudinary.com/ratebeer/image/upload/d_beer_img_default.png,f_auto/beer_";
-
     /**
      * 맥주 선호도 조사를 위해 설문용 맥주들을 제시합니다.
      * @return 일정 비율의 에일, 라거, 기타 맥주들을 랜덤으로 선택하여 반환합니다.
      */
     public SurveyResponse getSurveyBeers() {
         // 설문을 위한 맥주 정보 리스트
-        List<SurveyResponseEntry> entries = beerRepository.getRandomBeers(20).stream().map(beer ->
-                SurveyResponseEntry.builder()
-                        .id(beer.getId())
-                        .image(IMAGE_URL + beer.getId())
-                        .nameKor(beer.getNameKor())
-                        .build()
-        ).collect(Collectors.toList());
+        List<SurveyResponseEntry> entries = beerRepository.getRandomBeers(20)
+                .stream().map(SurveyResponseEntry::create).collect(Collectors.toList());
         return new SurveyResponse(entries);
     }
 
@@ -50,7 +44,7 @@ public class BeerService {
         Integer pageSize = searchParam.getSize();
         Pageable pageable = PageRequest.of(pageIndex - 1, pageSize);
         Page<Beer> beerPage = beerRepository.findAllBySearchParam(searchParam.getKeyword(), pageable);
-        Page<SearchResponseEntry> entryPage = beerPage.map(beer -> SearchResponseEntry.create(beer, memberId, IMAGE_URL));
+        Page<SearchResponseEntry> entryPage = beerPage.map(beer -> SearchResponseEntry.create(beer, memberId, ImageUri.URI.getValue()));
 
         SearchResponse searchResponse = new SearchResponse();
         searchResponse.setEntries(entryPage.getContent());
