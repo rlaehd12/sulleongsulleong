@@ -27,8 +27,8 @@ public class DictController implements DictControllerDocs {
         return ResponseEntity.ok(dictService.getDictListResponse(authMember.getId()));
     }
 
-    @GetMapping("/test/{userId}")
-    public ResponseEntity<DictBeersResponse> getDict(@PathVariable("userId") Long userId) {
-        return ResponseEntity.ok(dictService.getDictListResponse(userId));
-    }
+//    @GetMapping("/test/{userId}")
+//    public ResponseEntity<DictBeersResponse> getDict(@PathVariable("userId") Long userId) {
+//        return ResponseEntity.ok(dictService.getDictListResponse(userId));
+//    }
 }
