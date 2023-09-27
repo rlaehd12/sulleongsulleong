@@ -18,19 +18,22 @@ interface Beer {
 	subCategory: string;
 	country: string;
 	score: number;
+	prefer: boolean;
+	preferCount: number;
 }
 
 interface BeerCardProps {
 	beer: Beer;
+	clickPrefer: (targerBeerId: number) => void;
 }
 
-function BeerCard({ beer }: BeerCardProps) {
+function BeerCard({ beer, clickPrefer }: BeerCardProps) {
 	const [rate, setRate] = useState<number>(3.5); // 평점 상태 관리
 
 	return (
 		<Card>
 			<div className={style.cardWrap}>
-				<CardActionArea component={Link} to="/">
+				<CardActionArea component={Link} to={`/detail/${beer.id}`}>
 					<div className={style.cardActionArea}>
 						<div className={style.cardMedia}>
 							<CardMedia
@@ -71,7 +74,12 @@ function BeerCard({ beer }: BeerCardProps) {
 						</CardContent>
 					</div>
 				</CardActionArea>
-				<Preference beerId={beer.id} />
+				<Preference
+					beerId={beer.id}
+					prefer={beer.prefer}
+					preferCount={beer.preferCount}
+					clickPrefer={clickPrefer}
+				/>
 			</div>
 		</Card>
 	);

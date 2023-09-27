@@ -19,7 +19,7 @@ function SimpleBeerCard({ beer }: SimpleBeerCardProps) {
 	return (
 		<div className={style.beerItem}>
 			<Card>
-				<CardActionArea>
+				<CardActionArea component={Link} to={`/detail/${beer.id}`}>
 					<div className={style.cardMediaImage}>
 						<CardMedia
 							component="img"

@@ -13,15 +13,23 @@ interface Beer {
 	subCategory: string;
 	country: string;
 	score: number;
+	prefer: boolean;
+	preferCount: number;
 }
 
 interface InfiniteScrollProps {
 	beerList: Beer[];
 	setPage: React.Dispatch<React.SetStateAction<number>>;
 	loading: boolean;
+	clickPrefer: (targerBeerId: number) => void;
 }
 
-function ListForBeerCard({ beerList, setPage, loading }: InfiniteScrollProps) {
+function ListForBeerCard({
+	beerList,
+	setPage,
+	loading,
+	clickPrefer,
+}: InfiniteScrollProps) {
 	const targetRef = useRef<HTMLDivElement | null>(null);
 
 	const handleIntersection = (entries: IntersectionObserverEntry[]) => {
@@ -59,7 +67,9 @@ function ListForBeerCard({ beerList, setPage, loading }: InfiniteScrollProps) {
 			{beerList &&
 				beerList.length > 0 &&
 				beerList.map((beer) => {
-					return <BeerCard key={beer.id} beer={beer} />;
+					return (
+						<BeerCard key={beer.id} beer={beer} clickPrefer={clickPrefer} />
+					);
 				})}
 			<div ref={targetRef} />
 			{loading && (
