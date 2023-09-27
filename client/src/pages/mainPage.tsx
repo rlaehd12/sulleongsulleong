@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Container, Divider } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
-import Recommend from '@mui/icons-material/Recommend';
 import customAxios from '../customAxios';
 import InfiniteScroll from '../components/InfiniteScroll';
 
@@ -65,14 +64,8 @@ function MainPage({ setIsAuthenticated }: Props) {
 
 	useEffect(() => {
 		loadCategoryList();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [loadCategory]);
-
-	// const url = `http://localhost:8080/api/main`;
-	// useEffect(() => {
-	// 	axios.get(url).then((res) => {
-	// 		setBeerList(res.data);
-	// 	});
-	// }, []);
 
 	return (
 		<div className={style.mainPage}>

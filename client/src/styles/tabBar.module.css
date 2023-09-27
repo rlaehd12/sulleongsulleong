@@ -6,5 +6,5 @@
 	position: fixed;
 	bottom: 0;
 	background-color: var(--white);
-	z-index: auto;
+	z-index: 1000;
 }
