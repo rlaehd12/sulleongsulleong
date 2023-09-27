@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import RecommendIcon from '@mui/icons-material/Recommend';
 import PersonIcon from '@mui/icons-material/Person';
 import style from '../styles/tabBar.module.css';
@@ -17,6 +18,9 @@ function TabBar() {
 		if (location.pathname === '/searchresult') {
 			return 'search';
 		}
+		if (location.pathname === '/dict') {
+			return 'dict';
+		}
 		if (location.pathname === '/recommendList') {
 			return 'recommend';
 		}
@@ -27,6 +31,11 @@ function TabBar() {
 	};
 
 	const [value, setValue] = useState(getCurrentValue());
+
+	useEffect(() => {
+		setValue(getCurrentValue());
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [location]);
 
 	const handleChange = (event: React.SyntheticEvent, newValue: string) => {
 		setValue(newValue);
@@ -52,14 +61,21 @@ function TabBar() {
 				to="/searchresult"
 			/>
 			<BottomNavigationAction
-				label="추천리스트"
+				label="맥주도감"
+				value="dict"
+				icon={<AutoStoriesIcon />}
+				component={Link}
+				to="/dict"
+			/>
+			<BottomNavigationAction
+				label="추천목록"
 				value="recommend"
 				icon={<RecommendIcon />}
 				component={Link}
 				to="/recommendList"
 			/>
 			<BottomNavigationAction
-				label="마이페이지"
+				label="내정보"
 				value="myPage"
 				icon={<PersonIcon />}
 				component={Link}
