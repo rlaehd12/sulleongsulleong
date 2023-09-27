@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	BrowserRouter as Router,
 	Routes,
 	Route,
@@ -36,6 +37,36 @@ function AuthRedirector({ isAuthenticated }: AuthRedirectorProps) {
 
 function App() {
 	const [isAuthenticated, setIsAuthenticated] = useState(true);
+	const [desktopView, setDesktopView] = useState<boolean>(
+		window.innerWidth <= 320 || window.innerHeight <= 300,
+	);
+
+	useEffect(() => {
+		const handleResize = () => {
+			setDesktopView(window.innerWidth <= 320 || window.innerHeight <= 300);
+		};
+		window.addEventListener('resize', handleResize);
+		return () => window.removeEventListener('resize', handleResize);
+	}, []);
+
+	if (desktopView) {
+		return (
+			<div
+				style={{
+					padding: '20px',
+					backgroundColor: '#f8d7da',
+					color: '#721c24',
+					borderRadius: '5px',
+				}}
+			>
+				<h2>화면 크기 주의</h2>
+				<p>
+					현재 화면이 너무 작습니다. 화면 크기를 늘려주세요. (최소 320px x
+					300px)
+				</p>
+			</div>
+		);
+	}
 
 	return (
 		<BrowserRouter>

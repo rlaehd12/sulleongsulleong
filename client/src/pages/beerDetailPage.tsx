@@ -1,6 +1,14 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Rating, Button, Modal, TextField } from '@mui/material';
+import {
+	Container,
+	Rating,
+	Button,
+	Modal,
+	TextField,
+	Alert,
+	AlertTitle,
+} from '@mui/material';
 import beerIcon from '../images/beer.png';
 import Preference from '../components/preference';
 import LoginModal from '../components/loginModal';
@@ -35,6 +43,7 @@ function DetailPage({ setIsAuthenticated }: Props) {
 	const [open, setOpen] = useState(false);
 	const [reviewText, setReviewText] = useState('');
 	const [rate, setRate] = useState(2.5);
+	const [isDuplicate, setIsDuplicate] = useState(false);
 	const { beerId } = useParams<{ beerId: string }>();
 	const id: number = beerId === undefined ? 1 : parseInt(beerId, 10);
 	const [openModal, setOpenModal] = useState<boolean>(false);
@@ -42,28 +51,37 @@ function DetailPage({ setIsAuthenticated }: Props) {
 		axiosInstance
 			.get(`/beers/${id}`)
 			.then((res) => {
-				console.log(res.data);
 				setBeerInfo(res.data);
 			})
 			.catch((err) => {
-				console.error(err);
 				if (err.response.status === 401) {
 					setIsAuthenticated(false);
 				}
 			});
 	}, []);
 	const handleOpen = () => setOpen(true);
-	const handleClose = () => setOpen(false);
+	const handleClose = () => {
+		setOpen(false);
+		setIsDuplicate(false);
+	};
 	const handleReviewTextChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setReviewText(e.target.value);
 	};
 	const postReview = () => {
-		axiosInstance.post(`reviews/beers/${id}`, {
-			content: reviewText,
-			score: rate * 2,
-		});
-		handleClose();
-		setReviewText('');
+		axiosInstance
+			.post(`reviews/beers/${id}`, {
+				content: reviewText,
+				score: rate * 2,
+			})
+			.then(() => {
+				handleClose();
+				setReviewText('');
+			})
+			.catch((err) => {
+				if (err.response.status === 409) {
+					setIsDuplicate(true);
+				}
+			});
 	};
 
 	const clickPrefer = (targerBeerId: number) => {
@@ -179,6 +197,13 @@ function DetailPage({ setIsAuthenticated }: Props) {
 									rows={8}
 									onChange={handleReviewTextChange}
 								/>
+								{isDuplicate && (
+									<Alert severity="error">
+										<AlertTitle>오류!</AlertTitle>
+										한 맥주에 한번만 리뷰를 달 수 있습니다! <br />
+										<strong>이미 리뷰가 작성된 맥주입니다!!</strong>
+									</Alert>
+								)}
 								<Button
 									className={style.reviewBtn}
 									variant="contained"
