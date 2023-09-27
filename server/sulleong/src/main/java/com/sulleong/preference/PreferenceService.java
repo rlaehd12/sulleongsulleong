@@ -6,11 +6,12 @@ import com.sulleong.beer.Beers;
 import com.sulleong.member.Member;
 import com.sulleong.member.MemberService;
 import com.sulleong.preference.dto.TogglePreferResponse;
-import com.sulleong.preference.total.TotalPreferenceRedisService;
 import com.sulleong.preference.total.TotalPreferenceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,15 +23,15 @@ import java.util.stream.Collectors;
 public class PreferenceService {
 
     private final PreferenceRepository preferenceRepository;
-
     private final TotalPreferenceService totalPreferenceService;
-
     private final MemberService memberService;
-
     private final BeerService beerService;
 
     private final int INCREMENT_ONE = 1;
     private final int DECREMENT_ONE = -1;
+
+    @Value("${domain}")
+    private String DOMAIN;
 
     /**
      * 좋아요 누른 이력을 바탕으로 새로 만들거나 기존 정보 업데이트합니다.
@@ -113,6 +114,14 @@ public class PreferenceService {
                 .filter(preference -> Boolean.TRUE.equals(preference.getChoice()))
                 .map(Preference::getBeer)
                 .collect(Collectors.toList()));
+    }
+
+    /**
+     * 초기 사용자의 관심을 분석합니다.
+     */
+    public void analyzeInterest(Long memberId) {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getForEntity(DOMAIN + "/recommend/initial/?mid={mid}", String.class, memberId);
     }
 
 }
