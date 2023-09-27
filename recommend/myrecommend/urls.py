@@ -21,4 +21,5 @@ urlpatterns = [
     # path('rec1/', views.beerindex),
     path('rank/', views.re_ranking),
     path('initial/', views.initialize),
+    path('ranktest/', views.ranktest),
 ]
