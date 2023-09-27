@@ -22,6 +22,8 @@ public class ReviewCreateController implements ReviewCreateControllerDocs {
     @PostMapping("/beers/{beerId}")
     public BeerReviewCreateResponse createReview(@PathVariable("beerId") Long beerId, @RequestBody BeerReviewCreateForm form, HttpServletRequest request) {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
-        return reviewCreateService.create(beerId, authMember.getId(), form);
+        long memberId = authMember.getId();
+        reviewCreateService.checkDuplicatedComment(beerId, memberId);
+        return reviewCreateService.create(beerId, memberId, form);
     }
 }
