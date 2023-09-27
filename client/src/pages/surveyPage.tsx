@@ -40,7 +40,6 @@ function SurveyPage({ setIsAuthenticated }: Props) {
 				setBeerList(res.data.entries);
 			})
 			.catch((err) => {
-				console.error('Axios Error:', err);
 				if (err.response.status === 401) {
 					setIsAuthenticated(false);
 				}

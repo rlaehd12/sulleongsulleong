@@ -1,4 +1,5 @@
 import React from 'react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { BrowserRouter as Router } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
 import './index.css';
@@ -11,7 +12,9 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-	<ThemeProvider theme={theme}>
-		<App />
-	</ThemeProvider>,
+	<div id="app">
+		<ThemeProvider theme={theme}>
+			<App />
+		</ThemeProvider>
+	</div>,
 );

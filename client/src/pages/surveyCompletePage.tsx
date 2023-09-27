@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Container } from '@mui/material';
-import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import sudalImg from '../images/sudal.png';
+import customAxios from '../customAxios';
 import style from '../styles/surveyComplete.module.css';
 
 interface Props {
@@ -11,6 +11,17 @@ interface Props {
 
 function ServeyCompPage({ setIsAuthenticated }: Props) {
 	const navigate = useNavigate();
+	const axiosInstance = customAxios();
+
+	useEffect(() => {
+		axiosInstance.get('/members/info').catch((err) => {
+			if (err.response.status === 401) {
+				setIsAuthenticated(false);
+			}
+		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
 	return (
 		<div className={style.mainPage}>
 			<Container className={style.TaskAltcontainer}>
