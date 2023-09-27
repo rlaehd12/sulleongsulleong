@@ -53,6 +53,14 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({
+            DuplicatedCommentException.class
+    })
+    public ResponseEntity<ErrorMessage> handleConflict(Exception e, HttpServletRequest request) {
+        return new ResponseEntity<>(buildErrorMessage(e, request),
+                HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler({
             GoogleOauthLoginException.class,
             InvalidOAuthResponseException.class
     })
