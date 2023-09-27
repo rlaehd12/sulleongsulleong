@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import static com.sulleong.preference.PreferenceService.DECREMENT_ONE;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -21,6 +23,10 @@ public class TotalPreferenceRedisService {
     }
 
     public void adjustPreference(Long beerId, int adjust) {
+        Integer total = redisTemplate.opsForValue().get(beerId);
+        if (adjust == DECREMENT_ONE && total == 0) {
+            return;
+        }
         redisTemplate.opsForValue().increment(beerId, adjust);
     }
 }

@@ -27,8 +27,8 @@ public class PreferenceService {
     private final MemberService memberService;
     private final BeerService beerService;
 
-    private final int INCREMENT_ONE = 1;
-    private final int DECREMENT_ONE = -1;
+    public static final int INCREMENT_ONE = 1;
+    public static final int DECREMENT_ONE = -1;
 
     @Value("${domain}")
     private String DOMAIN;
