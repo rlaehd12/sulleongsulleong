@@ -1,11 +1,15 @@
 .beerItem {
-    margin-right: 8px; 
-    width: 250px;
-    max-width: 250px;
+  margin-top: 10px;
+	flex-shrink: 0;
+	width: 120px;
+	height: inherit;
+	border: 1px solid var(--pastel-green-300);
 }
 
-.cardMediaImage {
-    object-fit: contain !important;
+.cardMediaImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 
   .truncateText {

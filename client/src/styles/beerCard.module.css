@@ -35,14 +35,6 @@
     overflow: hidden;
 }
 
-cardFavorite {
-	height: 100%;
-}
-
-.favorite {
-	cursor: pointer;
-}
-
 .truncateText {
 	white-space: nowrap;	/* 텍스트 한 줄 */
 	overflow: hidden;

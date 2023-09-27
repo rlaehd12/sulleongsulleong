@@ -18,6 +18,8 @@ interface Beer {
 	subCategory: string;
 	country: string;
 	score: number;
+	prefer: boolean;
+	preferCount: number;
 }
 interface Props {
 	setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;

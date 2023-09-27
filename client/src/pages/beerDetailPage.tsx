@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import { Container, Rating, Button, Modal, TextField } from '@mui/material';
 import beerIcon from '../images/beer.png';
 import Preference from '../components/preference';
+import LoginModal from '../components/loginModal';
+
 import style from '../styles/beerDetail.module.css';
 import customAxios from '../customAxios';
 
@@ -23,6 +25,7 @@ interface BeerDetail {
 	subCategory: string;
 	abv: number;
 	isPreference: boolean;
+	preferCount: number;
 	entries: reviews[];
 }
 
@@ -34,6 +37,7 @@ function DetailPage({ setIsAuthenticated }: Props) {
 	const [rate, setRate] = useState(2.5);
 	const { beerId } = useParams<{ beerId: string }>();
 	const id: number = beerId === undefined ? 1 : parseInt(beerId, 10);
+	const [openModal, setOpenModal] = useState<boolean>(false);
 	useEffect(() => {
 		axiosInstance
 			.get(`/beers/${id}`)
@@ -62,6 +66,21 @@ function DetailPage({ setIsAuthenticated }: Props) {
 		setReviewText('');
 	};
 
+	const clickPrefer = (targerBeerId: number) => {
+		customAxios()
+			.post(`/beers/preference/${targerBeerId}`)
+			.then((res) => {
+				beerInfo.isPreference = res.data.result;
+				beerInfo.preferCount = res.data.like;
+			})
+			.catch((err) => {
+				console.error('Error sending the request:', err);
+				if (err.response.status === 401) {
+					setOpenModal(true);
+				}
+			});
+	};
+
 	return (
 		<>
 			<Container>
@@ -81,7 +100,12 @@ function DetailPage({ setIsAuthenticated }: Props) {
 							<strong>이름</strong>
 							<span>{beerInfo.name}</span>
 						</span>
-						<Preference beerId={id} />
+						<Preference
+							beerId={id}
+							prefer={beerInfo.isPreference}
+							preferCount={beerInfo.preferCount}
+							clickPrefer={clickPrefer}
+						/>
 					</div>
 					<p className={style.beerInfo}>
 						<strong>
@@ -112,6 +136,9 @@ function DetailPage({ setIsAuthenticated }: Props) {
 							리뷰 작성하기
 						</Button>
 					</div>
+					{openModal && (
+						<LoginModal openModal={openModal} setOpenModal={setOpenModal} />
+					)}
 				</div>
 			</Container>
 			<div>
