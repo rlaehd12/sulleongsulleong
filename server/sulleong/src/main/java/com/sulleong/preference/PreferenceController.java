@@ -40,11 +40,7 @@ public class PreferenceController {
         AuthMember authMember = (AuthMember) request.getAttribute("authMember");
         Long memberId = authMember.getId();
         preferenceService.setPreferences(memberId, beerIds);
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity testMethod() {
+        preferenceService.analyzeInterest(memberId);
         return ResponseEntity.ok().build();
     }
 
