@@ -17,23 +17,19 @@ interface SimpleBeerCardProps {
 
 function SimpleBeerCard({ beer }: SimpleBeerCardProps) {
 	return (
-		<div className={style.beerItem}>
+		<div className={style.card}>
 			<Card>
 				<CardActionArea component={Link} to={`/detail/${beer.id}`}>
-					<div className={style.cardMediaImage}>
+					<div className={style.imgContainer}>
 						<CardMedia
 							component="img"
-							height="200"
 							image={beer.image}
-							alt="green iguana"
+							className={style.beerImg}
+							alt={beer.name}
 						/>
 					</div>
 					<CardContent>
-						<Typography
-							variant="body2"
-							color="text.secondary"
-							className={style.truncateText}
-						>
+						<Typography variant="subtitle1" align="center" noWrap gutterBottom>
 							{beer.name}
 						</Typography>
 					</CardContent>

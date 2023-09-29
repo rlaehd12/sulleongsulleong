@@ -1,26 +1,26 @@
 .circularProgress {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 8px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 8px;
 }
 
 .listWrap {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }
 
 .categoryList {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin-bottom: 2em;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	margin-bottom: 2em;
 }
 
 .beerList {
-    display: flex;
+	display: flex;
 	overflow-x: auto;
 	gap: 1rem;
-    /* white-space: nowrap; */
+	height: 227px;
 }
