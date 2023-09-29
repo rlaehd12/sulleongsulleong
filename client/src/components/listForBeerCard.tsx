@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import BeerCard from './beerCard';
-import style from '../styles/InfiniteScroll.module.css';
+import style from '../styles/listForBeerCard.module.css';
 
 interface Beer {
 	id: number;
@@ -68,7 +68,9 @@ function ListForBeerCard({
 				beerList.length > 0 &&
 				beerList.map((beer) => {
 					return (
-						<BeerCard key={beer.id} beer={beer} clickPrefer={clickPrefer} />
+						<div className={style.beerList}>
+							<BeerCard key={beer.id} beer={beer} clickPrefer={clickPrefer} />
+						</div>
 					);
 				})}
 			<div ref={targetRef} />

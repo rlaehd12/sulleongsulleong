@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import SimpleBeerCard from './simpleBeerCard';
 
-import style from '../styles/InfiniteScroll.module.css';
+import style from '../styles/listForSimpleBeerCard.module.css';
 
 interface Beer {
 	id: number;

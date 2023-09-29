@@ -1,0 +1,13 @@
+.beerList {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.circularProgress {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+	height: 150px;
+}
