@@ -1,8 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
-import Divider from '@mui/material/Divider';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import SimpleBeerCard from './simpleBeerCard';
 
 import style from '../styles/InfiniteScroll.module.css';
@@ -68,7 +65,6 @@ function ListForSimpleBeerList({
 					return (
 						<div className={style.categoryList}>
 							<h3>{entry.category}</h3>
-							<Divider />
 							<div className={style.beerList}>
 								{entry.recommendBeers &&
 									entry.recommendBeers.length > 0 &&
@@ -76,7 +72,6 @@ function ListForSimpleBeerList({
 										return <SimpleBeerCard key={beer.id} beer={beer} />;
 									})}
 							</div>
-							<Divider />
 						</div>
 					);
 				})}
