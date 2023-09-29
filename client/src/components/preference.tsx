@@ -56,15 +56,15 @@ function Preference({
 	};
 
 	return (
-		<div className={style.cardFavorite}>
+		<div className={style.preferenceWrap}>
 			{preferRef.current ? (
 				<FavoriteIcon
-					className={style.favorite}
+					className={style.preference}
 					onClick={() => handlerPrefer()}
 				/>
 			) : (
 				<FavoriteBorderIcon
-					className={style.favorite}
+					className={style.preference}
 					onClick={() => handlerPrefer()}
 				/>
 			)}

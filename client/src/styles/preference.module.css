@@ -1,10 +1,10 @@
-cardFavorite {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.preferenceWrap {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	height: 100%;
 }
 
-.favorite {
+.preference {
 	cursor: pointer;
 }

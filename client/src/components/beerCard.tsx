@@ -28,11 +28,9 @@ interface BeerCardProps {
 }
 
 function BeerCard({ beer, clickPrefer }: BeerCardProps) {
-	const [rate, setRate] = useState<number>(3.5); // 평점 상태 관리
-
 	return (
 		<Card>
-			<div className={style.cardWrap}>
+			<div className={style.card}>
 				<CardActionArea component={Link} to={`/detail/${beer.id}`}>
 					<div className={style.cardActionArea}>
 						<div className={style.cardMedia}>
@@ -43,19 +41,13 @@ function BeerCard({ beer, clickPrefer }: BeerCardProps) {
 									const target = e.target as HTMLImageElement;
 									target.src = beerIcon; // 이미지 로드에 실패하면 beerIcon으로 대체
 								}}
-								alt={beer.name}
+								alt={beer.nameKor}
 							/>
 						</div>
 						<CardContent className={style.cardContent}>
 							<div>
-								<Typography
-									gutterBottom
-									variant="h6"
-									component="div"
-									sx={{ mb: 2 }}
-									className={style.truncateText}
-								>
-									{beer.name}
+								<Typography gutterBottom variant="h6" component="div" noWrap>
+									{beer.nameKor}
 								</Typography>
 								<Typography variant="body2" color="text.secondary">
 									{beer.largeCategory} &gt; {beer.subCategory}
@@ -68,7 +60,7 @@ function BeerCard({ beer, clickPrefer }: BeerCardProps) {
 								name="half-rating-read"
 								defaultValue={2.5}
 								precision={0.5}
-								value={rate}
+								value={beer.score}
 								readOnly
 							/>
 						</CardContent>

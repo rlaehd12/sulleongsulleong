@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Button, Container, Divider } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
 import customAxios from '../customAxios';
@@ -82,7 +82,11 @@ function MainPage({ setIsAuthenticated }: Props) {
 				<hr className={style.titlehr} />
 				<div className={style.cardContainer}>
 					{beerList.map((beer) => (
-						<div key={beer.id} className={style.card}>
+						<Link
+							to={`/detail/${beer.id}`}
+							key={beer.id}
+							className={style.card}
+						>
 							<div className={style.imgContainer}>
 								<img
 									className={style.beerImg}
@@ -95,7 +99,7 @@ function MainPage({ setIsAuthenticated }: Props) {
 								/>
 							</div>
 							<div className={style.beerName}>{beer.name}</div>
-						</div>
+						</Link>
 					))}
 				</div>
 			</Container>

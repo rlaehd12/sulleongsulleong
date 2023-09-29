@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Container, Grid, Chip } from '@mui/material';
 import DounutChart from 'react-donut-chart';
 import customAxios from '../customAxios';
@@ -72,7 +73,7 @@ function DictPage({ setIsAuthenticated }: Props) {
 				<Grid container spacing={2}>
 					{beerCards?.beers.map((b) => (
 						<Grid item xs={4}>
-							<div className={style.card}>
+							<Link to={`/detail/${b.beer_id}`} className={style.card}>
 								<img
 									className={`${style.beerImg} ${
 										b.dictCheck ? '' : style.grayScale
@@ -83,7 +84,7 @@ function DictPage({ setIsAuthenticated }: Props) {
 								<Chip label={b.largeCategory} />
 								<br />
 								<span>{b.name}</span>
-							</div>
+							</Link>
 						</Grid>
 					))}
 				</Grid>
