@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Container, Grid, Chip } from '@mui/material';
 import DounutChart from 'react-donut-chart';
 import customAxios from '../customAxios';
@@ -24,6 +24,7 @@ interface Props {
 
 function DictPage({ setIsAuthenticated }: Props) {
 	const axiosInstance = customAxios();
+	const navigate = useNavigate();
 	const [beerCards, setBeerCards] = React.useState<beerList>();
 	useEffect(() => {
 		axiosInstance
@@ -73,7 +74,19 @@ function DictPage({ setIsAuthenticated }: Props) {
 				<Grid container spacing={2}>
 					{beerCards?.beers.map((b) => (
 						<Grid item xs={4}>
-							<Link to={`/detail/${b.beer_id}`} className={style.card}>
+							<div
+								className={style.card}
+								role="button"
+								tabIndex={0}
+								onClick={() => {
+									navigate(`/detail/${b.beer_id}`);
+								}}
+								onKeyDown={(e) => {
+									if (e.key === 'Enter') {
+										navigate(`/detail/${b.beer_id}`);
+									}
+								}}
+							>
 								<img
 									className={`${style.beerImg} ${
 										b.dictCheck ? '' : style.grayScale
@@ -84,7 +97,7 @@ function DictPage({ setIsAuthenticated }: Props) {
 								<Chip label={b.largeCategory} />
 								<br />
 								<span>{b.name}</span>
-							</Link>
+							</div>
 						</Grid>
 					))}
 				</Grid>
