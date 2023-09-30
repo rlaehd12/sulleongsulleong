@@ -15,5 +15,6 @@
 	display: flex;
 	overflow-x: auto;
 	gap: 1rem;
+	box-sizing: border-box;
 	height: 227px;
 }

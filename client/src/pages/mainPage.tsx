@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button, Container, Divider } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
 import customAxios from '../customAxios';
@@ -27,11 +27,11 @@ interface Props {
 
 function MainPage({ setIsAuthenticated }: Props) {
 	const axiosInstance = customAxios();
+	const navigate = useNavigate();
 	const [beerList, setBeerList] = useState<Beer[]>([]);
 	const [categoryList, setcategoryList] = useState<Entry[]>([]);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [loadCategory, setLoadCategory] = useState<number>(0);
-	const navigate = useNavigate();
 
 	useEffect(() => {
 		axiosInstance
@@ -82,12 +82,20 @@ function MainPage({ setIsAuthenticated }: Props) {
 				<hr className={style.titlehr} />
 				<div className={style.cardContainer}>
 					{beerList.map((beer) => (
-						<Link
-							to={`/detail/${beer.id}`}
-							key={beer.id}
-							className={style.card}
-						>
-							<div className={style.imgContainer}>
+						<div key={beer.id} className={style.card}>
+							<div
+								className={style.imgContainer}
+								role="button"
+								tabIndex={0}
+								onClick={() => {
+									navigate(`/detail/${beer.id}`);
+								}}
+								onKeyDown={(e) => {
+									if (e.key === 'Enter') {
+										navigate(`/detail/${beer.id}`);
+									}
+								}}
+							>
 								<img
 									className={style.beerImg}
 									src={beer.image || beerIcon}
@@ -99,7 +107,7 @@ function MainPage({ setIsAuthenticated }: Props) {
 								/>
 							</div>
 							<div className={style.beerName}>{beer.name}</div>
-						</Link>
+						</div>
 					))}
 				</div>
 			</Container>
