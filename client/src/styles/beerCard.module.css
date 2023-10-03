@@ -7,7 +7,7 @@
 .cardActionArea {
 	display: flex !important;
 	justify-content: space-between !important;
-	margin: 0.5em 1em;
+	padding: 0.5em 1em;
 	width: 90%;
 	height: 100%;
 	box-sizing: border-box;
