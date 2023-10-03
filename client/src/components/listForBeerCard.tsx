@@ -63,7 +63,7 @@ function ListForBeerCard({
 	}, [beerList]);
 
 	return (
-		<div>
+		<div className={style.beerList}>
 			{beerList &&
 				beerList.length > 0 &&
 				beerList.map((beer) => {
