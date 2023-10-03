@@ -1,8 +1,7 @@
 .card {
-	margin-top: 10px;
 	flex-shrink: 0;
 	width: 120px;
-	height: inherit;
+	height: 225px;
 	border: 1px solid var(--pastel-green-300);
 }
 
