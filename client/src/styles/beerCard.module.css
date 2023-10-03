@@ -2,7 +2,6 @@
 	flex-shrink: 0;
 	display: flex;
 	height: 160px;
-	border: 1px solid var(--pastel-green-300);
 }
 
 .cardActionArea {
@@ -11,6 +10,7 @@
 	margin: 0.5em 1em;
 	width: 90%;
 	height: 100%;
+	box-sizing: border-box;
 }
 
 .cardMedia {
