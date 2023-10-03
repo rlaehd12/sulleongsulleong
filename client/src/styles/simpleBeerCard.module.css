@@ -1,8 +1,7 @@
 .card {
 	flex-shrink: 0;
 	width: 120px;
-	height: 225px;
-	border: 1px solid var(--pastel-green-300);
+	height: inherit;
 }
 
 .imgContainer {

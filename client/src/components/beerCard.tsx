@@ -29,8 +29,8 @@ interface BeerCardProps {
 
 function BeerCard({ beer, clickPrefer }: BeerCardProps) {
 	return (
-		<div className={style.card}>
-			<Card>
+		<Card>
+			<div className={style.card}>
 				<CardActionArea component={Link} to={`/detail/${beer.id}`}>
 					<div className={style.cardActionArea}>
 						<div className={style.cardMedia}>
@@ -72,8 +72,8 @@ function BeerCard({ beer, clickPrefer }: BeerCardProps) {
 					preferCount={beer.preferCount}
 					clickPrefer={clickPrefer}
 				/>
-			</Card>
-		</div>
+			</div>
+		</Card>
 	);
 }
 

@@ -58,12 +58,12 @@ function ListForSimpleBeerList({
 	}, []);
 
 	return (
-		<div className={style.listWrap}>
+		<div className={style.categoryList}>
 			{categoryList &&
 				categoryList.length > 0 &&
 				categoryList.map((entry) => {
 					return (
-						<div className={style.categoryList}>
+						<div className={style.beerListContainer}>
 							<h3>{entry.category}</h3>
 							<div className={style.beerList}>
 								{entry.recommendBeers &&

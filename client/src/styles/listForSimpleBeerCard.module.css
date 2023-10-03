@@ -1,10 +1,10 @@
-.listWrap {
+.categoryList {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 }
 
-.categoryList {
+.beerListContainer {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -15,6 +15,5 @@
 	display: flex;
 	overflow-x: auto;
 	gap: 1rem;
-	box-sizing: border-box;
 	height: 227px;
 }
