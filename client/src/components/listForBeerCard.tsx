@@ -68,9 +68,7 @@ function ListForBeerCard({
 				beerList.length > 0 &&
 				beerList.map((beer) => {
 					return (
-						<div className={style.beerList}>
-							<BeerCard key={beer.id} beer={beer} clickPrefer={clickPrefer} />
-						</div>
+						<BeerCard key={beer.id} beer={beer} clickPrefer={clickPrefer} />
 					);
 				})}
 			<div ref={targetRef} />

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-import style from '../styles/beerCard.module.css';
+import style from '../styles/preference.module.css';
 
 interface PreferenceProps {
 	beerId: number;

@@ -1,8 +1,7 @@
-@import '../App.css';
-
 .card {
 	display: flex;
-	height: inherit;
+	height: 160px;
+	border: 1px solid var(--pastel-green-300);
 }
 
 .cardActionArea {
@@ -10,7 +9,7 @@
 	justify-content: space-between !important;
 	margin: 0.5em 1em;
 	width: 90%;
-	overflow: hidden; /* 추가: 내부 내용이 넘치면 숨김 */
+	height: 100%;
 }
 
 .cardMedia {
@@ -32,5 +31,4 @@
 	width: 70%;
 	height: 100%;
 	padding: 8px 0 !important;
-	overflow: hidden;
 }
