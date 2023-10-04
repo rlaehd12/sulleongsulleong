@@ -47,7 +47,7 @@ function BeerCard({ beer, clickPrefer }: BeerCardProps) {
 						<CardContent className={style.cardContent}>
 							<div>
 								<Typography gutterBottom variant="h6" component="div" noWrap>
-									{beer.nameKor}
+									{beer.nameKor || beer.name}
 								</Typography>
 								<Typography variant="body2" color="text.secondary">
 									{beer.largeCategory} &gt; {beer.subCategory}
