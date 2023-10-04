@@ -75,6 +75,12 @@ function MainPage({ setIsAuthenticated }: Props) {
 				const updateUserInfo = { ...userInfo };
 				updateUserInfo.name = memberName;
 				setUserInfo(updateUserInfo);
+				if (res.data.todayBeers.length === 0) {
+					alert(
+						'아직 설문조사를 진행하지 않았습니다! 설문조사 페이지로 이동합니다',
+					);
+					navigate('/survey');
+				}
 			})
 			.catch((err) => {
 				console.error('Axios Error:', err.response.status);
