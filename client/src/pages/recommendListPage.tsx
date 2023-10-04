@@ -1,16 +1,70 @@
 import React, { useEffect, useState } from 'react';
 import { Container, TextField } from '@mui/material';
 
+import { AxiosError } from 'axios';
 import Navbar from '../components/navbar';
-import style from '../styles/recommendListPage.module.css';
 import TabBar from '../components/tabBar';
-import InfiniteScroll from '../components/InfiniteScroll';
+import BeerCard from '../components/beerCard';
+import LoginModal from '../components/loginModal';
 
+import customAxios from '../customAxios';
+import style from '../styles/recommendListPage.module.css';
+
+interface Beer {
+	id: number;
+	image: string;
+	name: string;
+	nameKor: string;
+	abv: number;
+	largeCategory: string;
+	subCategory: string;
+	country: string;
+	score: number;
+	prefer: boolean;
+	preferCount: number;
+}
 interface Props {
 	setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function RecommendListPage({ setIsAuthenticated }: Props) {
+	const axiosInstance = customAxios();
+	const [beerList, setBeerList] = useState<Beer[]>([]);
+	const [openModal, setOpenModal] = useState<boolean>(false);
+
+	useEffect(() => {
+		axiosInstance
+			.get('/beers/recommend/rank')
+			.then((res) => {
+				setBeerList((prevBeers) => [...prevBeers, ...res.data.entries]);
+			})
+			.catch((err) => {
+				console.error('Axios Error:', err.response.status);
+				if (err.response.status === 401) {
+					setIsAuthenticated(false);
+				}
+			});
+	}, []);
+
+	const clickPrefer = (targerBeerId: number) => {
+		customAxios()
+			.post(`/beers/preference/${targerBeerId}`)
+			.then((res) => {
+				const updateBeerList = [...beerList];
+				updateBeerList[res.data.memberId].prefer = res.data.result;
+				updateBeerList[res.data.memberId].preferCount = res.data.like;
+
+				setBeerList(updateBeerList);
+			})
+			.catch((err) => {
+				console.error('Error sending the request:', err);
+				if (err.response.status === 401) {
+					setOpenModal(true);
+					console.log(openModal);
+				}
+			});
+	};
+
 	return (
 		<>
 			<Navbar />
@@ -30,12 +84,21 @@ function RecommendListPage({ setIsAuthenticated }: Props) {
 				<Container className={style.beerList}>
 					<hr />
 					<div className={style.cardContainer}>
-						<InfiniteScroll
-							url="https://api.punkapi.com/v2/beers"
-							PER_PAGE={10}
-							Component="beerCard"
-						/>
+						{beerList.map((beer) => {
+							return (
+								<div className={style.beerList}>
+									<BeerCard
+										key={beer.id}
+										beer={beer}
+										clickPrefer={clickPrefer}
+									/>
+								</div>
+							);
+						})}
 					</div>
+					{openModal && (
+						<LoginModal openModal={openModal} setOpenModal={setOpenModal} />
+					)}
 				</Container>
 			</div>
 			<TabBar />

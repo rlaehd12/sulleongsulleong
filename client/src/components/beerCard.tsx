@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardActionArea, CardMedia, CardContent } from '@mui/material';
 import Typography from '@mui/material/Typography';
@@ -18,19 +18,20 @@ interface Beer {
 	subCategory: string;
 	country: string;
 	score: number;
+	prefer: boolean;
+	preferCount: number;
 }
 
 interface BeerCardProps {
 	beer: Beer;
+	clickPrefer: (targerBeerId: number) => void;
 }
 
-function BeerCard({ beer }: BeerCardProps) {
-	const [rate, setRate] = useState<number>(3.5); // 평점 상태 관리
-
+function BeerCard({ beer, clickPrefer }: BeerCardProps) {
 	return (
 		<Card>
-			<div className={style.cardWrap}>
-				<CardActionArea component={Link} to="/">
+			<div className={style.card}>
+				<CardActionArea component={Link} to={`/detail/${beer.id}`}>
 					<div className={style.cardActionArea}>
 						<div className={style.cardMedia}>
 							<CardMedia
@@ -40,19 +41,13 @@ function BeerCard({ beer }: BeerCardProps) {
 									const target = e.target as HTMLImageElement;
 									target.src = beerIcon; // 이미지 로드에 실패하면 beerIcon으로 대체
 								}}
-								alt={beer.name}
+								alt={beer.nameKor}
 							/>
 						</div>
 						<CardContent className={style.cardContent}>
 							<div>
-								<Typography
-									gutterBottom
-									variant="h6"
-									component="div"
-									sx={{ mb: 2 }}
-									className={style.truncateText}
-								>
-									{beer.name}
+								<Typography gutterBottom variant="h6" component="div" noWrap>
+									{beer.nameKor}
 								</Typography>
 								<Typography variant="body2" color="text.secondary">
 									{beer.largeCategory} &gt; {beer.subCategory}
@@ -65,13 +60,18 @@ function BeerCard({ beer }: BeerCardProps) {
 								name="half-rating-read"
 								defaultValue={2.5}
 								precision={0.5}
-								value={rate}
+								value={beer.score}
 								readOnly
 							/>
 						</CardContent>
 					</div>
 				</CardActionArea>
-				<Preference beerId={beer.id} />
+				<Preference
+					beerId={beer.id}
+					prefer={beer.prefer}
+					preferCount={beer.preferCount}
+					clickPrefer={clickPrefer}
+				/>
 			</div>
 		</Card>
 	);

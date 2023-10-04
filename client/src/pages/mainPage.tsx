@@ -17,21 +17,70 @@ interface Beer {
 	image: string;
 	name: string;
 }
+interface Entry {
+	category: string;
+	recommendBeers: Beer[];
+}
+interface MainRecommend {
+	todayBeers: Beer[];
+	popularBeers: Beer[];
+	similarPeoplesBeers: Beer[];
+}
+interface User {
+	name: string;
+	age: number;
+	gender: string;
+}
 interface Props {
 	setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function MainPage({ setIsAuthenticated }: Props) {
 	const axiosInstance = customAxios();
-	const [beerList, setBeerList] = useState<Beer[]>([]);
 	const navigate = useNavigate();
+	const [mainRecommendList, setMainRecommendList] = useState<MainRecommend>({
+		todayBeers: [],
+		popularBeers: [],
+		similarPeoplesBeers: [],
+	});
+	const [userInfo, setUserInfo] = useState<User>({
+		name: '',
+		age: 0,
+		gender: '',
+	});
+	const [categoryList, setcategoryList] = useState<Entry[]>([]);
+	const [loading, setLoading] = useState<boolean>(false);
+	const [loadCategory, setLoadCategory] = useState<number>(0);
 
 	useEffect(() => {
 		axiosInstance
-			.get('/main')
+			.get('/members/info')
+			.then((res) => {
+				const updateUserInfo = { ...userInfo };
+				updateUserInfo.gender = res.data.gender;
+				updateUserInfo.age = res.data.age;
+				setUserInfo(updateUserInfo);
+			})
+			.catch((err) => {
+				console.error('Axios Error:', err.response.status);
+			});
+
+		axiosInstance
+			.get('/beers/recommend/main')
 			.then((res) => {
 				console.log(res.data);
-				setBeerList(res.data.todayBeers);
+				const { memberName, ...lists } = res.data;
+				setMainRecommendList(lists);
+
+				const updateUserInfo = { ...userInfo };
+				updateUserInfo.name = memberName;
+				setUserInfo(updateUserInfo);
+				if (res.data.todayBeers.length === 0) {
+					alert(
+						'아직 설문조사를 진행하지 않았습니다! 설문조사 페이지로 이동합니다',
+					);
+					navigate('/survey');
+				}
 			})
 			.catch((err) => {
 				console.error('Axios Error:', err.response.status);
@@ -41,12 +90,24 @@ function MainPage({ setIsAuthenticated }: Props) {
 			});
 	}, []);
 
-	// const url = `http://localhost:8080/api/main`;
-	// useEffect(() => {
-	// 	axios.get(url).then((res) => {
-	// 		setBeerList(res.data);
-	// 	});
-	// }, []);
+	const loadCategoryList = async () => {
+		if (categoryList.length > 0) return;
+
+		setLoading(true);
+		try {
+			const response = await axiosInstance.get('/beers/recommend/category');
+			setcategoryList(response.data.entries);
+		} catch (error) {
+			console.error('Error fetching category list:', error);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	useEffect(() => {
+		loadCategoryList();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [loadCategory]);
 
 	return (
 		<div className={style.mainPage}>
@@ -59,26 +120,70 @@ function MainPage({ setIsAuthenticated }: Props) {
 			</Container>
 			<Divider variant="middle" />
 			<Container>
-				<span>오늘의 맞춤 맥주</span>
-				<hr className={style.titlehr} />
-				<div className={style.cardContainer}>
-					{beerList.map((beer) => (
-						<div key={beer.id} className={style.card}>
-							<div className={style.imgContainer}>
-								<img
-									className={style.beerImg}
-									src={beer.image || beerIcon}
-									onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-										const target = e.target as HTMLImageElement;
-										target.src = beerIcon; // 이미지 로드에 실패하면 beerIcon으로 대체
-									}}
-									alt=""
-								/>
+				{Object.keys(mainRecommendList).map((key) => {
+					const recommendKey = key as keyof MainRecommend;
+					let disc;
+					switch (key) {
+						case 'todayBeers':
+							disc = <span>{userInfo.name}님, 오늘은 이런 맥주 어떤가요?</span>;
+							break;
+						case 'popularBeers':
+							disc = <span>많은 분들이 좋아해요</span>;
+							break;
+						case 'similarPeoplesBeers':
+							disc = (
+								<span>
+									{userInfo.age}대 {userInfo.gender}분들이 좋아해요
+								</span>
+							);
+							break;
+						default:
+							disc = null;
+							break;
+					}
+
+					return (
+						<div>
+							{disc}
+							<hr className={style.titlehr} />
+							<div className={style.cardContainer}>
+								{mainRecommendList[recommendKey].map((beer: Beer) => {
+									return (
+										<div key={beer.id} className={style.card}>
+											<div
+												className={style.imgContainer}
+												role="button"
+												tabIndex={0}
+												onClick={() => {
+													navigate(`/detail/${beer.id}`);
+												}}
+												onKeyDown={(e) => {
+													if (e.key === 'Enter') {
+														navigate(`/detail/${beer.id}`);
+													}
+												}}
+											>
+												<img
+													className={style.beerImg}
+													src={beer.image || beerIcon}
+													onError={(
+														e: React.SyntheticEvent<HTMLImageElement>,
+													) => {
+														const target = e.target as HTMLImageElement;
+														target.src = beerIcon; // 이미지 로드에 실패하면 beerIcon으로 대체
+													}}
+													alt=""
+												/>
+											</div>
+											<div className={style.beerName}>{beer.name}</div>
+										</div>
+									);
+								})}
 							</div>
-							<div className={style.beerName}>{beer.name}</div>
 						</div>
-					))}
-				</div>
+					);
+				})}
+				;
 			</Container>
 			<Container className={style.surveyArea}>
 				<span>술을 잘 모르시나요?</span>
@@ -94,9 +199,10 @@ function MainPage({ setIsAuthenticated }: Props) {
 			</Container>
 			<Container>
 				<InfiniteScroll
-					url="/beers/search"
-					PER_PAGE={10}
 					Component="simpleBeerCard"
+					loadMore={setLoadCategory}
+					list={categoryList}
+					loading={loading}
 				/>
 			</Container>
 		</div>

@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
+    Optional<Review> findByBeerIdAndMemberId(Long beerId, Long memberId);
+
     Optional<Review> findByIdAndMemberId(Long reviewId, Long memberId);
 
     // ID가 크다는건 가장 나중에 생성된 거라 볼 수 있다.

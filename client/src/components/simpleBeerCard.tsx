@@ -1,14 +1,15 @@
-import React, { useEffect, useState, forwardRef } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardActionArea, CardMedia, CardContent } from '@mui/material';
 import Typography from '@mui/material/Typography';
+import beerIcon from '../images/beer.png';
 
-import style from '../styles/beerCard.module.css';
+import style from '../styles/simpleBeerCard.module.css';
 
 interface Beer {
 	id: number;
 	image: string;
-	nameKor: string;
+	name: string;
 }
 
 interface SimpleBeerCardProps {
@@ -17,21 +18,29 @@ interface SimpleBeerCardProps {
 
 function SimpleBeerCard({ beer }: SimpleBeerCardProps) {
 	return (
-		<Card sx={{ maxWidth: 150 }}>
-			<CardActionArea>
-				<CardMedia
-					component="img"
-					height="140"
-					image={beer.image}
-					alt="green iguana"
-				/>
-				<CardContent>
-					<Typography variant="body2" color="text.secondary">
-						{beer.nameKor}
-					</Typography>
-				</CardContent>
-			</CardActionArea>
-		</Card>
+		<div className={style.card}>
+			<Card>
+				<CardActionArea component={Link} to={`/detail/${beer.id}`}>
+					<div className={style.imgContainer}>
+						<CardMedia
+							component="img"
+							image={beer.image}
+							className={style.beerImg}
+							onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+								const target = e.target as HTMLImageElement;
+								target.src = beerIcon; // 이미지 로드에 실패하면 beerIcon으로 대체
+							}}
+							alt={beer.name}
+						/>
+					</div>
+					<CardContent>
+						<Typography variant="subtitle1" align="center" noWrap>
+							{beer.name}
+						</Typography>
+					</CardContent>
+				</CardActionArea>
+			</Card>
+		</div>
 	);
 }
 

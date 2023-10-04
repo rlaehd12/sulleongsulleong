@@ -1,0 +1,51 @@
+@import './figmaVariables.css';
+
+.divider {
+	width: 100%;
+	height: 1px;
+	background-color: var(--pastel-green-500);
+	margin: 10px 0;
+}
+
+.titleContainer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-left: 10%; /* Adjust as needed */
+	padding-right: 10%; /* Adjust as needed */
+}
+
+.title {
+	text-align: center;
+}
+
+.title span {
+	font-size: var(--font_size3);
+}
+
+.cardList {
+	margin-top: 20px;
+}
+
+.card {
+	margin-top: 10px;
+	width: 80%;
+	height: 100%;
+	padding: 5px;
+	text-align: center;
+	border-radius: 10px;
+	border: 1px solid var(--pastel-green-500);
+	box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+	transition: all 0.2s ease-in-out;
+	font-size: var(--font_size1);
+}
+
+.beerImg {
+	height: 100px;
+	width: 80%;
+	object-fit: contain;
+}
+
+.grayScale {
+	filter: grayscale(100%);
+}

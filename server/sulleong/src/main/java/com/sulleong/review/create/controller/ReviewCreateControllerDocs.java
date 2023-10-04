@@ -32,12 +32,14 @@ public interface ReviewCreateControllerDocs {
                     @Content(mediaType = "application/json",
                             schema = @Schema(implementation = BeerReviewCreateForm.class))
             ),
-            responses =
-            @ApiResponse(responseCode = "200", description = "리뷰 생성 결과",
-                    content =
-                    @Content(mediaType="application/json",
-                            schema=@Schema(implementation=BeerReviewCreateResponse.class))
-            )
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "리뷰 생성 결과",
+                            content =
+                            @Content(mediaType="application/json",
+                                    schema=@Schema(implementation=BeerReviewCreateResponse.class))
+                    ),
+                    @ApiResponse(responseCode="409", description="중복된 댓글 작성 시 발생하는 오류")
+            }
     )
     BeerReviewCreateResponse createReview(
             @Parameter(description = "맥주 ID") Long beerId,

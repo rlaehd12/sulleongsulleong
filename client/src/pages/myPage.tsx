@@ -24,7 +24,7 @@ function MyPage({ setIsAuthenticated }: Props) {
 			})
 			.catch((err) => {
 				if (err.response.status === 401) {
-					setIsAuthenticated(true);
+					setIsAuthenticated(false);
 				}
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps

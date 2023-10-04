@@ -7,8 +7,8 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class CategoryResponse {
+public class CustomRecommendResponse {
 
-    private List<CategoryResponseEntry> entries;
+    private List<CustomRecommendResponseEntry> entries;
 
 }

@@ -24,9 +24,17 @@ spring:
       charset: UTF-8
       enabled: true
       force: true
+  cashe:
+    type: redis
   redis:
     host: localhost
     port: 6379
 
   google:
     redirect-uri: ${GOOGLE_REDIRECT_URI}
+  jackson:
+    time-zone: Asia/Seoul
+
+domain: https://dev.sulleong.site
+
+server-check : blue

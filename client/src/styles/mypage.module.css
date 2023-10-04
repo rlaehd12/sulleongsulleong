@@ -23,7 +23,7 @@
 .label {
 	font-size: 1.5rem;
 	font-weight: 700;
-	margin-bottom: 1rem;
+	margin-bottom: 10%;
 	background-color: var(--pastel-green-300);
 	color: var(--white);
 }
@@ -32,7 +32,6 @@
 	display: flex;
 	align-items: center;
 	width: 100%;
-	padding: 1rem 1rem;
 	justify-content: space-evenly;
 }
 
@@ -44,7 +43,7 @@
 }
 
 .logoutBtn {
-	position: fixed;
-	left: 10%;
+	position: absolute !important;
 	bottom: 10%;
+	left: 10%;
 }
