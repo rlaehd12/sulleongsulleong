@@ -21,6 +21,7 @@ body {
 	height: 100%;
 	margin: 0;
 	padding: 0;
+	background-color: var(--pastel-green-50);
 }
 
 #app {
@@ -29,8 +30,4 @@ body {
 	margin-left: auto;
 	margin-right: auto;
 	background-color: var(--white);
-}
-
-#root {
-	background-color: var(--pastel-green-50);
 }
