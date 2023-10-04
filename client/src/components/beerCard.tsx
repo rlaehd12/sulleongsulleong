@@ -60,7 +60,7 @@ function BeerCard({ beer, clickPrefer }: BeerCardProps) {
 								name="half-rating-read"
 								defaultValue={2.5}
 								precision={0.5}
-								value={beer.score}
+								value={beer.score / 2}
 								readOnly
 							/>
 						</CardContent>

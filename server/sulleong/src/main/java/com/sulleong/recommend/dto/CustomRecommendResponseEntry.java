@@ -31,7 +31,7 @@ public class CustomRecommendResponseEntry {
 
     private Integer preferCount;
 
-    public static CustomRecommendResponseEntry create(Beer beer, Long memberId) {
+    public static CustomRecommendResponseEntry create(Beer beer, Long memberId, Double score) {
         return CustomRecommendResponseEntry.builder()
                 .id(beer.getId())
                 .image(ImageUri.URI.getValue() + beer.getId())
@@ -41,7 +41,7 @@ public class CustomRecommendResponseEntry {
                 .largeCategory(beer.getLargeCategory())
                 .subCategory(beer.getSubCategory())
                 .country(beer.getCountry())
-                .score(null) // 별점은 리뷰 기능 구현 후 추가 예정
+                .score(score) // 별점은 리뷰 기능 구현 후 추가 예정
                 .prefer(beer.getPreferences().stream().anyMatch(preference -> preference.getMember().getId().equals(memberId)))
                 .preferCount(beer.getPreferences().size())
                 .build();
