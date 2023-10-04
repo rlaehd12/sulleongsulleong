@@ -85,14 +85,16 @@ def ranktest(request):
 
 @api_view(['GET', 'POST', 'PUT'])
 def initialize(request):
-    if request.method == "POST":
-        member_id = request.POST.get('member_id')
-        # 기존 데이터 시도하면 아무것도 안하고 끝냄
+    if request.method == "GET":
+        member_id = request.GET.get('mid')
         try: 
+            # 기존 데이터 시도하면 아무것도 안하고 끝냄
             LearningDataset.objects.get(member_id=member_id)
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(status=status.HTTP_200_OK)
         except:
             prefer_beer_data = Preference.objects.filter(member = member_id).select_related('beer')
+            if len(prefer_beer_data) == 0:
+                return Response(status=status.HTTP_204_NO_CONTENT)
             serializer = BeerPreferenceSerializer(prefer_beer_data, many=True)
 
             # json df화 및 컬럼명 변경
@@ -180,7 +182,7 @@ def re_ranking(request):
         # 예측
         regr = load('./model_regressor.joblib')
         my_predict = regr.predict(X[:])
-        print('my_predict', regr.predict(X[:]))
+        # print('my_predict', regr.predict(X[:]))
 
         # 결과 반환
         result = []
@@ -189,7 +191,7 @@ def re_ranking(request):
 
         result = sorted(result, key=lambda x:x[1], reverse=True)
         result_id = [i[0] for i in result]
-        print(result)
+        # print(result)
 
 
         return Response(result_id)

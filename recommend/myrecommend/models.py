@@ -24,7 +24,6 @@ class Beer(models.Model):
     overall = models.BigIntegerField(blank=True, null=True)
     review_count = models.IntegerField(blank=True, null=True)
     sub_category = models.CharField(max_length=255, blank=True, null=True)
-    class_name = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -32,7 +31,7 @@ class Beer(models.Model):
 
 
 class LearningDataset(models.Model):
-    member_id = models.BigIntegerField(blank=True, null=False, primary_key=True)
+    member_id = models.BigIntegerField(blank=True, null=True, primary_key=True)
     overall = models.BigIntegerField(blank=True, null=True)
     abv = models.FloatField(blank=True, null=True)
     review_count = models.BigIntegerField(blank=True, null=True)
@@ -168,7 +167,7 @@ class LearningDataset(models.Model):
 
 
 class Member(models.Model):
-    id = models.BigAutoField(primary_key=True)
+    id = models.BigIntegerField(primary_key=True)
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     age = models.IntegerField(blank=True, null=True)
@@ -189,7 +188,6 @@ class Preference(models.Model):
     choice = models.BooleanField()
     beer = models.ForeignKey(Beer, models.DO_NOTHING, blank=True, null=True)
     member = models.ForeignKey(Member, models.DO_NOTHING, blank=True, null=True)
-    beer_beer = models.ForeignKey(Beer, models.DO_NOTHING, related_name='preference_beer_beer_set', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -208,18 +206,18 @@ class Recommend(models.Model):
 
 
 class Review(models.Model):
-    id = models.BigAutoField(primary_key=True)
+    id = models.BigIntegerField(primary_key=True)
+    created_at = models.DateTimeField(blank=True, null=True)
+    updated_at = models.DateTimeField(blank=True, null=True)
     appearance = models.IntegerField(blank=True, null=True)
     aroma = models.IntegerField(blank=True, null=True)
     content = models.TextField(blank=True, null=True)
     flavor = models.IntegerField(blank=True, null=True)
     mouthfeel = models.IntegerField(blank=True, null=True)
     overall = models.IntegerField(blank=True, null=True)
+    score = models.IntegerField(blank=True, null=True)
     beer = models.ForeignKey(Beer, models.DO_NOTHING, blank=True, null=True)
     member = models.ForeignKey(Member, models.DO_NOTHING, blank=True, null=True)
-    score = models.IntegerField(blank=True, null=True)
-    created_at = models.DateTimeField(blank=True, null=True)
-    updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = False
