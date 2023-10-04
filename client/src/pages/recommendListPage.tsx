@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, TextField } from '@mui/material';
 
-import { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/navbar';
 import TabBar from '../components/tabBar';
 import BeerCard from '../components/beerCard';
@@ -29,6 +29,7 @@ interface Props {
 
 function RecommendListPage({ setIsAuthenticated }: Props) {
 	const axiosInstance = customAxios();
+	const navigate = useNavigate();
 	const [beerList, setBeerList] = useState<Beer[]>([]);
 	const [openModal, setOpenModal] = useState<boolean>(false);
 
@@ -42,6 +43,11 @@ function RecommendListPage({ setIsAuthenticated }: Props) {
 				console.error('Axios Error:', err.response.status);
 				if (err.response.status === 401) {
 					setIsAuthenticated(false);
+				} else if (err.response.status === 400) {
+					alert(
+						'아직 설문조사를 진행하지 않았습니다! 설문조사 페이지로 이동합니다',
+					);
+					navigate('/survey');
 				}
 			});
 	}, []);
