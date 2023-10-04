@@ -140,6 +140,10 @@ def re_ranking(request):
     request_beer_list = request.GET.get('beers', None)
     candidate = list(set(request_beer_list.split(',')))
 
+    # 설문 하지 않은 경우
+    if candidate[0] == '':
+        return Response(data='please do survey', status=status.HTTP_400_BAD_REQUEST)
+
     filter_query = Q()
     for id in candidate:
         filter_query |= Q(id = int(id))
@@ -151,8 +155,12 @@ def re_ranking(request):
         serializer = BeerSerializer(beer_list, many=True)
         beer_list = pd.DataFrame(serializer.data)
         beer_list = beer_list[['id', 'abv', 'country', 'large_category', 'sub_category']]
-        # 유저 리뷰 평균 데이터프레임화
-        learningData = LearningDataset.objects.get(member_id=request_user)
+        # 유저 리뷰 평균 데이터프레임화 및 없는 유저시 400 반환
+        try:
+            learningData = LearningDataset.objects.get(member_id=request_user)
+        except Exception as e:
+            print(e)
+            return Response(data='please give right member', status=status.HTTP_400_BAD_REQUEST)
         serializer = LearningDatasetSerializer(learningData)
         user_data = pd.DataFrame([serializer.data])
 

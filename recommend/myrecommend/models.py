@@ -31,7 +31,7 @@ class Beer(models.Model):
 
 
 class LearningDataset(models.Model):
-    member_id = models.BigIntegerField(blank=True, null=True, primary_key=True)
+    member_id = models.BigIntegerField(blank=True, primary_key=True)
     overall = models.BigIntegerField(blank=True, null=True)
     abv = models.FloatField(blank=True, null=True)
     review_count = models.BigIntegerField(blank=True, null=True)
