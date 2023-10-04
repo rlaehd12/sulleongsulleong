@@ -17,6 +17,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     List<Review> findTop5ByBeerIdOrderByIdDesc(Long beerId);
 
     @Query("SELECT score FROM Review r WHERE r.id <= 50000 AND r.beer.id = :beerId")
-    List<Review> findBeerReviews(@Param("beerId") Long beerId);
+    List<Integer> findBeerReviews(@Param("beerId") Long beerId);
 
 }
