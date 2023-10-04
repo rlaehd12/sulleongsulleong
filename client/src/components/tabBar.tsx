@@ -21,7 +21,7 @@ function TabBar() {
 		if (location.pathname === '/dict') {
 			return 'dict';
 		}
-		if (location.pathname === '/recommendList') {
+		if (location.pathname === '/recList') {
 			return 'recommend';
 		}
 		if (location.pathname === '/myPage') {
@@ -72,7 +72,7 @@ function TabBar() {
 				value="recommend"
 				icon={<RecommendIcon />}
 				component={Link}
-				to="/recommendList"
+				to="/recList"
 			/>
 			<BottomNavigationAction
 				label="내정보"

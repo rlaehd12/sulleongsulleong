@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Container, Divider } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
+import { MemberName } from 'typescript';
 import customAxios from '../customAxios';
 import InfiniteScroll from '../components/InfiniteScroll';
 
@@ -59,9 +60,7 @@ function MainPage({ setIsAuthenticated }: Props) {
 				const { memberName, ...lists } = res.data;
 				setMainRecommendList(lists);
 
-				const updateUserInfo = { ...userInfo };
-				updateUserInfo.name = memberName;
-				setUserInfo(updateUserInfo);
+				setUserInfo((prevUserInfo) => ({ ...prevUserInfo, name: memberName }));
 				if (res.data.todayBeers.length === 0) {
 					alert(
 						'아직 설문조사를 진행하지 않았습니다! 설문조사 페이지로 이동합니다',
@@ -72,14 +71,11 @@ function MainPage({ setIsAuthenticated }: Props) {
 				return axiosInstance.get('/members/info');
 			})
 			.then((res) => {
-				const updateUserInfo = { ...userInfo };
-				if (res.data.gender === 'M') {
-					updateUserInfo.gender = '남자';
-				} else {
-					updateUserInfo.gender = '여자';
-				}
-				updateUserInfo.age = res.data.age;
-				setUserInfo(updateUserInfo);
+				setUserInfo((prevUserInfo) => ({
+					...prevUserInfo,
+					gender: res.data.gender === 'M' ? '남성' : '여성',
+					age: res.data.age,
+				}));
 			})
 			.catch((err) => {
 				console.error('Axios Error:', err.response.status);
@@ -91,7 +87,6 @@ function MainPage({ setIsAuthenticated }: Props) {
 
 	const loadCategoryList = async () => {
 		if (categoryList.length > 0) return; // 한 번 호출되었으면 재요청 방지
-		if (mainRecommendList.popularBeers.length === 0) return; // 매인페이지 로딩 시 타겟 노출에 의한 호출 방지
 
 		setLoading(true);
 		try {
@@ -120,41 +115,44 @@ function MainPage({ setIsAuthenticated }: Props) {
 			</Container>
 			<Divider variant="middle" />
 			<Container>
-				{Object.keys(mainRecommendList).map((key) => {
-					const recommendKey = key as keyof MainRecommend;
-					let disc;
-					switch (key) {
-						case 'todayBeers':
-							disc = <span>{userInfo.name}님, 오늘은 이런 맥주 어떤가요?</span>;
-							break;
-						case 'popularBeers':
-							disc = <span>많은 분들이 좋아해요</span>;
-							break;
-						case 'similarPeoplesBeers':
-							disc = (
-								<span>
-									{userInfo.age}대 {userInfo.gender}분들이 좋아해요
-								</span>
-							);
-							break;
-						default:
-							disc = null;
-							break;
-					}
+				<div className={style.recommendList}>
+					{Object.keys(mainRecommendList).map((key) => {
+						const recommendKey = key as keyof MainRecommend;
+						let disc;
+						switch (key) {
+							case 'todayBeers':
+								disc = (
+									<span>{userInfo.name}님, 오늘은 이런 맥주 어떤가요?</span>
+								);
+								break;
+							case 'popularBeers':
+								disc = <span>많은 분들이 좋아해요</span>;
+								break;
+							case 'similarPeoplesBeers':
+								disc = (
+									<span>
+										{userInfo.age}대 {userInfo.gender}분들이 좋아해요
+									</span>
+								);
+								break;
+							default:
+								disc = null;
+								break;
+						}
 
-					return (
-						<div>
-							{disc}
-							<hr className={style.titlehr} />
-							<div className={style.cardContainer}>
-								{mainRecommendList[recommendKey].map((beer: Beer) => {
-									return <SimpleBeerCard key={beer.id} beer={beer} />;
-								})}
+						return (
+							<div>
+								{disc}
+								<hr className={style.titlehr} />
+								<div className={style.cardContainer}>
+									{mainRecommendList[recommendKey].map((beer: Beer) => {
+										return <SimpleBeerCard key={beer.id} beer={beer} />;
+									})}
+								</div>
 							</div>
-						</div>
-					);
-				})}
-				;
+						);
+					})}
+				</div>
 			</Container>
 			<Container className={style.surveyArea}>
 				<span>술을 잘 모르시나요?</span>
