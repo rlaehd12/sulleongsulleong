@@ -127,12 +127,12 @@ function DetailPage({ setIsAuthenticated }: Props) {
 							clickPrefer={clickPrefer}
 						/>
 					</div>
-					<p className={style.beerInfo}>
+					{/* <p className={style.beerInfo}>
 						<strong>
 							{beerInfo.largeCategory} {'>'}
 						</strong>
 						{beerInfo.subCategory}
-					</p>
+					</p> */}
 					<p className={style.beerInfo}>
 						<strong>도수</strong>
 						{beerInfo.abv}%
