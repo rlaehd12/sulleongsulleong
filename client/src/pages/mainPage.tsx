@@ -10,7 +10,7 @@ import style from '../styles/mainpage.module.css';
 import event1 from '../images/event1.jpg';
 import event2 from '../images/event2.jpg';
 import event3 from '../images/event3.jpg';
-import beerIcon from '../images/beer.png';
+import SimpleBeerCard from '../components/simpleBeerCard';
 
 interface Beer {
 	id: number;
@@ -54,21 +54,8 @@ function MainPage({ setIsAuthenticated }: Props) {
 
 	useEffect(() => {
 		axiosInstance
-			.get('/members/info')
-			.then((res) => {
-				const updateUserInfo = { ...userInfo };
-				updateUserInfo.gender = res.data.gender;
-				updateUserInfo.age = res.data.age;
-				setUserInfo(updateUserInfo);
-			})
-			.catch((err) => {
-				console.error('Axios Error:', err.response.status);
-			});
-
-		axiosInstance
 			.get('/beers/recommend/main')
 			.then((res) => {
-				console.log(res.data);
 				const { memberName, ...lists } = res.data;
 				setMainRecommendList(lists);
 
@@ -81,6 +68,18 @@ function MainPage({ setIsAuthenticated }: Props) {
 					);
 					navigate('/survey');
 				}
+
+				return axiosInstance.get('/members/info');
+			})
+			.then((res) => {
+				const updateUserInfo = { ...userInfo };
+				if (res.data.gender === 'M') {
+					updateUserInfo.gender = '남자';
+				} else {
+					updateUserInfo.gender = '여자';
+				}
+				updateUserInfo.age = res.data.age;
+				setUserInfo(updateUserInfo);
 			})
 			.catch((err) => {
 				console.error('Axios Error:', err.response.status);
@@ -91,7 +90,8 @@ function MainPage({ setIsAuthenticated }: Props) {
 	}, []);
 
 	const loadCategoryList = async () => {
-		if (categoryList.length > 0) return;
+		if (categoryList.length > 0) return; // 한 번 호출되었으면 재요청 방지
+		if (mainRecommendList.popularBeers.length === 0) return; // 매인페이지 로딩 시 타겟 노출에 의한 호출 방지
 
 		setLoading(true);
 		try {
@@ -148,36 +148,7 @@ function MainPage({ setIsAuthenticated }: Props) {
 							<hr className={style.titlehr} />
 							<div className={style.cardContainer}>
 								{mainRecommendList[recommendKey].map((beer: Beer) => {
-									return (
-										<div key={beer.id} className={style.card}>
-											<div
-												className={style.imgContainer}
-												role="button"
-												tabIndex={0}
-												onClick={() => {
-													navigate(`/detail/${beer.id}`);
-												}}
-												onKeyDown={(e) => {
-													if (e.key === 'Enter') {
-														navigate(`/detail/${beer.id}`);
-													}
-												}}
-											>
-												<img
-													className={style.beerImg}
-													src={beer.image || beerIcon}
-													onError={(
-														e: React.SyntheticEvent<HTMLImageElement>,
-													) => {
-														const target = e.target as HTMLImageElement;
-														target.src = beerIcon; // 이미지 로드에 실패하면 beerIcon으로 대체
-													}}
-													alt=""
-												/>
-											</div>
-											<div className={style.beerName}>{beer.name}</div>
-										</div>
-									);
+									return <SimpleBeerCard key={beer.id} beer={beer} />;
 								})}
 							</div>
 						</div>
