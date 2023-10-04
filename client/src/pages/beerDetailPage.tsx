@@ -82,6 +82,9 @@ function DetailPage({ setIsAuthenticated }: Props) {
 					setIsDuplicate(true);
 				}
 			});
+		axiosInstance.get(`/beers/${id}`).then((res) => {
+			setBeerInfo(res.data);
+		});
 	};
 
 	const clickPrefer = (targerBeerId: number) => {
@@ -115,8 +118,7 @@ function DetailPage({ setIsAuthenticated }: Props) {
 					<hr className={style.divider} />
 					<div className={style.beerTitle}>
 						<span className={style.beerInfo}>
-							<strong>이름</strong>
-							<span>{beerInfo.name}</span>
+							<strong>{beerInfo.name}</strong>
 						</span>
 						<Preference
 							beerId={id}
@@ -125,12 +127,12 @@ function DetailPage({ setIsAuthenticated }: Props) {
 							clickPrefer={clickPrefer}
 						/>
 					</div>
-					<p className={style.beerInfo}>
+					{/* <p className={style.beerInfo}>
 						<strong>
 							{beerInfo.largeCategory} {'>'}
 						</strong>
 						{beerInfo.subCategory}
-					</p>
+					</p> */}
 					<p className={style.beerInfo}>
 						<strong>도수</strong>
 						{beerInfo.abv}%

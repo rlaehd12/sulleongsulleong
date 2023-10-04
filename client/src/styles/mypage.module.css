@@ -43,7 +43,10 @@
 }
 
 .logoutBtn {
-	position: absolute !important;
+	position: fixed !important;
 	bottom: 10%;
-	left: 10%;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 200px; /* 원하는 버튼의 너비를 설정하세요 */
+	max-width: 420px;
 }
