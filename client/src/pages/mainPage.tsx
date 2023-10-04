@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Container, Divider } from '@mui/material';
+import { Button, Container } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
 import { MemberName } from 'typescript';
 import customAxios from '../customAxios';
@@ -62,6 +62,7 @@ function MainPage({ setIsAuthenticated }: Props) {
 
 				setUserInfo((prevUserInfo) => ({ ...prevUserInfo, name: memberName }));
 				if (res.data.todayBeers.length === 0) {
+					// eslint-disable-next-line no-alert
 					alert(
 						'아직 설문조사를 진행하지 않았습니다! 설문조사 페이지로 이동합니다',
 					);
@@ -113,7 +114,7 @@ function MainPage({ setIsAuthenticated }: Props) {
 					<img className={style.carouselImg} src={event3} alt="event3" />
 				</Carousel>
 			</Container>
-			<Divider variant="middle" />
+			<hr className={style.titlehr} />
 			<Container>
 				<div className={style.recommendList}>
 					{Object.keys(mainRecommendList).map((key) => {
@@ -156,7 +157,7 @@ function MainPage({ setIsAuthenticated }: Props) {
 			</Container>
 			<Container className={style.surveyArea}>
 				<span>술을 잘 모르시나요?</span>
-				<h3>나에게 맞는 술 찾으러 가기</h3>
+				<p>나에게 맞는 술 찾으러 가기</p>
 				<Button
 					variant="contained"
 					onClick={() => {
