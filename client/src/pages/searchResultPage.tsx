@@ -1,4 +1,6 @@
 import React, { FormEvent, useCallback, useEffect, useState } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
+import { AxiosError } from 'axios';
 import {
 	InputAdornment,
 	TextField,
@@ -39,13 +41,13 @@ interface Props {
 }
 
 function SearchResultPage({ setIsAuthenticated }: Props) {
-	// input tag 상태관리, url 상태 관리
 	const [query, setQuery] = useState<string>('');
 	const [searchQuery, setSearchQuery] = useSearchParams({ q: '' });
 	const [page, setPage] = useState<number>(0);
 	const [beerList, setBeerList] = useState<Beer[]>([]);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [openModal, setOpenModal] = useState<boolean>(false);
+	const queryClient = useQueryClient();
 
 	// 페이지 진입 및 검색했을 때 상태 초기화
 	useEffect(() => {
@@ -98,23 +100,55 @@ function SearchResultPage({ setIsAuthenticated }: Props) {
 		loadBeerList();
 	}, [page, searchQuery]);
 
-	const clickPrefer = (targerBeerId: number) => {
-		customAxios()
-			.post(`/beers/preference/${targerBeerId}`)
-			.then((res) => {
-				const updateBeerList = [...beerList];
-				updateBeerList[res.data.memberId].prefer = res.data.result;
-				updateBeerList[res.data.memberId].preferCount = res.data.like;
+	// const clickPrefer = (targerBeerId: number) => {
+	// 	customAxios()
+	// 		.post(`/beers/preference/${targerBeerId}`)
+	// 		.then((res) => {
+	// 			const updateBeerList = [...beerList];
+	// 			updateBeerList[res.data.memberId].prefer = res.data.result;
+	// 			updateBeerList[res.data.memberId].preferCount = res.data.like;
 
-				setBeerList(updateBeerList);
-			})
-			.catch((err) => {
-				console.error('Error sending the request:', err);
-				if (err.response.status === 401) {
+	// 			setBeerList(updateBeerList);
+	// 		})
+	// 		.catch((err) => {
+	// 			console.error('Error sending the request:', err);
+	// 			if (err.response.status === 401) {
+	// 				setOpenModal(true);
+	// 				console.log(openModal);
+	// 			}
+	// 		});
+	// };
+
+	const toggleBeerPreference = async (targetBeerId: number) => {
+		return customAxios().post(`/beers/preference/${targetBeerId}`);
+	};
+
+	const preferenceMutation = useMutation(toggleBeerPreference, {
+		onSuccess: (res, targetBeerId) => {
+			queryClient.invalidateQueries(['beerList']); // 캐시를 무효화하여 재요청
+
+			// beerList 상태를 업데이트
+			const updateBeerList = [...beerList];
+			updateBeerList[res.data.memberId].prefer = res.data.result;
+			updateBeerList[res.data.memberId].preferCount = res.data.like;
+
+			setBeerList(updateBeerList);
+		},
+		onError: (err) => {
+			const error = err as AxiosError;
+			if (error.response) {
+				console.error('Axios Error:', error.response.status);
+				if (error.response.status === 401) {
 					setOpenModal(true);
-					console.log(openModal);
 				}
-			});
+			} else {
+				console.error('Error:', error.message);
+			}
+		},
+	});
+
+	const clickPrefer = (targetBeerId: number) => {
+		preferenceMutation.mutate(targetBeerId);
 	};
 
 	return (
