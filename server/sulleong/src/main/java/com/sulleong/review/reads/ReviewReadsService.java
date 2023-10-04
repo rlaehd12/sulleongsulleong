@@ -32,9 +32,9 @@ public class ReviewReadsService {
     }
 
     public Double getBeerAvgScore(Long beerId) {
-        List<Review> beerReviews = reviewRepository.findBeerReviews(beerId);
-        return beerReviews.stream()
-                .mapToInt(Review::getScore)
+        List<Integer> beerScores = reviewRepository.findBeerReviews(beerId);
+        return beerScores.stream()
+                .mapToInt(Integer::intValue)
                 .average()
                 .orElse(0.0);
     }
