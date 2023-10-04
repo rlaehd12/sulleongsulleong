@@ -1,7 +1,7 @@
 .card {
 	flex-shrink: 0;
 	width: 120px;
-	height: inherit;
+	height: 220px;
 }
 
 .imgContainer {
