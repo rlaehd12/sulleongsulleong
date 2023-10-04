@@ -30,4 +30,12 @@ public class ReviewReadsService {
         }
         return new ReviewEntries(entries);
     }
+
+    public Double getBeerAvgScore(Long beerId) {
+        List<Review> beerReviews = reviewRepository.findBeerReviews(beerId);
+        return beerReviews.stream()
+                .mapToInt(Review::getScore)
+                .average()
+                .orElse(0.0);
+    }
 }
