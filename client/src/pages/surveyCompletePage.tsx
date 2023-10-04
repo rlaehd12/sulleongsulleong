@@ -37,7 +37,7 @@ function ServeyCompPage({ setIsAuthenticated }: Props) {
 				<Button
 					className={style.button}
 					variant="contained"
-					onClick={() => navigate('/recommendList')}
+					onClick={() => navigate('/recList')}
 				>
 					추천리스트 확인하러 가기
 				</Button>

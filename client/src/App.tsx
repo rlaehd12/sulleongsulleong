@@ -91,7 +91,7 @@ function App() {
 						}
 					>
 						<Route
-							path="/recommendList"
+							path="/recList"
 							element={
 								<RecommendListPage setIsAuthenticated={setIsAuthenticated} />
 							}
