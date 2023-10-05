@@ -58,7 +58,8 @@ public class BeerService {
                         memberId,
                         preferenceService.getTotalPreference(beer.getId()),
                         ImageUri.URI.getValue(),
-                        reviewReadsService.getBeerAvgScore(beer.getId())
+                        reviewReadsService.getBeerAvgScore(beer.getId()),
+                        preferenceService.isMemberLikeBeer(memberId, beer.getId())
                 )
         );
 
@@ -75,7 +76,6 @@ public class BeerService {
 
         return searchResponse;
     }
-
     /**
      * 맥주 식별자들로 맥주 정보들을 가져옵니다.
      * @param beerIds 맥주 식별자 리스트입니다.
