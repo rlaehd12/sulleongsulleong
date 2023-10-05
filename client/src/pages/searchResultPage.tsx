@@ -1,5 +1,5 @@
 import React, { FormEvent, useCallback, useEffect, useState } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 import { AxiosError } from 'axios';
 import {
 	InputAdornment,
@@ -47,7 +47,6 @@ function SearchResultPage({ setIsAuthenticated }: Props) {
 	const [beerList, setBeerList] = useState<Beer[]>([]);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [openModal, setOpenModal] = useState<boolean>(false);
-	const queryClient = useQueryClient();
 
 	// 페이지 진입 및 검색했을 때 상태 초기화
 	useEffect(() => {

@@ -72,10 +72,16 @@ function MainPage({ setIsAuthenticated }: Props) {
 				return axiosInstance.get('/members/info');
 			})
 			.then((res) => {
+				const determineGender = (gender: string) => {
+					if (gender === 'M') return '남성';
+					if (gender === 'F') return '여성';
+					return '';
+				};
+
 				setUserInfo((prevUserInfo) => ({
 					...prevUserInfo,
-					gender: res.data.gender === 'M' ? '남성' : '여성',
-					age: res.data.age,
+					gender: determineGender(res.data.gender),
+					age: res.data.age === null ? 0 : res.data.age,
 				}));
 			})
 			.catch((err) => {
@@ -124,8 +130,8 @@ function MainPage({ setIsAuthenticated }: Props) {
 							case 'todayBeers':
 								disc = (
 									<span>
-										{userInfo.name.length <= 20 ? userInfo.name : ''}님, 오늘은
-										이런 맥주 어떤가요?
+										{userInfo.name.length <= 20 ? `${userInfo.name}님, ` : ''}
+										오늘은 이런 맥주 어떤가요?
 									</span>
 								);
 								break;
@@ -133,11 +139,12 @@ function MainPage({ setIsAuthenticated }: Props) {
 								disc = <span>많은 분들이 좋아해요</span>;
 								break;
 							case 'similarPeoplesBeers':
-								disc = (
-									<span>
-										{userInfo.age}대 {userInfo.gender}분들이 좋아해요
-									</span>
-								);
+								disc =
+									userInfo.age !== 0 && userInfo.gender !== '' ? (
+										<span>
+											{userInfo.age}대 {userInfo.gender}분들이 좋아해요
+										</span>
+									) : null;
 								break;
 							default:
 								disc = null;
@@ -149,9 +156,10 @@ function MainPage({ setIsAuthenticated }: Props) {
 								{disc}
 								<hr className={style.titlehr} />
 								<div className={style.cardContainer}>
-									{mainRecommendList[recommendKey].map((beer: Beer) => {
-										return <SimpleBeerCard key={beer.id} beer={beer} />;
-									})}
+									{disc &&
+										mainRecommendList[recommendKey].map((beer: Beer) => {
+											return <SimpleBeerCard key={beer.id} beer={beer} />;
+										})}
 								</div>
 							</div>
 						);
