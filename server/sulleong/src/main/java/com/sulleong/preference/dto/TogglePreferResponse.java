@@ -14,11 +14,12 @@ public class TogglePreferResponse {
 
     private Boolean result;
 
-    private Integer like = 0;
+    private Integer like;
 
-    public TogglePreferResponse(Preference preference) {
+    public TogglePreferResponse(Preference preference, int like) {
         this.memberId = preference.getMember().getId();
         this.beerId = preference.getBeer().getId();
         this.result = preference.getChoice();
+        this.like = like;
     }
 }
