@@ -123,7 +123,10 @@ function MainPage({ setIsAuthenticated }: Props) {
 						switch (key) {
 							case 'todayBeers':
 								disc = (
-									<span>{userInfo.name}님, 오늘은 이런 맥주 어떤가요?</span>
+									<span>
+										{userInfo.name.length <= 20 ? userInfo.name : ''}님, 오늘은
+										이런 맥주 어떤가요?
+									</span>
 								);
 								break;
 							case 'popularBeers':
