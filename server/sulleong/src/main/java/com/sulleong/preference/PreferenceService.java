@@ -46,7 +46,7 @@ public class PreferenceService {
         else {
             preference = toggleChoiceAndSave(optionalPreference.get());
         }
-        return new TogglePreferResponse(preference);
+        return new TogglePreferResponse(preference, totalPreferenceService.getTotalPreference(beerId));
     }
 
     /**
