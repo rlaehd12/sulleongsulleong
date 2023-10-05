@@ -102,8 +102,13 @@ function SearchResultPage({ setIsAuthenticated }: Props) {
 			.post(`/beers/preference/${targerBeerId}`)
 			.then((res) => {
 				const updateBeerList = [...beerList];
-				updateBeerList[res.data.memberId].prefer = res.data.result;
-				updateBeerList[res.data.memberId].preferCount = res.data.like;
+				const targetBeer = updateBeerList.find(
+					(beer) => beer.id === targerBeerId,
+				);
+				if (targetBeer) {
+					targetBeer.prefer = res.data.result;
+					targetBeer.preferCount = res.data.like;
+				}
 
 				setBeerList(updateBeerList);
 			})

@@ -44,9 +44,11 @@ function Preference({
 		}
 		setCurrentPrefer(preferRef.current);
 		setCurrentPreferCount(preferCountRef.current);
+
 		if (timeoutIdRef.current) {
 			clearTimeout(timeoutIdRef.current);
 		}
+
 		timeoutIdRef.current = setTimeout(() => {
 			// 3초 후에 바뀐 상태가 유지되면 POST 요청을 보낸다.
 			if (
