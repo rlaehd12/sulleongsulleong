@@ -39,6 +39,9 @@ function DictPage({ setIsAuthenticated }: Props) {
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+	const beerLength = beerCards?.beers.length ?? 0;
+	const beerCount = beerCards?.beerCount ?? 0;
+	const notDrankBeer = Math.max(0, beerLength - beerCount);
 	return (
 		<Container>
 			<h2>내 맥주도감</h2>
@@ -55,10 +58,9 @@ function DictPage({ setIsAuthenticated }: Props) {
 						data={[
 							{
 								label: '안 마신 맥주',
-								value:
-									(beerCards?.beers.length ?? 0) - (beerCards?.beerCount ?? 0),
+								value: notDrankBeer,
 							},
-							{ label: '내가 마신 맥주', value: beerCards?.beerCount ?? 0 },
+							{ label: '내가 마신 맥주', value: beerCount },
 						]}
 						colors={['#a0a0a0ff', '#7ed957']}
 						interactive={false}
