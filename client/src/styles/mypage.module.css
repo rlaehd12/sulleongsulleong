@@ -1,0 +1,52 @@
+@import './figmaVariables.css';
+
+.myPageContainer {
+	display: flex;
+	text-align: center;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+}
+
+.title {
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
+	font-size: 2rem;
+	font-weight: 700;
+}
+
+.titleDivider {
+	width: 90%;
+	border-color: var(--pastel-green-300);
+}
+
+.label {
+	font-size: 1.5rem;
+	font-weight: 700;
+	margin-bottom: 10%;
+	background-color: var(--pastel-green-300);
+	color: var(--white);
+}
+
+.infoContainer {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	justify-content: space-evenly;
+}
+
+.infoText {
+	width: 40%;
+	margin-top: 5%;
+	margin-right: 3%;
+	margin-left: 3%;
+}
+
+.logoutBtn {
+	position: fixed !important;
+	bottom: 10%;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 200px; /* 원하는 버튼의 너비를 설정하세요 */
+	max-width: 420px;
+}

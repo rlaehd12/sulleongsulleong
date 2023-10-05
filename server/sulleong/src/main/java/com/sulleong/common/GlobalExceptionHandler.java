@@ -1,6 +1,6 @@
 package com.sulleong.common;
 
-import com.sulleong.exception.NotLoginException;
+import com.sulleong.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +23,49 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({
-            NotLoginException.class
+            InvalidAgeException.class,
+            InvalidGenderException.class,
+            BeerChoiceNotEnoughException.class
     })
-    public ResponseEntity<ErrorMessage> handleForBidden(Exception e, HttpServletRequest request) {
+    public ResponseEntity<ErrorMessage> handleBadRequest(Exception e, HttpServletRequest request) {
         return new ResponseEntity<>(buildErrorMessage(e, request),
-                HttpStatus.FORBIDDEN);
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({
+            GuestNotAllowException.class,
+            NotLoginException.class,
+            AccessTokenExpiredException.class,
+    })
+    public ResponseEntity<ErrorMessage> handleUnAuthorized(Exception e, HttpServletRequest request) {
+        return new ResponseEntity<>(buildErrorMessage(e, request),
+                HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler({
+            BeerNotFoundException.class,
+            MemberNotFoundException.class,
+            ReviewNotFoundException.class
+    })
+    public ResponseEntity<ErrorMessage> handleNotFound(Exception e, HttpServletRequest request) {
+        return new ResponseEntity<>(buildErrorMessage(e, request),
+                HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({
+            DuplicatedCommentException.class
+    })
+    public ResponseEntity<ErrorMessage> handleConflict(Exception e, HttpServletRequest request) {
+        return new ResponseEntity<>(buildErrorMessage(e, request),
+                HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler({
+            GoogleOauthLoginException.class,
+            InvalidOAuthResponseException.class
+    })
+    public ResponseEntity<ErrorMessage> handleOauthException(Exception e, HttpServletRequest request) {
+        return new ResponseEntity<>(buildErrorMessage(e, request),
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

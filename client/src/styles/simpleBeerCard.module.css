@@ -1,0 +1,17 @@
+.card {
+	flex-shrink: 0;
+	width: 120px;
+	height: 220px;
+}
+
+.imgContainer {
+	width: 95%;
+	height: 150px;
+	position: relative;
+}
+
+.beerImg {
+	width: 100%;
+	height: 100% !important;
+	object-fit: contain !important;
+}

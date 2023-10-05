@@ -1,0 +1,27 @@
+.categoryList {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.beerListContainer {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	margin-bottom: 1em;
+}
+
+.beerList {
+	display: flex;
+	overflow-x: auto;
+	gap: 1rem;
+	height: 250px;
+}
+
+.circularProgress {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+	height: 150px;
+}

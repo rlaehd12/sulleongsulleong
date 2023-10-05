@@ -1,0 +1,27 @@
+@import './figmaVariables.css';
+
+.scrollToTopButton {
+    position: fixed;
+    bottom: 60px;
+    right: 10px; 
+    z-index: 1000;
+    background-color: white;
+    color: var(--pastel-green-300);
+    border: none;
+    padding: 1px 2px;
+    cursor: pointer;
+    box-shadow: 2px 2px 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+.scrollToBottomButton {
+    position: fixed;
+    bottom: 60px; /* 하단에서 20px 떨어진 위치 */
+    right: 46px; /* 우측에서 20px 떨어진 위치 */
+    z-index: 1000; /* 다른 요소 위에 표시 */
+    background-color: white;
+    color: var(--pastel-green-300);
+    border: none;
+    padding: 1px 2px;
+    cursor: pointer;
+    box-shadow: 2px 2px 2px 3px rgba(0, 0, 0, 0.2);
+}

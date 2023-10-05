@@ -1,32 +1,48 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Button, Container, Divider } from '@mui/material';
-import TaskAltIcon from '@mui/icons-material/TaskAlt';
-
-import Navbar from '../components/navbar';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button, Container } from '@mui/material';
+import sudalImg from '../images/sudal.png';
+import customAxios from '../customAxios';
 import style from '../styles/surveyComplete.module.css';
 
-function ServeyCompPage() {
+interface Props {
+	setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function ServeyCompPage({ setIsAuthenticated }: Props) {
+	const navigate = useNavigate();
+	const axiosInstance = customAxios();
+
+	useEffect(() => {
+		axiosInstance.get('/members/info').catch((err) => {
+			if (err.response.status === 401) {
+				setIsAuthenticated(false);
+			}
+		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
 	return (
-		<>
-			<Navbar />
-			<div className={style.mainPage}>
-				<Container className={style.TaskAltcontainer}>
-					<TaskAltIcon className={style.TaskAltIcon} />
-				</Container>
+		<div className={style.mainPage}>
+			<Container className={style.TaskAltcontainer}>
+				<img src={sudalImg} alt="sudal" className={style.sudalImg} />
+			</Container>
 
-				<Container className={style.likeSentence}>
-					<span>취향 선택이 완료되었습니다 :)</span>
-				</Container>
+			<Container className={style.likeSentence}>
+				<span>취향 선택이 완료되었습니다 😋</span>
+			</Container>
 
-				<Container className={style.buttonArea}>
-					<hr />
-					<Button className={style.button} variant="contained">
-						추천리스트 확인하러 가기
-					</Button>
-				</Container>
-			</div>
-		</>
+			<Container className={style.buttonArea}>
+				<hr className={style.divider} />
+				<Button
+					className={style.button}
+					variant="contained"
+					onClick={() => navigate('/recList')}
+				>
+					추천리스트 확인하러 가기
+				</Button>
+			</Container>
+		</div>
 	);
 }
 

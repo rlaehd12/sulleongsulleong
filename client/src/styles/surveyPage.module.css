@@ -1,7 +1,8 @@
 @import './figmaVariables.css';
 
 .description {
-	background-color: var(--smalt-50);
+	margin-top: 0.1rem;
+	background-color: var(--pastel-green-50);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -9,9 +10,14 @@
 	text-align: center;
 }
 
+.title {
+	margin-top: 0.5rem;
+	font-size: 24px;
+}
+
 .icon {
 	transform: rotate(180deg);
-	color: var(--smalt-800);
+	color: var(--pastel-green-300);
 }
 
 .beerList {
@@ -26,20 +32,22 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin: 1rem;
+	margin: 0.5rem;
 	position: relative;
 }
 
 .imgContainer {
 	position: relative;
+	width: 120px;
+	height: 120px;
 }
 
 .beerImage {
-	width: 120px;
-	height: 120px;
-	border-radius: 50%;
+	width: 100%;
+	height: 100%;
 	object-fit: contain;
-	border: 2px solid var(--smalt-800);
+	border-radius: 50%;
+	border: 3px solid var(--pastel-green-500);
 }
 
 .beerName {
@@ -73,4 +81,12 @@
 	transform: translate(-50%, -50%);
 	color: var(--white);
 	font-size: 3rem;
+}
+
+.submitBtn {
+	margin-top: 20px;
+}
+
+.errMessage {
+	color: red;
 }

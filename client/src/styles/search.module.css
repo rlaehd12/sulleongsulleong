@@ -1,0 +1,15 @@
+@import './figmaVariables.css';
+
+.searchContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: auto;
+	margin-bottom: 85px;
+}
+
+.search {
+	&:hover {
+		background-color: grey;
+	}
+}
