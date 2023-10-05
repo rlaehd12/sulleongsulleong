@@ -182,15 +182,19 @@ def re_ranking(request):
         candidate = transformed['id']
         transformed =transformed.drop(columns=['id'])
 
-
         # 스케일링 적용
         scaler = load('./model_scaler.joblib')
-        X = scaler.fit_transform(transformed)
+        X = transformed.values
+        try:
+            X = scaler.transform(X)
+        except Exception as e:
+            print(e)
+            return
+
 
         # 예측
         regr = load('./model_regressor.joblib')
         my_predict = regr.predict(X[:])
-        # print('my_predict', regr.predict(X[:]))
 
         # 결과 반환
         result = []
@@ -199,7 +203,7 @@ def re_ranking(request):
 
         result = sorted(result, key=lambda x:x[1], reverse=True)
         result_id = [i[0] for i in result]
-        # print(result)
+        print(result)
 
 
         return Response(result_id)
