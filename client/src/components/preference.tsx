@@ -31,6 +31,11 @@ function Preference({
 	}, [prefer, preferCount]);
 
 	const handlerPrefer = () => {
+		if (sessionStorage.getItem('Role') === 'GUEST') {
+			clickPrefer(beerId);
+			return;
+		}
+
 		preferRef.current = !preferRef.current;
 		if (preferRef.current) {
 			preferCountRef.current += 1;
