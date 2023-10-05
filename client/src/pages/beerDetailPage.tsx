@@ -58,6 +58,7 @@ function DetailPage({ setIsAuthenticated }: Props) {
 					setIsAuthenticated(false);
 				}
 			});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => {
@@ -76,6 +77,10 @@ function DetailPage({ setIsAuthenticated }: Props) {
 			.then(() => {
 				handleClose();
 				setReviewText('');
+				return axiosInstance.get(`/beers/${id}`);
+			})
+			.then((res) => {
+				setBeerInfo(res.data);
 			})
 			.catch((err) => {
 				if (err.response.status === 409) {
@@ -95,7 +100,6 @@ function DetailPage({ setIsAuthenticated }: Props) {
 				beerInfo.preferCount = res.data.like;
 			})
 			.catch((err) => {
-				console.error('Error sending the request:', err);
 				if (err.response.status === 401) {
 					setOpenModal(true);
 				}
