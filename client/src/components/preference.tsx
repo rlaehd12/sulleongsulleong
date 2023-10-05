@@ -56,7 +56,6 @@ function Preference({
 				clickPrefer(beerId);
 			}
 		}, 3000);
-		clickPrefer(beerId);
 	};
 
 	return (
