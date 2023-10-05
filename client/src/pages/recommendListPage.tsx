@@ -43,7 +43,7 @@ function RecommendListPage({ setIsAuthenticated }: Props) {
 				console.error('Axios Error:', err.response.status);
 				if (err.response.status === 401) {
 					setIsAuthenticated(false);
-				} else if (err.response.status === 400) {
+				} else if (err.response.status === 500) {
 					alert(
 						'아직 설문조사를 진행하지 않았습니다! 설문조사 페이지로 이동합니다',
 					);

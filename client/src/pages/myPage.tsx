@@ -37,6 +37,12 @@ function MyPage({ setIsAuthenticated }: Props) {
 		navigate('/login');
 	};
 
+	const determineGender = (gender: string) => {
+		if (gender === 'M') return '남성';
+		if (gender === 'F') return '여성';
+		return '';
+	};
+
 	return (
 		<div className={style.myPage}>
 			<Container className={style.myPageContainer}>
@@ -49,7 +55,7 @@ function MyPage({ setIsAuthenticated }: Props) {
 						label="성별"
 						color="primary"
 						variant="filled"
-						value={MemberInfo.gender === 'M' ? '남성' : '여성'}
+						value={determineGender(MemberInfo.gender)}
 						InputProps={{
 							readOnly: true,
 						}}
@@ -60,7 +66,7 @@ function MyPage({ setIsAuthenticated }: Props) {
 						label="연령대"
 						color="primary"
 						variant="filled"
-						value={`${MemberInfo.age}대`}
+						value={MemberInfo.age !== null ? `${MemberInfo.age}대` : ''}
 						InputProps={{
 							readOnly: true,
 						}}

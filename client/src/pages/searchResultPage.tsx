@@ -1,4 +1,6 @@
 import React, { FormEvent, useCallback, useEffect, useState } from 'react';
+import { useMutation } from 'react-query';
+import { AxiosError } from 'axios';
 import {
 	InputAdornment,
 	TextField,
@@ -39,7 +41,6 @@ interface Props {
 }
 
 function SearchResultPage({ setIsAuthenticated }: Props) {
-	// input tag 상태관리, url 상태 관리
 	const [query, setQuery] = useState<string>('');
 	const [searchQuery, setSearchQuery] = useSearchParams({ q: '' });
 	const [page, setPage] = useState<number>(0);
@@ -98,23 +99,50 @@ function SearchResultPage({ setIsAuthenticated }: Props) {
 		loadBeerList();
 	}, [page, searchQuery]);
 
-	const clickPrefer = (targerBeerId: number) => {
-		customAxios()
-			.post(`/beers/preference/${targerBeerId}`)
-			.then((res) => {
-				const updateBeerList = [...beerList];
-				updateBeerList[res.data.memberId].prefer = res.data.result;
-				updateBeerList[res.data.memberId].preferCount = res.data.like;
+	// const clickPrefer = (targerBeerId: number) => {
+	// 	customAxios()
+	// 		.post(`/beers/preference/${targerBeerId}`)
+	// 		.then((res) => {
+	// 			const updateBeerList = [...beerList];
+	// 			updateBeerList[res.data.memberId].prefer = res.data.result;
+	// 			updateBeerList[res.data.memberId].preferCount = res.data.like;
 
-				setBeerList(updateBeerList);
-			})
-			.catch((err) => {
-				console.error('Error sending the request:', err);
-				if (err.response.status === 401) {
-					setOpenModal(true);
-					console.log(openModal);
-				}
-			});
+	// 			setBeerList(updateBeerList);
+	// 		})
+	// 		.catch((err) => {
+	// 			console.error('Error sending the request:', err);
+	// 			if (err.response.status === 401) {
+	// 				setOpenModal(true);
+	// 				console.log(openModal);
+	// 			}
+	// 		});
+	// };
+
+	const toggleBeerPreference = async (targetBeerId: number) => {
+		return customAxios().post(`/beers/preference/${targetBeerId}`);
+	};
+
+	const preferenceMutation = useMutation(toggleBeerPreference, {
+		onSuccess: (res, targetBeerId) => {
+			// beerList 상태를 업데이트
+			const updateBeerList = [...beerList];
+			const beerIndex = beerList.findIndex((beer) => beer.id === targetBeerId);
+
+			updateBeerList[beerIndex].prefer = res.data.result;
+			updateBeerList[beerIndex].preferCount = res.data.like;
+
+			setBeerList(updateBeerList);
+		},
+		onError: (err: AxiosError) => {
+			console.error('Error sending the request:', err);
+			if (err.response?.status === 401) {
+				setOpenModal(true);
+			}
+		},
+	});
+
+	const clickPrefer = (targetBeerId: number) => {
+		preferenceMutation.mutate(targetBeerId);
 	};
 
 	return (

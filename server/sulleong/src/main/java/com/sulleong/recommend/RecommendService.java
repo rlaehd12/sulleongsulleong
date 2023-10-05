@@ -10,6 +10,7 @@ import com.sulleong.recommend.dto.CustomRecommendResponse;
 import com.sulleong.recommend.dto.CustomRecommendResponseEntry;
 import com.sulleong.recommend.dto.RecommendBeer;
 import com.sulleong.recommend.repository.RecommendRepository;
+import com.sulleong.review.reads.ReviewReadsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -32,6 +33,7 @@ public class RecommendService {
     private final MemberService memberService;
     private final PreferenceService preferenceService;
     private final RecommendRepository recommendRepository;
+    private final ReviewReadsService reviewReadsService;
 
     @Value("${domain}")
     private String DOMAIN;
@@ -111,7 +113,10 @@ public class RecommendService {
         List<Long> similarBeerIds = recommendRepository.recommendBeersByMyFavoriteBeers(myBeerIds, count);
         List<Long> recommendBeerIds = collaborativeFiltering(memberId, similarBeerIds);
         List<CustomRecommendResponseEntry> recommendBeers = beerService.getBeersByBeerIds(recommendBeerIds)
-                .stream().map(beer -> CustomRecommendResponseEntry.create(beer, memberId))
+                .stream().map(beer -> CustomRecommendResponseEntry.create(
+                        beer,
+                        memberId,
+                        reviewReadsService.getBeerAvgScore(beer.getId())))
                 .collect(Collectors.toList());
 
         return new CustomRecommendResponse(recommendBeers);

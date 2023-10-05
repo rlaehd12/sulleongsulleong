@@ -47,7 +47,7 @@ function BeerCard({ beer, clickPrefer }: BeerCardProps) {
 						<CardContent className={style.cardContent}>
 							<div>
 								<Typography gutterBottom variant="h6" component="div" noWrap>
-									{beer.nameKor}
+									{beer.nameKor || beer.name}
 								</Typography>
 								<Typography variant="body2" color="text.secondary">
 									{beer.largeCategory} &gt; {beer.subCategory}
@@ -60,7 +60,7 @@ function BeerCard({ beer, clickPrefer }: BeerCardProps) {
 								name="half-rating-read"
 								defaultValue={2.5}
 								precision={0.5}
-								value={beer.score}
+								value={beer.score / 2}
 								readOnly
 							/>
 						</CardContent>
