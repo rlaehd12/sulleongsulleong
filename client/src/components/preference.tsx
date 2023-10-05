@@ -31,28 +31,27 @@ function Preference({
 	}, [prefer, preferCount]);
 
 	const handlerPrefer = () => {
-		preferRef.current = !preferRef.current;
-		if (preferRef.current) {
-			preferCountRef.current += 1;
-		} else {
-			preferCountRef.current -= 1;
-		}
-		setCurrentPrefer(preferRef.current);
-		setCurrentPreferCount(preferCountRef.current);
-
-		if (timeoutIdRef.current) {
-			clearTimeout(timeoutIdRef.current);
-		}
-
-		timeoutIdRef.current = setTimeout(() => {
-			// 3초 후에 바뀐 상태가 유지되면 POST 요청을 보낸다.
-			if (
-				prefer !== preferRef.current &&
-				preferCount !== preferCountRef.current
-			) {
-				clickPrefer(beerId);
-			}
-		}, 3000);
+		// preferRef.current = !preferRef.current;
+		// if (preferRef.current) {
+		// 	preferCountRef.current += 1;
+		// } else {
+		// 	preferCountRef.current -= 1;
+		// }
+		// setCurrentPrefer(preferRef.current);
+		// setCurrentPreferCount(preferCountRef.current);
+		// if (timeoutIdRef.current) {
+		// 	clearTimeout(timeoutIdRef.current);
+		// }
+		// timeoutIdRef.current = setTimeout(() => {
+		// 	// 3초 후에 바뀐 상태가 유지되면 POST 요청을 보낸다.
+		// 	if (
+		// 		prefer !== preferRef.current &&
+		// 		preferCount !== preferCountRef.current
+		// 	) {
+		// 		clickPrefer(beerId);
+		// 	}
+		// }, 3000);
+		clickPrefer(beerId);
 	};
 
 	return (

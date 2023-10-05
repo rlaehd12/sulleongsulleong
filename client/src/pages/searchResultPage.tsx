@@ -125,24 +125,19 @@ function SearchResultPage({ setIsAuthenticated }: Props) {
 
 	const preferenceMutation = useMutation(toggleBeerPreference, {
 		onSuccess: (res, targetBeerId) => {
-			queryClient.invalidateQueries(['beerList']); // 캐시를 무효화하여 재요청
-
 			// beerList 상태를 업데이트
 			const updateBeerList = [...beerList];
-			updateBeerList[res.data.memberId].prefer = res.data.result;
-			updateBeerList[res.data.memberId].preferCount = res.data.like;
+			const beerIndex = beerList.findIndex((beer) => beer.id === targetBeerId);
+
+			updateBeerList[beerIndex].prefer = res.data.result;
+			updateBeerList[beerIndex].preferCount = res.data.like;
 
 			setBeerList(updateBeerList);
 		},
-		onError: (err) => {
-			const error = err as AxiosError;
-			if (error.response) {
-				console.error('Axios Error:', error.response.status);
-				if (error.response.status === 401) {
-					setOpenModal(true);
-				}
-			} else {
-				console.error('Error:', error.message);
+		onError: (err: AxiosError) => {
+			console.error('Error sending the request:', err);
+			if (err.response?.status === 401) {
+				setOpenModal(true);
 			}
 		},
 	});
