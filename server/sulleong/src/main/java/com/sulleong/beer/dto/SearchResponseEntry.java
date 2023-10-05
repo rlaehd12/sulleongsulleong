@@ -30,7 +30,7 @@ public class SearchResponseEntry {
 
     private Integer preferCount;
 
-    public static SearchResponseEntry create(Beer beer, Long memberId, Integer preferCount, String imageUrl, Double score) {
+    public static SearchResponseEntry create(Beer beer, Long memberId, Integer preferCount, String imageUrl, Double score, boolean isPrefer) {
         return SearchResponseEntry.builder()
                 .id(beer.getId())
                 .image(imageUrl + beer.getId())
@@ -41,7 +41,7 @@ public class SearchResponseEntry {
                 .subCategory(beer.getSubCategory())
                 .country(beer.getCountry())
                 .score(score) // 별점은 리뷰 기능 구현 후 추가 예정
-                .prefer(beer.getPreferences().stream().anyMatch(preference -> preference.getMember().getId().equals(memberId)))
+                .prefer(isPrefer)
                 .preferCount(preferCount)
                 .build();
     }
