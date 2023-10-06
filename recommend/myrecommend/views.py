@@ -125,7 +125,7 @@ def initialize(request):
 
             # db에 전처리된 데이터 저장하기
             from sqlalchemy import create_engine
-            engine = create_engine('postgresql://sulleong:Sulleong104**@postgres-for-docker:5432/sulleong')
+            engine = create_engine(f'postgresql://sulleong:{os.environ.get("RS_DB_PWD")}@postgres-for-docker:5432/sulleong')
             sumdata.to_sql(name='learning_dataset', con=engine, if_exists='append')
 
         return Response(status=status.HTTP_200_OK)
