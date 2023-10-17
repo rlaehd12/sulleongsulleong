@@ -47,7 +47,7 @@
     * 맥주 임베딩도 저장해야겠다
    
 ## 데이터 전처리 할때 썼던 명령어들
-
+```sql
 ''' 리뷰 개수 세기
 SELECT COUNT(*) AS cnt_1
 FROM (
@@ -253,3 +253,4 @@ SET large_category = CASE
 	 
     ELSE NULL  -- 기타 값에 대한 처리 (옵션)
 END;
+```
